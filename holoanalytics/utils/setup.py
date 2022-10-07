@@ -19,6 +19,7 @@ def import_data(csv_file):
     Returns:
         data: Pandas Dataframe containing imported data.
     """
+
     data = pd.read_csv(csv_file)
     print("Data has been successfully loaded")
 
