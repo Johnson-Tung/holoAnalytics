@@ -16,9 +16,12 @@ def zulutime_to_utc(date_time, show_tz=False):
         new_date_time: Datetime object representing the input time converted to UTC.
     """
 
+    if isinstance(date_time, datetime.datetime) or isinstance(date_time, pd.Timestamp):
+        return date_time
+
     try:
         new_date_time = datetime.datetime.fromisoformat(date_time.replace('Z', '+00:00'))
-    except (AttributeError, ValueError):  # E.g. If date_time is 'nan' or invalid isoformat string.
+    except (AttributeError, TypeError):  # E.g. If date_time is 'nan' or invalid ISO format string.
         return pd.NaT
     else:
         if not show_tz:
@@ -80,3 +83,4 @@ def to_timedelta(dataframe, column_name):
         dataframe[column_name] = dataframe[column_name].apply(pd.to_timedelta)
 
     return dataframe
+
