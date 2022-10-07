@@ -13,6 +13,7 @@ def live_broadcast_duration(dataframe):
 
     if 'live_broadcast_duration' not in dataframe:
         dataframe['live_broadcast_duration'] = dataframe['actual_end_time'] - dataframe['actual_start_time']
+
     return dataframe
 
 
