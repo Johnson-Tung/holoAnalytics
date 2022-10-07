@@ -2,7 +2,8 @@ import datetime
 import pandas as pd
 from pandas.core.dtypes.common import is_timedelta64_dtype
 
-START_END_TIMES = ['scheduled_start_time', 'scheduled_end_time', 'actual_start_time', 'actual_end_time']
+DATETIME_COLS = ['publish_datetime', 'scheduled_start_time', 'scheduled_end_time', 'actual_start_time',
+                 'actual_end_time']
 
 
 def zulutime_to_utc(date_time, show_tz=False):
@@ -62,8 +63,8 @@ def convert_times(video_attributes):
 
     video_attributes = to_timedelta(video_attributes, 'duration')
 
-    for time in START_END_TIMES:
-        video_attributes[time] = video_attributes[time].apply(zulutime_to_utc)
+    for datetime_col in DATETIME_COLS:
+        video_attributes[datetime_col] = video_attributes[datetime_col].apply(zulutime_to_utc)
 
     return video_attributes
 
