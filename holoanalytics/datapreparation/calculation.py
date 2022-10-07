@@ -47,7 +47,7 @@ def extract_time_values(timedelta, use_days=False):
         return hours, minutes, seconds
 
 
-def weekdays(video_attributes):
+def day_of_week(video_attributes):
     """Get the day of the week for YouTube videos' datetime data, e.g. 'actual_start_time'.
 
     Args:
