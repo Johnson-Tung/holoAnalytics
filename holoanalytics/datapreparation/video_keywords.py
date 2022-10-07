@@ -151,3 +151,4 @@ def extract_hashtags(title):
     results = {match.group() for match in matches}
 
     return results
+
