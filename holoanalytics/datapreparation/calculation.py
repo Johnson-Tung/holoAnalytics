@@ -1,6 +1,3 @@
-from holoanalytics.datapreparation import reformatting as reform
-
-
 def live_broadcast_duration(dataframe):
     """Calculate duration of live broadcasts for a YouTube Video Attribute DataFrame.
 
@@ -49,7 +46,7 @@ def extract_time_values(timedelta, use_days=False):
 
 
 def day_of_week(video_attributes):
-    """Get the day of the week for YouTube videos' datetime data, e.g. 'actual_start_time'.
+    """Get the day of the week for YouTube videos' datetime data, e.g. 'publish_datetime' and 'actual_start_time'.
 
     Args:
         video_attributes: Pandas DataFrame containing YouTube video attribute data.
@@ -57,8 +54,9 @@ def day_of_week(video_attributes):
     Returns:
         video_attributes: Data updated with weekdays for video datetimes.
     """
+    datetime_cols = ('publish_datetime', 'actual_start_time', 'actual_end_time')
 
-    for time in reform.START_END_TIMES:
-        video_attributes[f'{time}_(weekday)'] = video_attributes[time].dt.day_name()
+    for datetime_col in datetime_cols:
+        video_attributes[f'{datetime_col}_(weekday)'] = video_attributes[datetime_col].dt.day_name()
 
     return video_attributes
