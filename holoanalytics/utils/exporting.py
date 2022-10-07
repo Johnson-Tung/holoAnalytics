@@ -90,7 +90,7 @@ def create_session():
     return session_dir_path
 
 
-def export_dataframe(dataframe, dir_path, file_name, filetype='csv'):
+def export_dataframe(dataframe, dir_path, file_name, add_datetime=True, filetype='csv'):
     """Exports a Pandas DataFrame to a text file based on the specified file type, file name, and location.
 
     It is recommended to export the data to csv files.
@@ -99,17 +99,22 @@ def export_dataframe(dataframe, dir_path, file_name, filetype='csv'):
         dataframe: Pandas DataFrame to be exported.
         dir_path: Path object specifying the absolute path to the directory that the output file is to be created in.
         file_name: String specifying the name of the output file.
+        add_datetime: Boolean specifying if datetime is added to the filename.
         filetype: String specifying the type of the output file. Default = 'csv'.
 
     Returns:
         None
     """
 
-    current_datetime = str(datetime.utcnow())
-    current_date = current_datetime[0:10]
-    current_time = current_datetime[11:16].replace(':', '')
-    full_filename = f'{current_date}-{current_time}_{file_name}.{filetype}'
-    full_path = os.path.join(dir_path, full_filename)
+    if add_datetime is True:
+        current_datetime = str(datetime.utcnow())
+        current_date = current_datetime[0:10]
+        current_time = current_datetime[11:16].replace(':', '')
+        full_filename = f'{current_date}-{current_time}_{file_name}.{filetype}'
+    else:
+        full_filename = f'{file_name}.{filetype}'
+
+    full_path = dir_path / full_filename
     dataframe.to_csv(full_path, index=False)
 
     print(f"'{full_filename}' has been successfully exported.")
