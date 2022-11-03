@@ -68,8 +68,8 @@ def _members_video_data(member_names, data_types):
 def _all_video_data(member_dir_path, data_types):
     video_data = {}
 
-    for data_type in VIDEO_DATA_TYPES:
-        video_data[data_type] = _video_data(member_dir_path, data_types)
+    for data_type in data_types:
+        video_data[data_type] = _video_data(member_dir_path, data_type)
 
     return video_data
 
