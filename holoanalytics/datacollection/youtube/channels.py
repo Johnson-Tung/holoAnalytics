@@ -20,7 +20,7 @@ Functions:
 import pandas as pd
 from holoanalytics import definitions as df
 from holoanalytics.datacollection.youtube import youtube_api
-from holoanalytics.utils import export
+from holoanalytics.utils import exporting
 
 
 def get_channel_data(client, channel_ids, max_results=50, export_data=True):
@@ -51,7 +51,7 @@ def get_channel_data(client, channel_ids, max_results=50, export_data=True):
     """
 
     if export_data is True and df.SESSION_PATH is not None:
-        _ = export.create_directory(df.SESSION_PATH, 'Channel', add_date=False)
+        _ = exporting.create_directory(df.SESSION_PATH, 'Channel', add_date=False)
 
     responses = youtube_api.request_data(client, 'channel', channel_ids, max_results)
 
@@ -216,6 +216,4 @@ def _export_channel_data(data, export_data, filename):
     """
 
     if export_data is True and df.SESSION_PATH is not None:
-        export.export_dataframe(data, df.SESSION_PATH / 'Channel', filename)
-
-
+        exporting.export_dataframe(data, df.SESSION_PATH / 'Channel', filename)

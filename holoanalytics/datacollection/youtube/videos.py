@@ -20,7 +20,7 @@ import numpy as np
 import pandas as pd
 from holoanalytics import definitions as df
 from holoanalytics.datacollection.youtube import youtube_api
-from holoanalytics.utils import export
+from holoanalytics.utils import exporting
 
 
 def get_video_data(client, starting_data, playlist_ids_df, max_results=50, export_data=True):
@@ -60,8 +60,8 @@ def get_video_data(client, starting_data, playlist_ids_df, max_results=50, expor
     for member_name, playlist_id in zip(names_and_ids['name'], names_and_ids[id_type]):
 
         if export_data is True and df.SESSION_PATH is not None:
-            member_dir_path = export.create_directory(df.SESSION_PATH / 'Video', member_name.replace(' ', '_'),
-                                                      add_date=False)
+            member_dir_path = exporting.create_directory(df.SESSION_PATH / 'Video', member_name.replace(' ', '_'),
+                                                         add_date=False)
 
         playlist_responses = youtube_api.request_data(client, 'playlistItems', ids=playlist_id, max_results=max_results)
         all_video_ids[member_name] = get_video_ids(member_name, playlist_responses, export_data)
@@ -317,4 +317,4 @@ def _export_video_data(member_name, data, export_data, filename):
 
     if export_data is True and df.SESSION_PATH is not None:
         member_name = member_name.replace(' ', '_')
-        export.export_dataframe(data, df.SESSION_PATH / 'Video' / member_name, f'{member_name.lower()}_{filename}')
+        exporting.export_dataframe(data, df.SESSION_PATH / 'Video' / member_name, f'{member_name.lower()}_{filename}')
