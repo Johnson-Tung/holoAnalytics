@@ -19,19 +19,35 @@ def open_session(session):
                            / session)
 
 
-def import_video_data(member_names, data_types):
+def import_video_data(member_names='all', data_types='all'):
     """Import video data for specified Hololive Production members.
 
     Args:
-        member_names: Strings specifying the names of members whose video data is to be imported.
-        data_types: Strings specifying the types of video data to be imported.
-
+        member_names: String or collection, e.g. list, of strings specifying the names of members whose video data is
+                      to be imported. Default = 'all'.
+        data_types: String or collection, e.g. list, of strings specifying the types of video data to be imported.
+                    Default = 'all'.
     Returns:
         member_data: Dictionary of dictionaries, one for each member, of Pandas DataFrames containing video data.
     """
 
-    if isinstance(member_names, str):
+    if member_names.lower() == 'all':
+        member_names = pd.read_csv(df.STARTING_DATA_FILE)['name']
+    elif member_names.lower() != 'all' and isinstance(member_names, str):
         member_names = [member_names]
+    elif isinstance(member_names, list) or isinstance(member_names, tuple) or isinstance(member_names, pd.Series):
+        pass
+    else:
+        raise ValueError
+
+    if data_types.lower() == 'all':
+        data_types = VIDEO_DATA_TYPES
+    elif data_types.lower() != 'all' and isinstance(data_types, str):
+        data_types = [data_types]
+    elif isinstance(member_names, list) or isinstance(member_names, tuple) or isinstance(member_names, pd.Series):
+        pass
+    else:
+        raise ValueError
 
     members_video_data = _members_video_data(member_names, data_types)
 
