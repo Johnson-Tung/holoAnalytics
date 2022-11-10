@@ -84,9 +84,9 @@ def extract_title_keywords(titles):
 
     for title in titles:
         results = extract_bracketed_words(title)
-        results = results.union(extract_keywords(title, eng_search_keywords))
-        results = results.union(extract_keywords(title, jp_search_keywords))
-        results = results.union(extract_hashtags(title))
+        results |= extract_keywords(title, eng_search_keywords)
+        results |= extract_keywords(title, jp_search_keywords)
+        results |= extract_hashtags(title)
         all_results.append(results)
 
     data = ['\t'.join(result) for result in all_results]
