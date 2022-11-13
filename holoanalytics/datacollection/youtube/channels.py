@@ -88,7 +88,7 @@ def get_channel_titles(responses, export_data=True):
 
     data = pd.DataFrame(zip(channel_ids, channel_titles), columns=['channel_id', 'channel_title'])
 
-    _export_channel_data(data, export_data, 'channel_titles')
+    exporting.export_channel_data(data, export_data, 'channel_titles')
 
     return data
 
@@ -128,7 +128,7 @@ def get_channel_stats(responses, export_data=True):
     data = pd.DataFrame(zip(channel_ids, subscriber_counts, video_counts, view_counts),
                         columns=['channel_id', 'subscriber_count', 'video_count', 'view_count'])
 
-    _export_channel_data(data, export_data, 'channel_stats')
+    exporting.export_channel_data(data, export_data, 'channel_stats')
 
     return data
 
@@ -165,7 +165,7 @@ def get_channel_thumbnail_urls(responses, export_data=True):
     data = pd.DataFrame(zip(channel_ids, default_thumbnail_urls, medium_thumbnail_urls, high_thumbnail_urls),
                         columns=['channel_id', 'default', 'medium', 'high'])
 
-    _export_channel_data(data, export_data, 'channel_thumbnail_urls')
+    exporting.export_channel_data(data, export_data, 'channel_thumbnail_urls')
 
     return data
 
@@ -195,25 +195,6 @@ def get_uploads_playlist_ids(responses, export_data=True):
 
     data = pd.DataFrame(zip(channel_ids, uploads_playlist_ids), columns=['channel_id', 'uploads_playlist_id'])
 
-    _export_channel_data(data, export_data, 'uploads_playlist_ids')
+    exporting.export_channel_data(data, export_data, 'uploads_playlist_ids')
 
     return data
-
-
-def _export_channel_data(data, export_data, filename):
-    """Exports collected YouTube channel data.
-
-    This PRIVATE function exports collected YouTube channel data to a text-based file located in the current session's
-    'Channel' directory and with the specified file name.
-
-    Args:
-        data: Pandas DataFrame containing collected YouTube channel data.
-        export_data: Boolean specifying whether collected data is to be exported. Default = True.
-        filename: String specifying the name of the output file.
-
-    Returns:
-        None
-    """
-
-    if export_data is True and df.SESSION_PATH is not None:
-        exporting.export_dataframe(data, df.SESSION_PATH / 'Channel', filename)

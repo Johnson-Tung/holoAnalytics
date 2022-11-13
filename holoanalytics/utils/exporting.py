@@ -119,3 +119,43 @@ def export_dataframe(dataframe, dir_path, file_name, add_datetime=True, filetype
 
     print(f"'{full_filename}' has been successfully exported.")
 
+
+def export_channel_data(data, export_data, filename):
+    """Exports collected YouTube channel data.
+
+    This function exports collected YouTube channel data to a text-based file located in the current session's
+    'Channel' directory and with the specified file name.
+
+    Args:
+        data: Pandas DataFrame containing collected YouTube channel data.
+        export_data: Boolean specifying whether collected data is to be exported. Default = True.
+        filename: String specifying the name of the output file.
+
+    Returns:
+        None
+    """
+
+    if export_data is True and df.SESSION_PATH is not None:
+        export_dataframe(data, df.SESSION_PATH / 'Channel', filename)
+
+
+def export_video_data(member_name, data, export_data, filename):
+    """Exports collected YouTube video data.
+
+    This function exports collected YouTube video data to a text-based file located in the current session's
+    'Video' directory and with the specified file name.
+
+    Args:
+        member_name: String specifying the name of the Hololive Production member whose videos data is being
+                     collected for.
+        data: Pandas DataFrame containing YouTube video data.
+        export_data: Boolean specifying whether collected data is to be exported. Default = True.
+        filename: String specifying the name of the output file.
+
+    Returns:
+        None
+    """
+
+    if export_data is True and df.SESSION_PATH is not None:
+        member_name = member_name.replace(' ', '_')
+        export_dataframe(data, df.SESSION_PATH / 'Video' / member_name, f'{member_name.lower()}_{filename}')
