@@ -1,5 +1,7 @@
 import re
 
+import pandas as pd
+
 eng_keyword_bank = {'Music Video': ['Official', 'Original', 'Cover', 'Covered', 'MV', 'AMV', '3DMV'],
                     'Karaoke': ['Karaoke', 'Singing', 'I tried singing', 'Song', 'Sing'],
                     'Chatting': ['Chat', 'Chatting', "Chattin'", "Let's Chat", 'CHIT-CHAT', 'Chit Chat', 'Talk',
@@ -78,9 +80,10 @@ def extract_title_keywords(titles):
     """
 
     all_results = []
-
     eng_search_keywords = unpack_keywords('english')
     jp_search_keywords = unpack_keywords('japanese')
+
+    titles = _check_data_format(titles)
 
     for title in titles:
         results = extract_bracketed_words(title)
@@ -152,3 +155,15 @@ def extract_hashtags(title):
 
     return results
 
+
+def _check_data_format(titles):
+
+    if isinstance(titles, str):
+        titles = [titles]
+    elif (isinstance(titles, list) or isinstance(titles, tuple) or isinstance(titles, set)
+          or isinstance(titles, pd.Series)):
+        pass
+    else:
+        raise TypeError("Input data uses an invalid data structure.")
+
+    return titles
