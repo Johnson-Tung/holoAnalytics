@@ -267,11 +267,8 @@ def check_video_duration(duration, min_length='00:00:00', max_length=None):
         Boolean specifying if the YouTube video is within the minimum and maximum lengths.
     """
 
-    if max_length is None:
-        if duration >= pd.Timedelta(min_length):
-            return True
+    if ((max_length is None and duration >= pd.Timedelta(min_length))
+            or (max_length is not None and pd.Timedelta(min_length) <= duration <= pd.Timedelta(max_length))):
+        return True
     else:
-        if pd.Timedelta(min_length) <= duration <= pd.Timedelta(max_length):
-            return True
-
-    return False
+        return False
