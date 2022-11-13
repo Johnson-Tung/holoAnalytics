@@ -185,7 +185,7 @@ def get_video_ids(member_name, responses, export_data=True):
 
     data = pd.DataFrame(zip(video_ids, added_to_playlist), columns=['video_id', 'added_to_playlist'])
 
-    _export_video_data(member_name, data, export_data, 'uploads_video_ids')
+    exporting.export_video_data(member_name, data, export_data, 'uploads_video_ids')
 
     return data
 
@@ -232,7 +232,7 @@ def get_video_stats(member_name, responses, export_data=True):
                         columns=['video_id', 'view_count', 'like_count', 'likes_enabled',
                                  'comment_count', 'comments_enabled'])
 
-    _export_video_data(member_name, data, export_data, 'video_stats')
+    exporting.export_video_data(member_name, data, export_data, 'video_stats')
 
     return data
 
@@ -293,28 +293,6 @@ def get_video_attributes(member_name, responses, export_data=True):
                                  'category_id', 'live_broadcast',
                                  'scheduled_start_time', 'scheduled_end_time', 'actual_start_time', 'actual_end_time'])
 
-    _export_video_data(member_name, data, export_data, 'video_attributes')
+    exporting.export_video_data(member_name, data, export_data, 'video_attributes')
 
     return data
-
-
-def _export_video_data(member_name, data, export_data, filename):
-    """Exports collected YouTube video data.
-
-    This PRIVATE function exports collected YouTube video data to a text-based file located in the current session's
-    'Video' directory and with the specified file name.
-
-    Args:
-        member_name: String specifying the name of the Hololive Production member whose videos data is being
-                     collected for.
-        data: Pandas DataFrame containing YouTube video data.
-        export_data: Boolean specifying whether collected data is to be exported. Default = True.
-        filename: String specifying the name of the output file.
-
-    Returns:
-        None
-    """
-
-    if export_data is True and df.SESSION_PATH is not None:
-        member_name = member_name.replace(' ', '_')
-        exporting.export_dataframe(data, df.SESSION_PATH / 'Video' / member_name, f'{member_name.lower()}_{filename}')
