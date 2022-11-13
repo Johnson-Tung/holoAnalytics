@@ -7,7 +7,7 @@ Functions:
 """
 
 import math
-import pandas
+import pandas as pd
 
 
 def split_n_sized_batches(data, batch_size):
@@ -58,7 +58,7 @@ def _confirm_list_or_tuple(data):
 
     if isinstance(data, list) or isinstance(data, tuple):
         pass
-    elif isinstance(data, pandas.core.series.Series) or isinstance(data, set) or isinstance(data, range):
+    elif isinstance(data, pd.Series) or isinstance(data, set) or isinstance(data, range):
         data = list(data)
     elif isinstance(data, str):
         data = [data]
