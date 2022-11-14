@@ -167,3 +167,4 @@ def _check_data_format(titles):
         raise TypeError("Input data uses an invalid data structure.")
 
     return titles
+
