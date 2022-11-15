@@ -67,16 +67,17 @@ def unpack_keywords(language):
     return unpacked_keywords
 
 
-def extract_title_keywords(titles):
+def extract_title_keywords(video_ids, titles):
     """Extracts keywords from YouTube video titles.
 
     Args:
+        video_ids: Sequence, e.g. list, of strings representing the YouTube video ids for which
+                   keywords will be extracted from.
         titles: Sequence, e.g. list, of strings representing the YouTube video titles for which keywords will be
                 extracted from.
 
     Returns:
-        data: List of strings, one string for each video title, containing keywords extracted from each title and
-              separated by tabs.
+        data: Pandas DataFrame containing video ids, video titles, and extracted title keywords
     """
 
     all_results = []
@@ -92,7 +93,9 @@ def extract_title_keywords(titles):
         results |= extract_hashtags(title)
         all_results.append(results)
 
-    data = ['\t'.join(result) for result in all_results]
+    title_keywords = pd.Series(all_results, name='title_keywords')
+
+    data = pd.concat([video_ids, titles, title_keywords], axis=1)
 
     return data
 
