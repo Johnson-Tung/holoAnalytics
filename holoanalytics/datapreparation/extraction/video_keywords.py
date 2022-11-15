@@ -46,30 +46,6 @@ keyword_translated = {'歌枠': 'singing?', '歌ってみた': 'Tried Singing', 
                       'オフコラボ': 'Off Collaboration', '初配神': 'Debut Stream?'}
 
 
-def unpack_keywords(language):
-    """Imports the bank of keywords for the specified language and unpacks it into a single list.
-
-    Args:
-        language: String specifying the language of the keywords to be searched for, i.e. 'english' and 'japanese'.
-
-    Returns:
-        unpacked_keywords: List of strings representing all keywords for the specified language.
-    """
-
-    unpacked_keywords = []
-
-    if language == 'english':
-        for keywords in eng_keyword_bank.values():
-            unpacked_keywords += keywords
-    elif language == 'japanese':
-        for keywords in jp_keyword_bank.values():
-            unpacked_keywords += keywords
-    else:
-        raise ValueError('Unsupported language. Only English and Japanese are currently supported.')
-
-    return unpacked_keywords
-
-
 def extract_title_keywords(member_name, video_ids, titles, export_data=True):
     """Extracts keywords from YouTube video titles.
 
@@ -105,6 +81,30 @@ def extract_title_keywords(member_name, video_ids, titles, export_data=True):
     exporting.export_video_data(member_name, data, export_data, 'video_title_keywords')
 
     return data
+
+
+def unpack_keywords(language):
+    """Imports the bank of keywords for the specified language and unpacks it into a single list.
+
+    Args:
+        language: String specifying the language of the keywords to be searched for, i.e. 'english' and 'japanese'.
+
+    Returns:
+        unpacked_keywords: List of strings representing all keywords for the specified language.
+    """
+
+    unpacked_keywords = []
+
+    if language == 'english':
+        for keywords in eng_keyword_bank.values():
+            unpacked_keywords += keywords
+    elif language == 'japanese':
+        for keywords in jp_keyword_bank.values():
+            unpacked_keywords += keywords
+    else:
+        raise ValueError('Unsupported language. Only English and Japanese are currently supported.')
+
+    return unpacked_keywords
 
 
 def extract_bracketed_words(title):
