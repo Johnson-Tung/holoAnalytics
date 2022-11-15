@@ -2,6 +2,9 @@ import re
 
 import pandas as pd
 
+from holoanalytics.utils import exporting
+
+
 eng_keyword_bank = {'Music Video': ['Official', 'Original', 'Cover', 'Covered', 'MV', 'AMV', '3DMV'],
                     'Karaoke': ['Karaoke', 'Singing', 'I tried singing', 'Song', 'Sing'],
                     'Chatting': ['Chat', 'Chatting', "Chattin'", "Let's Chat", 'CHIT-CHAT', 'Chit Chat', 'Talk',
@@ -67,14 +70,17 @@ def unpack_keywords(language):
     return unpacked_keywords
 
 
-def extract_title_keywords(video_ids, titles):
+def extract_title_keywords(member_name, video_ids, titles, export_data=True):
     """Extracts keywords from YouTube video titles.
 
     Args:
+        member_name: String specifying the name of the Hololive Production member whose videos data is being
+                     collected for.
         video_ids: Pandas Series of strings representing the YouTube video ids for which
                    keywords will be extracted from.
         titles: Pandas Series of strings representing the YouTube video titles for which keywords will be
                 extracted from.
+        export_data: Boolean specifying whether collected data is to be exported. Default = True.
 
     Returns:
         data: Pandas DataFrame containing video ids, video titles, and extracted title keywords
@@ -94,8 +100,9 @@ def extract_title_keywords(video_ids, titles):
         all_results.append(results)
 
     title_keywords = pd.Series(all_results, name='title_keywords')
-
     data = pd.concat([video_ids, titles, title_keywords], axis=1)
+
+    exporting.export_video_data(member_name, data, export_data, 'video_title_keywords')
 
     return data
 
