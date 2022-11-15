@@ -71,9 +71,9 @@ def extract_title_keywords(video_ids, titles):
     """Extracts keywords from YouTube video titles.
 
     Args:
-        video_ids: Sequence, e.g. list, of strings representing the YouTube video ids for which
+        video_ids: Pandas Series of strings representing the YouTube video ids for which
                    keywords will be extracted from.
-        titles: Sequence, e.g. list, of strings representing the YouTube video titles for which keywords will be
+        titles: Pandas Series of strings representing the YouTube video titles for which keywords will be
                 extracted from.
 
     Returns:
