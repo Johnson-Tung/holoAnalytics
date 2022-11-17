@@ -217,7 +217,7 @@ def check_live_broadcast(video_attributes, is_live_broadcast):
         dataframe: Subset of video_attributes that only contains live broadcasts.
     """
 
-    dataframe = video_attributes[video_attributes['is_live_broadcast' == is_live_broadcast]]
+    dataframe = video_attributes[video_attributes['live_broadcast'] == is_live_broadcast]
 
     return dataframe
 
