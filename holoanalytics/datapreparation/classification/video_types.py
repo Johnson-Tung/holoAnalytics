@@ -91,7 +91,7 @@ def _classify_live_broadcast(live_broadcasts):
     live_broadcasts = calc.live_broadcast_duration(live_broadcasts)
     live_broadcasts['difference'] = live_broadcasts['live_broadcast_duration'] - live_broadcasts['duration']
     live_broadcasts['video_type'] = live_broadcasts['difference'].apply(_check_difference)
-    classified_data = live_broadcasts[['video_id', 'video_type', 'live_broadcast_duration']]
+    classified_data = live_broadcasts[['video_id', 'live_broadcast_duration', 'video_type']]
 
     return classified_data
 
