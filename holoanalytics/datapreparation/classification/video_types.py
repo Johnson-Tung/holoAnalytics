@@ -44,10 +44,10 @@ def combine_same_columns(dataframe, column_name):
     left_column = f'{column_name}_x'
     right_column = f'{column_name}_y'
 
-    dataframe[column_name] = dataframe.apply(lambda video: _combine_values(video[left_column], video[right_column]),
-                                             axis=1)
-
-    dataframe.drop([left_column, right_column], axis=1, inplace=True)
+    if left_column in dataframe and right_column in dataframe:
+        dataframe[column_name] = dataframe.apply(lambda video: _combine_values(video[left_column], video[right_column]),
+                                                 axis=1)
+        dataframe.drop([left_column, right_column], axis=1, inplace=True)
 
     return dataframe
 
