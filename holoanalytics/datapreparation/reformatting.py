@@ -52,13 +52,16 @@ def timedelta_to_hms(timedelta):
 
 
 def convert_times(video_attributes):
-    """Convert duration, start times, and end times in a YouTube Video Attributes DataFrame into Pandas Timedelta objects.
+    """Convert time data in a YouTube Video Attributes Pandas DataFrame into Pandas Timedelta objects.
+
+    Time data includes duration, start times, and end times.
 
     Args:
         video_attributes: Pandas DataFrame containing YouTube video attribute data.
 
     Returns:
-        video_attributes: Updated DataFrame where duration, start times, and end times have been converted to Pandas Timedelta objects.
+        video_attributes: Updated DataFrame where duration, start times, and end times have been converted to Pandas
+                          Timedelta objects.
     """
 
     video_attributes = to_timedelta(video_attributes, 'duration')
@@ -70,11 +73,14 @@ def convert_times(video_attributes):
 
 
 def to_timedelta(dataframe, column_name):
-    """Convert a column containing duration data in the form of strings into Pandas Timedelta objects, if not already done.
+    """Convert specified DataFrame column containing time duration data into Pandas Timedelta objects.
+
+    Time duration data must be in a format that the 'pandas.to_timedelta' function accepts. If the data is already
+    represented by Pandas Timedelta objects, no conversion will be made.
 
     Args:
         dataframe: Pandas DataFrame.
-        column_name: String specifying the column name containing duration data.
+        column_name: String specifying the column name containing time duration data.
 
     Returns:
         dataframe: Updated DataFrame where duration data is in the form of Pandas Timedelta objects.
