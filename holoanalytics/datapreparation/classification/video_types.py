@@ -5,6 +5,8 @@ from holoanalytics.datapreparation import reformatting as reform
 
 PREMIERE_COUNTDOWN = pd.Timedelta('00:02:00')
 BOUNDS = pd.Timedelta('00:00:15')
+PREMIERE_CUTOFF = pd.Timedelta('01:00:01')  # Estimated cutoff before Premieres are reclassified as live streams
+LIVE_STREAM_CUTOFF = pd.Timedelta('00:05:00')  # Estimated cutoff before live streams are reclassified as Premieres
 
 
 def is_live_stream(video_attributes):
@@ -91,6 +93,16 @@ def _classify_live_broadcast(live_broadcasts):
     live_broadcasts = calc.live_broadcast_duration(live_broadcasts)
     live_broadcasts['difference'] = live_broadcasts['live_broadcast_duration'] - live_broadcasts['duration']
     live_broadcasts['video_type'] = live_broadcasts['difference'].apply(_check_difference)
+
+    # Fix incorrect labels
+    live_broadcasts.loc[(live_broadcasts['video_type'] == 'Premiere')
+                        & (live_broadcasts['duration'] >= PREMIERE_CUTOFF),
+                        'video_type'] = 'Live Stream'
+    live_broadcasts.loc[(live_broadcasts['video_type'] == 'Live Stream')
+                        & (live_broadcasts['duration'] <= LIVE_STREAM_CUTOFF)
+                        & ~(live_broadcasts['live_broadcast_duration'].isna()),
+                        'video_type'] = 'Premiere'
+
     classified_data = live_broadcasts[['video_id', 'live_broadcast_duration', 'video_type']]
 
     return classified_data
