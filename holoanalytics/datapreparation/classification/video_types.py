@@ -146,7 +146,8 @@ def _classify_non_live_broadcast(non_live_broadcasts):
         classified_data: Pandas DataFrame containing video ids and video types for non-live broadcasts.
     """
 
-    non_live_broadcasts['short_video'] = non_live_broadcasts['duration'].apply(check_video_duration, max='00:01:00')
+    non_live_broadcasts['short_video'] = non_live_broadcasts['duration'].apply(check_video_duration,
+                                                                               max_length='00:01:00')
     non_live_broadcasts['video_type'] = non_live_broadcasts.apply(
         lambda video: _check_short_long(video['video_id'], video['short_video']), axis=1)
     classified_data = non_live_broadcasts[['video_id', 'video_type']]
