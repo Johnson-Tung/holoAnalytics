@@ -21,7 +21,7 @@ def is_live_stream(video_attributes):
 
     """
 
-    live_broadcasts = check_live_broadcast(video_attributes, True)
+    live_broadcasts = video_attributes[video_attributes['live_broadcast']]
 
     classified_data = _classify_live_broadcast(live_broadcasts)
 
@@ -122,7 +122,7 @@ def is_short(video_attributes):
 
     """
 
-    non_live_broadcasts = check_live_broadcast(video_attributes, False)
+    non_live_broadcasts = video_attributes[~video_attributes['live_broadcast']]
 
     classified_data = _classify_non_live_broadcast(non_live_broadcasts)
 
