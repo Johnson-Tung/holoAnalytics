@@ -26,58 +26,9 @@ def is_live_stream(video_attributes):
     classified_data = _classify_live_broadcast(live_broadcasts)
 
     merged_data = video_attributes.merge(classified_data, on='video_id', how='left')
-    new_video_attributes = combine_same_columns(merged_data, 'video_type')
+    new_video_attributes = reform.combine_same_columns(merged_data, 'video_type')
 
     return new_video_attributes
-
-
-def combine_same_columns(dataframe, column_name):
-    """Combine two "identical" columns that resulted from joining two Pandas DataFrames.
-
-    Example: Combine 'duration_x' and 'duration_y' columns into a single 'duration' column.
-
-    Args:
-        dataframe: Pandas DataFrame created after joining two DataFrames.
-        column_name: String specifying the columns to be combined.
-
-    Returns:
-        dataframe: Original DataFrame but with specified columns combined.
-    """
-
-    left_column = f'{column_name}_x'
-    right_column = f'{column_name}_y'
-
-    if left_column in dataframe and right_column in dataframe:
-        dataframe[column_name] = dataframe.apply(lambda video: _combine_values(video[left_column], video[right_column]),
-                                                 axis=1)
-        dataframe.drop([left_column, right_column], axis=1, inplace=True)
-
-    return dataframe
-
-
-def _combine_values(value1, value2):
-    """Combine two values and return the result as a string.
-
-     If a value is NaN or missing, it is ignored. If both values are not NaN, combine and separate with a '/'.
-     If both values are NaN or missing, return empty string.
-
-    Args:
-        value1: First value.
-        value2: Second value.
-
-    Returns:
-        combined_values: String representing the combined values.
-    """
-    values = []
-
-    for value in (value1, value2):
-        if not pd.isna(value):
-            values.append(str(value))
-
-    values.sort()
-    combined_values = ' / '.join(values)
-
-    return combined_values
 
 
 def _classify_live_broadcast(live_broadcasts):
@@ -127,7 +78,7 @@ def is_short(video_attributes):
     classified_data = _classify_non_live_broadcast(non_live_broadcasts)
 
     merged_data = video_attributes.merge(classified_data, on='video_id', how='left')
-    new_video_attributes = combine_same_columns(merged_data, 'video_type')
+    new_video_attributes = reform.combine_same_columns(merged_data, 'video_type')
 
     return new_video_attributes
 
