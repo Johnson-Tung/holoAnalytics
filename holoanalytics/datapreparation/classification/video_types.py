@@ -202,23 +202,6 @@ def _check_response_code(video_id):
     return video_type
 
 
-def check_live_broadcast(video_attributes, is_live_broadcast):
-    """Check for YouTube videos that are live broadcasts and return the data for those videos only.
-
-    Args:
-        video_attributes: Pandas DataFrame containing YouTube video attribute data.
-        is_live_broadcast: Pandas DataFrame column containing Booleans that specify if a YouTube video is a
-                           live broadcast.
-
-    Returns:
-        dataframe: Subset of video_attributes that only contains live broadcasts.
-    """
-
-    dataframe = video_attributes[video_attributes['live_broadcast'] == is_live_broadcast]
-
-    return dataframe
-
-
 def filter_video_duration(video_attributes, min_length='00:00:00', max_length=None):
     """Filter a YouTube Video Attributes DataFrame to remove all videos whose duration is not within the minimum and
     maximum lengths.
