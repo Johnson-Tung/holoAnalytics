@@ -111,25 +111,6 @@ def _classify_live_broadcast(live_broadcasts):
     return classified_data
 
 
-def _check_difference(difference):
-    """Check the 'difference' of a YouTube live broadcast and classify the video.
-
-    Args:
-        difference: Pandas DataFrame column containing Pandas Timedelta objects that specify the difference
-                    between a YouTube live broadcast's live broadcast duration and its video duration.
-
-    Returns:
-        video_type: String specifying the video type for the YouTube video associated with the video id.
-    """
-
-    if (PREMIERE_COUNTDOWN - BOUNDS) < difference < (PREMIERE_COUNTDOWN + BOUNDS):
-        video_type = 'Premiere'
-    else:
-        video_type = 'Live Stream'
-
-    return video_type
-
-
 def is_short(video_attributes):
     """Classify YouTube non-live broadcasts as shorts or normal / non-short videos.
 
