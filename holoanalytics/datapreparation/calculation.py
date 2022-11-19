@@ -60,3 +60,25 @@ def day_of_week(video_attributes):
         video_attributes[f'{datetime_col}_(weekday)'] = video_attributes[datetime_col].dt.day_name()
 
     return video_attributes
+
+
+def check_video_duration(duration, min_length='00:00:00', max_length=None):
+    """Check a YouTube video duration / length if it is between the minimum and maximum values.
+
+    'min_length' and 'max_length' values can be in any format accepted by Pandas Timedelta class. H:M:S format,
+    e.g. '00:01:00' for one minute, is recommended.
+
+    Args:
+        duration: Pandas Timedelta representing the YouTube video duration.
+        min_length: String specifying the minimum video duration.
+        max_length: String specifying the maximum video duration.
+
+    Returns:
+        Boolean specifying if the YouTube video is within the minimum and maximum lengths.
+    """
+
+    if ((max_length is None and duration >= pd.Timedelta(min_length))
+            or (max_length is not None and pd.Timedelta(min_length) <= duration <= pd.Timedelta(max_length))):
+        return True
+    else:
+        return False
