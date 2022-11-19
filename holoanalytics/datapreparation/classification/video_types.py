@@ -8,6 +8,7 @@ PREMIERE_COUNTDOWN = pd.Timedelta('00:02:00')
 BOUNDS = pd.Timedelta('00:00:15')
 PREMIERE_CUTOFF = pd.Timedelta('01:00:01')  # Estimated cutoff before Premieres are reclassified as live streams
 LIVE_STREAM_CUTOFF = pd.Timedelta('00:05:00')  # Estimated cutoff before live streams are reclassified as Premieres
+SHORT_MAX_LENGTH = pd.Timedelta('00:01:00')
 
 
 def is_live_stream(video_attributes):
@@ -93,8 +94,8 @@ def _classify_non_live_broadcast(non_live_broadcasts):
         classified_data: Pandas DataFrame containing video ids and video types for non-live broadcasts.
     """
 
-    non_live_broadcasts['short_video'] = non_live_broadcasts['duration'].apply(check_video_duration,
-                                                                               max_length='00:01:00')
+    non_live_broadcasts['short_video'] = non_live_broadcasts['duration'] <= SHORT_MAX_LENGTH
+
     non_live_broadcasts['video_type'] = non_live_broadcasts.apply(
         lambda video: _check_short_long(video['video_id'], video['short_video']), axis=1)
     classified_data = non_live_broadcasts[['video_id', 'video_type']]
