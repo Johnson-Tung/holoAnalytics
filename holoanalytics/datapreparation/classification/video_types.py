@@ -104,28 +104,6 @@ def _classify_non_live_broadcast(non_live_broadcasts):
     return classified_data
 
 
-def _check_short_long(video_id, short_video):
-    """Check if a YouTube video is "short enough", i.e. one minute length max.
-
-    YouTube Shorts are limited to one minute. All videos that are longer are immediately classified as "normal" videos.
-    For videos less than one minute long, check HTTP response status code.
-
-    Args:
-        video_id: String representing a YouTube video id.
-        short_video: Boolean specifying if a video is less than one minute long.
-
-    Returns:
-        video_type: String specifying the video type for the YouTube video associated with the video id.
-    """
-
-    if short_video is False:
-        video_type = 'Normal'
-    else:
-        video_type = _check_response_code(video_id)
-
-    return video_type
-
-
 def _check_response_code(video_id):
     """Access YouTube's website, get the HTTP response status code, and classify a YouTube video based on the code.
 
