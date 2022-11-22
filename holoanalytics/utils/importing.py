@@ -31,6 +31,16 @@ def import_video_data(member_names='all', data_types='all'):
         member_data: Dictionary of dictionaries, one for each member, of Pandas DataFrames containing video data.
     """
 
+    member_names = _check_member_names(member_names)
+    data_types = _check_data_types(data_types)
+
+    members_video_data = _members_video_data(member_names, data_types)
+
+    return members_video_data
+
+
+def _check_member_names(member_names):
+
     if isinstance(member_names, str):
         if member_names.lower() == 'all':
             member_names = pd.read_csv(df.STARTING_DATA_FILE)['name']
@@ -40,6 +50,11 @@ def import_video_data(member_names='all', data_types='all'):
         pass
     else:
         raise ValueError
+
+    return member_names
+
+
+def _check_data_types(data_types):
 
     if isinstance(data_types, str):
         if data_types.lower() == 'all':
@@ -51,9 +66,7 @@ def import_video_data(member_names='all', data_types='all'):
     else:
         raise ValueError
 
-    members_video_data = _members_video_data(member_names, data_types)
-
-    return members_video_data
+    return data_types
 
 
 def _members_video_data(member_names, data_types):
