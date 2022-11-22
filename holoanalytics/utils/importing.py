@@ -31,19 +31,21 @@ def import_video_data(member_names='all', data_types='all'):
         member_data: Dictionary of dictionaries, one for each member, of Pandas DataFrames containing video data.
     """
 
-    if member_names.lower() == 'all':
-        member_names = pd.read_csv(df.STARTING_DATA_FILE)['name']
-    elif member_names.lower() != 'all' and isinstance(member_names, str):
-        member_names = [member_names]
+    if isinstance(member_names, str):
+        if member_names.lower() == 'all':
+            member_names = pd.read_csv(df.STARTING_DATA_FILE)['name']
+        else:
+            member_names = [member_names]
     elif isinstance(member_names, list) or isinstance(member_names, tuple) or isinstance(member_names, pd.Series):
         pass
     else:
         raise ValueError
 
-    if data_types.lower() == 'all':
-        data_types = VIDEO_DATA_TYPES
-    elif data_types.lower() != 'all' and isinstance(data_types, str):
-        data_types = [data_types]
+    if isinstance(data_types, str):
+        if data_types.lower() == 'all':
+            data_types = VIDEO_DATA_TYPES
+        else:
+            data_types = [data_types]
     elif isinstance(data_types, list) or isinstance(data_types, tuple) or isinstance(data_types, pd.Series):
         pass
     else:
