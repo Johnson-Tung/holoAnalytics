@@ -139,7 +139,7 @@ def export_channel_data(data, export_data, filename):
         export_dataframe(data, df.SESSION_PATH / 'Channel', filename)
 
 
-def export_video_data(member_name, data, export_data, filename):
+def export_video_data(member_name, data, export_data, filename, add_datetime=True, filetype='csv'):
     """Exports collected YouTube video data.
 
     This function exports collected YouTube video data to a text-based file located in the current session's
@@ -151,6 +151,8 @@ def export_video_data(member_name, data, export_data, filename):
         data: Pandas DataFrame containing YouTube video data.
         export_data: Boolean specifying whether collected data is to be exported. Default = True.
         filename: String specifying the name of the output file.
+        add_datetime: Boolean specifying if datetime is added to the filename.
+        filetype: String specifying the type of the output file. Default = 'csv'.
 
     Returns:
         None
@@ -158,4 +160,5 @@ def export_video_data(member_name, data, export_data, filename):
 
     if export_data is True and df.SESSION_PATH is not None:
         member_name = member_name.replace(' ', '_')
-        export_dataframe(data, df.SESSION_PATH / 'Video' / member_name, f'{member_name.lower()}_{filename}')
+        export_dataframe(data, df.SESSION_PATH / 'Video' / member_name, f'{member_name.lower()}_{filename}',
+                         add_datetime, filetype)
