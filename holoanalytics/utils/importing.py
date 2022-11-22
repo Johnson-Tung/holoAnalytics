@@ -44,7 +44,7 @@ def import_video_data(member_names='all', data_types='all'):
         data_types = VIDEO_DATA_TYPES
     elif data_types.lower() != 'all' and isinstance(data_types, str):
         data_types = [data_types]
-    elif isinstance(member_names, list) or isinstance(member_names, tuple) or isinstance(member_names, pd.Series):
+    elif isinstance(data_types, list) or isinstance(data_types, tuple) or isinstance(data_types, pd.Series):
         pass
     else:
         raise ValueError
