@@ -62,25 +62,32 @@ def extract_title_keywords(member_video_data, export_data=True):
     jp_search_keywords = unpack_keywords('japanese')
 
     for member_name in member_video_data.keys():
+        member_video_data = _extract_member_keywords(member_video_data, member_name, eng_search_keywords,
+                                                     jp_search_keywords, export_data)
 
-        video_attributes = member_video_data[member_name]['video_attributes']
-        titles = video_attributes['title']
-        video_ids = video_attributes['video_id']
+    return member_video_data
 
-        all_results = []
 
-        for title in titles:
-            results = extract_bracketed_words(title)
-            results |= extract_keywords(title, eng_search_keywords)
-            results |= extract_keywords(title, jp_search_keywords)
-            results |= extract_hashtags(title)
-            all_results.append(results)
+def _extract_member_keywords(member_video_data, member_name, eng_keywords, jp_keywords, export_data):
 
-        title_keywords = pd.Series(all_results, name='title_keywords')
-        member_video_data[member_name]['video_title_keywords'] = pd.concat([video_ids, titles, title_keywords], axis=1)
+    video_attributes = member_video_data[member_name]['video_attributes']
+    titles = video_attributes['title']
+    video_ids = video_attributes['video_id']
 
-        exporting.export_video_data(member_name, member_video_data[member_name]['video_title_keywords'],
-                                    export_data, 'video_title_keywords')
+    all_results = []
+
+    for title in titles:
+        results = extract_bracketed_words(title)
+        results |= extract_keywords(title, eng_keywords)
+        results |= extract_keywords(title, jp_keywords)
+        results |= extract_hashtags(title)
+        all_results.append(results)
+
+    title_keywords = pd.Series(all_results, name='title_keywords')
+    member_video_data[member_name]['video_title_keywords'] = pd.concat([video_ids, titles, title_keywords], axis=1)
+
+    exporting.export_video_data(member_name, member_video_data[member_name]['video_title_keywords'],
+                                export_data, 'video_title_keywords')
 
     return member_video_data
 
