@@ -46,41 +46,43 @@ keyword_translated = {'歌枠': 'singing?', '歌ってみた': 'Tried Singing', 
                       'オフコラボ': 'Off Collaboration', '初配神': 'Debut Stream?'}
 
 
-def extract_title_keywords(member_name, video_ids, titles, export_data=True):
+def extract_title_keywords(member_video_data, export_data=True):
     """Extracts keywords from YouTube video titles.
 
     Args:
-        member_name: String specifying the name of the Hololive Production member whose videos data is being
-                     collected for.
-        video_ids: Pandas Series of strings representing the YouTube video ids for which
-                   keywords will be extracted from.
-        titles: Pandas Series of strings representing the YouTube video titles for which keywords will be
-                extracted from.
+        member_video_data: Dictionary of dictionaries of Pandas DataFrames containing imported video data,
+                           returned by holoanalytics.utils.importing.import_video_data()
         export_data: Boolean specifying whether collected data is to be exported. Default = True.
 
     Returns:
         data: Pandas DataFrame containing video ids, video titles, and extracted title keywords
     """
 
-    all_results = []
     eng_search_keywords = unpack_keywords('english')
     jp_search_keywords = unpack_keywords('japanese')
 
-    titles = _check_data_format(titles)
+    for member_name in member_video_data.keys():
 
-    for title in titles:
-        results = extract_bracketed_words(title)
-        results |= extract_keywords(title, eng_search_keywords)
-        results |= extract_keywords(title, jp_search_keywords)
-        results |= extract_hashtags(title)
-        all_results.append(results)
+        video_attributes = member_video_data[member_name]['video_attributes']
+        titles = video_attributes['title']
+        video_ids = video_attributes['video_id']
 
-    title_keywords = pd.Series(all_results, name='title_keywords')
-    data = pd.concat([video_ids, titles, title_keywords], axis=1)
+        all_results = []
 
-    exporting.export_video_data(member_name, data, export_data, 'video_title_keywords')
+        for title in titles:
+            results = extract_bracketed_words(title)
+            results |= extract_keywords(title, eng_search_keywords)
+            results |= extract_keywords(title, jp_search_keywords)
+            results |= extract_hashtags(title)
+            all_results.append(results)
 
-    return data
+        title_keywords = pd.Series(all_results, name='title_keywords')
+        member_video_data[member_name]['video_title_keywords'] = pd.concat([video_ids, titles, title_keywords], axis=1)
+
+        exporting.export_video_data(member_name, member_video_data[member_name]['video_title_keywords'],
+                                    export_data, 'video_title_keywords')
+
+    return member_video_data
 
 
 def unpack_keywords(language):
