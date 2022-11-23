@@ -75,7 +75,8 @@ def _members_video_data(member_names, data_types):
     for member_name in member_names:
         member_name = member_name.replace(' ', '_')
         member_dir_path = df.SESSION_PATH / 'Video' / member_name
-        members_video_data[member_name] = _all_video_data(member_dir_path, data_types)
+        if member_dir_path.exists():
+            members_video_data[member_name] = _all_video_data(member_dir_path, data_types)
 
     return members_video_data
 
