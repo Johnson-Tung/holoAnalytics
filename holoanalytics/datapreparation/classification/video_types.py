@@ -13,6 +13,22 @@ SHORT_MAX_LENGTH = pd.Timedelta('00:01:00')  # Maximum length for a short, as de
 
 
 def classify_video_type(member_video_data, export_data=True):
+    """Determines the video type of YouTube videos for the imported data.
+
+    All videos will have one of four types:
+    1) Normal
+    2) Short
+    3) Live Stream
+    4) Premiere
+
+    Args:
+        member_video_data: Dictionary of dictionaries of Pandas DataFrames containing YouTube video data,
+                           originally returned by holoanalytics.utils.importing.import_video_data().
+        export_data: Boolean specifying whether collected data is to be exported. Default = True.
+
+    Returns:
+        member_video_data: YouTube video data updated with video type data.
+    """
 
     for member_name, video_data in member_video_data.items():
         video_data['video_type'] = _classify_member_videos(member_name, video_data['video_attributes'], export_data)
