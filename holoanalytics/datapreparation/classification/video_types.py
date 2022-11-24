@@ -3,12 +3,33 @@ import numpy as np
 import pandas as pd
 from holoanalytics.datapreparation import calculation as calc
 from holoanalytics.datapreparation import reformatting as reform
+from holoanalytics.utils import exporting
 
 PREMIERE_COUNTDOWN = pd.Timedelta('00:02:00')  # Default countdown length for Premieres, as decided by YouTube
 BOUNDS = pd.Timedelta('00:00:15')  # Estimated max deviation from PREMIERE_COUNTDOWN, i.e. 2 minutes +/- 15 seconds
 PREMIERE_CUTOFF = pd.Timedelta('01:00:01')  # Estimated cutoff before Premieres are reclassified as live streams
 LIVE_STREAM_CUTOFF = pd.Timedelta('00:05:00')  # Estimated cutoff before live streams are reclassified as Premieres
 SHORT_MAX_LENGTH = pd.Timedelta('00:01:00')  # Maximum length for a short, as decided by YouTube
+
+
+def classify_video_type(member_video_data, export_data=True):
+
+    for member_name, video_data in member_video_data.items():
+        video_data['video_type'] = _classify_member_videos(member_name, video_data['video_attributes'], export_data)
+
+    return member_video_data
+
+
+def _classify_member_videos(member_name, video_attributes, export_data):
+
+    video_attributes = is_live_stream(video_attributes)
+    video_attributes = is_short(video_attributes)
+
+    data = video_attributes[['video_id', 'video_type']]
+
+    exporting.export_video_data(member_name, data, export_data, 'video_types')
+
+    return data
 
 
 def is_live_stream(video_attributes):
