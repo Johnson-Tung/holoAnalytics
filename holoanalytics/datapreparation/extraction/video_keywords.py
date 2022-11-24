@@ -47,7 +47,7 @@ keyword_translated = {'歌枠': 'singing?', '歌ってみた': 'Tried Singing', 
 
 
 def extract_title_keywords(member_video_data, export_data=True):
-    """Extracts keywords from YouTube video titles.
+    """Extracts keywords from YouTube video titles in the imported data.
 
     Args:
         member_video_data: Dictionary of dictionaries of Pandas DataFrames containing imported video data,
@@ -55,7 +55,7 @@ def extract_title_keywords(member_video_data, export_data=True):
         export_data: Boolean specifying whether collected data is to be exported. Default = True.
 
     Returns:
-        data: Pandas DataFrame containing video ids, video titles, and extracted title keywords
+        member_video_data: YouTube video data updated with video title keyword data.
     """
 
     eng_search_keywords = unpack_keywords('english')
