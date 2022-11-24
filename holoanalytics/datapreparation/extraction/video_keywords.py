@@ -69,6 +69,19 @@ def extract_title_keywords(member_video_data, export_data=True):
 
 
 def _extract_member_keywords(member_video_data, member_name, eng_keywords, jp_keywords, export_data):
+    """Extracts keywords from YouTube video titles for the specified Hololive Production member.
+
+    Args:
+        member_video_data: Dictionary of dictionaries of Pandas DataFrames containing imported video data.
+        member_name: String specifying the name of the Hololive Production member whose videos data is being
+                     collected for.
+        eng_keywords: List of strings representing all keywords in the English word bank.
+        jp_keywords: List of strings representing all keywords in the Japanese word bank.
+        export_data: Boolean specifying whether collected data is to be exported. Default = True.
+
+    Returns:
+        data: Pandas DataFrame containing video ids, video titles, and extracted title keywords.
+    """
 
     video_attributes = member_video_data[member_name]['video_attributes']
     titles = video_attributes['title']
