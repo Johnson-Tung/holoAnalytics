@@ -37,6 +37,17 @@ def classify_video_type(member_video_data, export_data=True):
 
 
 def _classify_member_videos(member_name, video_attributes, export_data):
+    """Determines the video type for the specified Hololive Production member's YouTube videos.
+
+    Args:
+        member_name: String specifying the name of the Hololive Production member whose video data is being
+                     prepared.
+        video_attributes: Pandas DataFrame containing video attribute data for the specified member.
+        export_data: Boolean specifying whether collected data is to be exported.
+
+    Returns:
+        data: Pandas DataFrame containing video ids and video type for the member's videos.
+    """
 
     video_attributes = is_live_stream(video_attributes)
     video_attributes = is_short(video_attributes)
