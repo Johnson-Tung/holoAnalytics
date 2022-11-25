@@ -61,14 +61,15 @@ def extract_title_keywords(member_video_data, export_data=True):
     eng_search_keywords = unpack_keywords('english')
     jp_search_keywords = unpack_keywords('japanese')
 
-    for member_name in member_video_data.keys():
-        member_video_data = _extract_member_keywords(member_video_data, member_name, eng_search_keywords,
-                                                     jp_search_keywords, export_data)
+    for member_name, video_data in member_video_data.items():
+        video_data['video_title_keywords'] = _extract_member_keywords(member_name, video_data['video_attributes'],
+                                                                      eng_search_keywords, jp_search_keywords,
+                                                                      export_data)
 
     return member_video_data
 
 
-def _extract_member_keywords(member_video_data, member_name, eng_keywords, jp_keywords, export_data):
+def _extract_member_keywords(member_name, video_attributes, eng_keywords, jp_keywords, export_data):
     """Extracts keywords from YouTube video titles for the specified Hololive Production member.
 
     Args:
@@ -84,7 +85,6 @@ def _extract_member_keywords(member_video_data, member_name, eng_keywords, jp_ke
         member_video_data: YouTube video data updated with video title keyword data.
     """
 
-    video_attributes = member_video_data[member_name]['video_attributes']
     titles = video_attributes['title']
     video_ids = video_attributes['video_id']
 
@@ -98,12 +98,11 @@ def _extract_member_keywords(member_video_data, member_name, eng_keywords, jp_ke
         all_results.append(results)
 
     title_keywords = pd.Series(all_results, name='title_keywords')
-    member_video_data[member_name]['video_title_keywords'] = pd.concat([video_ids, titles, title_keywords], axis=1)
+    data = pd.concat([video_ids, titles, title_keywords], axis=1)
 
-    exporting.export_video_data(member_name, member_video_data[member_name]['video_title_keywords'],
-                                export_data, 'video_title_keywords')
+    exporting.export_video_data(member_name, data, export_data, 'video_title_keywords')
 
-    return member_video_data
+    return data
 
 
 def unpack_keywords(language):
