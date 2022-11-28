@@ -64,9 +64,9 @@ def import_video_data(member_names='all', data_types='all'):
     member_names = _check_member_names(member_names)
     data_types = _check_data_types(data_types)
 
-    members_video_data = _members_video_data(member_names, data_types)
+    member_video_data = _member_video_data(member_names, data_types)
 
-    return members_video_data
+    return member_video_data
 
 
 def _check_member_names(member_names):
@@ -99,16 +99,16 @@ def _check_data_types(data_types):
     return data_types
 
 
-def _members_video_data(member_names, data_types):
-    members_video_data = {}
+def _member_video_data(member_names, data_types):
+    member_video_data = {}
 
     for member_name in member_names:
         member_name = member_name.replace(' ', '_')
         member_dir_path = df.SESSION_PATH / 'Video' / member_name
         if member_dir_path.exists():
-            members_video_data[member_name] = _all_video_data(member_dir_path, data_types)
+            member_video_data[member_name] = _all_video_data(member_dir_path, data_types)
 
-    return members_video_data
+    return member_video_data
 
 
 def _all_video_data(member_dir_path, data_types):
