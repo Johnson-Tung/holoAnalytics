@@ -139,3 +139,37 @@ def _combine_values(value1, value2):
     combined_values = ' / '.join(values)
 
     return combined_values
+
+
+def combine_keyword_banks(*keyword_banks):
+    combined_keyword_bank = {}
+
+    keyword_banks = confirm_content_types(keyword_banks)
+
+    for content_type in keyword_banks[0]:
+        keywords = []
+        for keyword_bank in keyword_banks:
+            keywords += keyword_bank[content_type]
+        combined_keyword_bank[content_type] = keywords
+
+    return combined_keyword_bank
+
+
+def confirm_content_types(keyword_banks):
+    keyword_banks = list(keyword_banks)
+
+    for index, _ in enumerate(keyword_banks):
+        reference = keyword_banks.pop(index)
+        keyword_banks = _check_missing_types(reference, keyword_banks)
+        keyword_banks.insert(index, reference)
+
+    return keyword_banks
+
+
+def _check_missing_types(reference, check):
+    for content_type in reference:
+        for keyword_bank in check:
+            if content_type not in keyword_bank:
+                keyword_bank[content_type] = []
+
+    return check
