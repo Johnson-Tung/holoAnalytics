@@ -6,6 +6,11 @@ VIDEO_DATA_TYPES = ('video_attributes', 'video_stats')
 
 
 def request_session():
+    """Displays available data collection sessions and returns the name of the session selected by the user.
+
+    Returns:
+        session_name: String specifying the data collection session to be opened.
+    """
 
     session_dir_paths = list(df.YT_DAPI_SESSIONS_PATH.iterdir())
     max_index = len(session_dir_paths) - 1
