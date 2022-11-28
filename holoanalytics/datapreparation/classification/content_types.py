@@ -3,11 +3,11 @@ import pandas as pd
 from holoanalytics.utils import exporting
 
 
-def classify_content_type(member_video_data, export_data=True):
+def classify_content_type(member_video_data, keyword_bank, export_data=True):
 
     for member_name, video_data in member_video_data.items():
         video_data['content_type'] = _classify_member_videos(member_name, video_data['video_title_keywords'],
-                                                             export_data)
+                                                             keyword_bank, export_data)
 
     return member_video_data
 
