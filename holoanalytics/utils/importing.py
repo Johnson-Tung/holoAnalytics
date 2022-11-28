@@ -58,7 +58,7 @@ def import_video_data(member_names='all', data_types='all'):
         data_types: String or collection, e.g. list, of strings specifying the types of video data to be imported.
                     Default = 'all'.
     Returns:
-        member_data: Dictionary of dictionaries, one for each member, of Pandas DataFrames containing video data.
+        member_video_data: Dictionary of dictionaries, one for each member, of Pandas DataFrames containing video data.
     """
 
     member_names = _check_member_names(member_names)
