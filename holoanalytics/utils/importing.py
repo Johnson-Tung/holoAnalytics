@@ -5,6 +5,33 @@ from holoanalytics import definitions as df
 VIDEO_DATA_TYPES = ('video_attributes', 'video_stats')
 
 
+def request_session():
+
+    data_path = Path(df.PROJECT_ROOT / 'results' / 'collected' / 'YouTube' / 'YouTube-Data-API-Sessions')
+    session_dir_paths = list(data_path.iterdir())
+    max_index = len(session_dir_paths) - 1
+
+    while True:
+
+        print('Available YouTube Data API Sessions:')
+        for index, file_path in enumerate(session_dir_paths):
+            print(f'{index} - {file_path.name}')
+
+        try:
+            session_number = int(input('Please enter the session number for the data that will be prepared, e.g. 0: '))
+        except ValueError:
+            pass
+        else:
+            if 0 <= session_number <= max_index:
+                break
+
+        print('\nInvalid session number. Please try again.')
+
+    session_name = session_dir_paths[session_number].name
+
+    return session_name
+
+
 def open_session(session):
     """Open specified data collection session to allow access of collected data.
 
