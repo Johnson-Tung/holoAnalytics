@@ -37,7 +37,7 @@ def request_session():
 
 
 def open_session(session):
-    """Open specified data collection session to allow access of collected data.
+    """Opens specified data collection session to allow access of collected data.
 
     Args:
         session: String specifying the data collection session to be opened.
@@ -50,7 +50,7 @@ def open_session(session):
 
 
 def import_video_data(member_names='all', data_types='all'):
-    """Import video data for specified Hololive Production members.
+    """Imports video data for specified Hololive Production members.
 
     Args:
         member_names: String or collection, e.g. list, of strings specifying the names of members whose video data is
