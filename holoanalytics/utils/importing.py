@@ -7,8 +7,7 @@ VIDEO_DATA_TYPES = ('video_attributes', 'video_stats')
 
 def request_session():
 
-    data_path = Path(df.PROJECT_ROOT / 'results' / 'collected' / 'YouTube' / 'YouTube-Data-API-Sessions')
-    session_dir_paths = list(data_path.iterdir())
+    session_dir_paths = list(df.YT_DAPI_SESSIONS_PATH.iterdir())
     max_index = len(session_dir_paths) - 1
 
     while True:
