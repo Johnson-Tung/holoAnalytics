@@ -1,8 +1,6 @@
 from holoanalytics import definitions as df
-from holoanalytics.utils import exporting
-from holoanalytics.utils import setup
-from holoanalytics.datacollection.youtube import youtube_api, videos
-from holoanalytics.datacollection.youtube import channels
+from holoanalytics.utils import setup, exporting
+from holoanalytics.datacollection.youtube import youtube_api, channels, videos
 
 
 def main():
