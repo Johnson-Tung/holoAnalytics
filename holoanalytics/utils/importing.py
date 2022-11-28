@@ -41,8 +41,7 @@ def open_session(session):
         None
     """
 
-    df.SESSION_PATH = Path(df.PROJECT_ROOT / 'results' / 'collected' / 'YouTube' / 'YouTube-Data-API-Sessions'
-                           / session)
+    df.SESSION_PATH = df.YT_DAPI_SESSIONS_PATH / session
 
 
 def import_video_data(member_names='all', data_types='all'):
