@@ -1,7 +1,7 @@
-from holoanalytics import definitions as df
 from holoanalytics.utils import importing
 from holoanalytics.datapreparation.extraction.video_keywords import extract_title_keywords
 from holoanalytics.datapreparation.classification.video_types import classify_video_type
+from holoanalytics.datapreparation.classification.content_types import classify_content_type
 
 
 def main():
@@ -13,6 +13,7 @@ def main():
 
     data = extract_title_keywords(data)
     data = classify_video_type(data)
+    data = classify_content_type(data)
 
     return data
 
