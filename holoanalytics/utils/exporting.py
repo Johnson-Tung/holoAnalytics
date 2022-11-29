@@ -9,6 +9,7 @@ Functions:
 """
 
 import os
+import csv
 from pathlib import Path
 from datetime import datetime
 from holoanalytics import definitions as df
@@ -162,3 +163,18 @@ def export_video_data(member_name, data, export_data, filename, add_datetime=Tru
         member_name = member_name.replace(' ', '_')
         export_dataframe(data, df.SESSION_PATH / 'Video' / member_name, f'{member_name.lower()}_{filename}',
                          add_datetime, filetype)
+
+
+def export_keyword_banks(keyword_banks):
+
+    for language, keyword_bank in keyword_banks.items():
+        _export_language_bank(language, keyword_bank)
+
+
+def _export_language_bank(language, keyword_bank):
+    file_path = df.SOURCE_ROOT / 'data' / 'keyword_banks' / f'{language.lower()}_video_title_keywords.csv'
+
+    with open(file_path, 'w', newline='') as file:
+        writer = csv.writer(file)
+        for keyword_group, keywords in keyword_bank.items():
+            writer.writerow([keyword_group] + list(keywords))
