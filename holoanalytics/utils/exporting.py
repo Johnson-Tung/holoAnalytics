@@ -166,6 +166,14 @@ def export_video_data(member_name, data, export_data, filename, add_datetime=Tru
 
 
 def export_keyword_banks(keyword_banks):
+    """Exports keywords banks to .csv files.
+
+    Args:
+        keyword_banks: Dictionary of keyword banks.
+
+    Returns:
+        None
+    """
 
     for language, keyword_bank in keyword_banks.items():
         _export_language_bank(language, keyword_bank)
