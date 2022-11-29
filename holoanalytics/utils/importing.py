@@ -1,3 +1,4 @@
+import csv
 import pandas as pd
 from holoanalytics import definitions as df
 
@@ -135,3 +136,26 @@ def _video_data(member_dir_path, data_type):
 
     return data
 
+
+def import_keyword_banks(*languages):
+    keyword_banks = {}
+
+    languages = [language.lower() for language in languages]
+
+    for language in languages:
+        if language in ['english', 'japanese', 'indonesian']:
+            keyword_banks[language.title()] = _import_keyword_bank(language)
+
+    return keyword_banks
+
+
+def _import_keyword_bank(language):
+    keyword_bank = {}
+    file_path = df.SOURCE_ROOT / 'data' / 'keyword_banks' / f'{language}_video_title_keywords.csv'
+
+    with open(file_path, 'r', newline='') as file:
+        data = csv.reader(file)
+        for row in data:
+            keyword_bank[row[0]] = set(row[1:]) if len(row) > 1 else set()
+
+    return keyword_bank
