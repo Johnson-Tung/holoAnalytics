@@ -164,7 +164,7 @@ def _import_keyword_bank(language):
     keyword_bank = {}
     file_path = df.KEYWORD_BANKS_PATH / f'{language}_video_title_keywords.csv'
 
-    with open(file_path, 'r', newline='') as file:
+    with open(file_path, 'r', newline='', encoding='utf-8') as file:
         data = csv.reader(file)
         for row in data:
             keyword_bank[row[0]] = set(row[1:]) if len(row) > 1 else set()
