@@ -11,7 +11,7 @@ PROJECT_ROOT = SOURCE_ROOT.parent
 STARTING_DATA_FILE = SOURCE_ROOT / 'data' / 'starting' / 'holopro_members.csv'
 KEYWORD_BANKS_PATH = SOURCE_ROOT / 'data' / 'keyword_banks'
 RESULTS_PATH = PROJECT_ROOT / 'results'
-YT_DAPI_SESSIONS_PATH = RESULTS_PATH / 'collected' / 'YouTube' / 'YouTube-Data-API-Sessions'
+YT_DAPI_SESSIONS_PATH = RESULTS_PATH / 'data' / 'YouTube' / 'YouTube-Data-API-Sessions'
 
 
 SESSION_PATH = None
