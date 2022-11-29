@@ -181,7 +181,7 @@ def export_keyword_banks(keyword_banks):
 
 
 def _export_language_bank(language, keyword_bank):
-    file_path = df.SOURCE_ROOT / 'data' / 'keyword_banks' / f'{language.lower()}_video_title_keywords.csv'
+    file_path = df.KEYWORD_BANKS_PATH / f'{language.lower()}_video_title_keywords.csv'
 
     with open(file_path, 'w', newline='') as file:
         writer = csv.writer(file)
