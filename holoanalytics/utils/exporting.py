@@ -169,7 +169,8 @@ def export_keyword_banks(keyword_banks):
     """Exports keywords banks to .csv files.
 
     Args:
-        keyword_banks: Dictionary of keyword banks.
+        keyword_banks: Dictionary of keyword banks, originally returned by
+                       holoanalytics.utils.importing.import_keyword_banks()
 
     Returns:
         None
