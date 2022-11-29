@@ -162,7 +162,7 @@ def import_keyword_banks(*languages):
 
 def _import_keyword_bank(language):
     keyword_bank = {}
-    file_path = df.SOURCE_ROOT / 'data' / 'keyword_banks' / f'{language}_video_title_keywords.csv'
+    file_path = df.KEYWORD_BANKS_PATH / f'{language}_video_title_keywords.csv'
 
     with open(file_path, 'r', newline='') as file:
         data = csv.reader(file)
