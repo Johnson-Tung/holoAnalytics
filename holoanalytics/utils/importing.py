@@ -138,6 +138,17 @@ def _video_data(member_dir_path, data_type):
 
 
 def import_keyword_banks(*languages):
+    """Imports keyword banks for the specified language(s).
+
+    Note: Languages must be spelled out in full, e.g. 'english'.
+
+    Args:
+        *languages: One or more strings specifying the languages for the keyword banks to be imported.
+
+    Returns:
+        keyword_banks: Dictionary of dictionaries of sets containing keyword group names and keywords for the languages
+                       specified, i.e. keyword_banks[language][keyword_group] = {keywords}.
+    """
     keyword_banks = {}
 
     languages = [language.lower() for language in languages]
