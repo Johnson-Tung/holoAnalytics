@@ -144,6 +144,10 @@ def _combine_values(value1, value2):
 def combine_keyword_banks(*keyword_banks):
     combined_keyword_bank = {}
 
+    # If keyword banks are given as a dictionary of banks instead of individually:
+    if len(keyword_banks) == 1 and isinstance(keyword_banks[0], dict):
+        keyword_banks = [keyword_bank for keyword_bank in keyword_banks[0].values()]
+
     keyword_banks = confirm_content_types(keyword_banks)
 
     for content_type in keyword_banks[0]:
