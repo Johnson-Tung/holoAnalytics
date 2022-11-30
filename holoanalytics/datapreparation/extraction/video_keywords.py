@@ -46,7 +46,7 @@ keyword_translated = {'歌枠': 'singing?', '歌ってみた': 'Tried Singing', 
                       'オフコラボ': 'Off Collaboration', '初配神': 'Debut Stream?'}
 
 
-def extract_title_keywords(member_video_data, export_data=True):
+def extract_title_keywords(member_video_data, keyword_banks, export_data=True):
     """Extracts keywords from YouTube video titles in the imported data.
 
     Args:
@@ -57,19 +57,17 @@ def extract_title_keywords(member_video_data, export_data=True):
     Returns:
         member_video_data: YouTube video data updated with video title keyword data.
     """
-
-    eng_search_keywords = unpack_keywords('english')
-    jp_search_keywords = unpack_keywords('japanese')
+    search_keywords = {'English': unpack_keywords(keyword_banks.get('English', {})),
+                       'Japanese': unpack_keywords(keyword_banks.get('Japanese', {}))}
 
     for member_name, video_data in member_video_data.items():
         video_data['video_title_keywords'] = _extract_member_keywords(member_name, video_data['video_attributes'],
-                                                                      eng_search_keywords, jp_search_keywords,
-                                                                      export_data)
+                                                                      search_keywords, export_data)
 
     return member_video_data
 
 
-def _extract_member_keywords(member_name, video_attributes, eng_keywords, jp_keywords, export_data):
+def _extract_member_keywords(member_name, video_attributes, search_keywords, export_data):
     """Extracts keywords from YouTube video titles for the specified Hololive Production member.
 
     Args:
@@ -90,8 +88,8 @@ def _extract_member_keywords(member_name, video_attributes, eng_keywords, jp_key
 
     for title in titles:
         results = extract_bracketed_words(title)
-        results |= extract_keywords(title, eng_keywords)
-        results |= extract_keywords(title, jp_keywords)
+        results |= extract_keywords(title, search_keywords['English'])
+        results |= extract_keywords(title, search_keywords['Japanese'])
         results |= extract_hashtags(title)
         all_results.append(results)
 
