@@ -102,6 +102,15 @@ def _extract_member_keywords(member_name, video_attributes, search_keywords, exp
 
 
 def unpack_keywords(keyword_bank):
+    """Unpack a keyword bank into a list of keywords.
+
+    Args:
+        keyword_bank: Dictionary of sets or lists with keyword group names as keys and keywords as values,
+                      i.e. keyword_bank[keyword_group_name] = {keywords}.
+
+    Returns:
+        unpacked_keywords: List of strings representing keywords.
+    """
     unpacked_keywords = []
 
     for keywords in keyword_bank.values():
