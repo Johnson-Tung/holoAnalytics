@@ -101,26 +101,11 @@ def _extract_member_keywords(member_name, video_attributes, search_keywords, exp
     return data
 
 
-def unpack_keywords(language):
-    """Imports the bank of keywords for the specified language and unpacks it into a single list.
-
-    Args:
-        language: String specifying the language of the keywords to be searched for, i.e. 'english' and 'japanese'.
-
-    Returns:
-        unpacked_keywords: List of strings representing all keywords for the specified language.
-    """
-
+def unpack_keywords(keyword_bank):
     unpacked_keywords = []
 
-    if language == 'english':
-        for keywords in eng_keyword_bank.values():
-            unpacked_keywords += keywords
-    elif language == 'japanese':
-        for keywords in jp_keyword_bank.values():
-            unpacked_keywords += keywords
-    else:
-        raise ValueError('Unsupported language. Only English and Japanese are currently supported.')
+    for keywords in keyword_bank.values():
+        unpacked_keywords += list(keywords)
 
     return unpacked_keywords
 
