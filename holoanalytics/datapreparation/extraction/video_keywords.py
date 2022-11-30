@@ -87,8 +87,7 @@ def _extract_member_keywords(member_name, video_attributes, search_keywords, exp
     Args:
         member_name: String specifying the name of the Hololive Production member whose video data is being prepared.
         video_attributes: Pandas DataFrame containing video attributes for the specified member's YouTube videos.
-        eng_keywords: List of strings representing all keywords in the English word bank.
-        jp_keywords: List of strings representing all keywords in the Japanese word bank.
+        search_keywords: Dictionary of lists containing keywords for accepted languages.
         export_data: Boolean specifying whether collected data is to be exported.
 
     Returns:
