@@ -61,11 +61,22 @@ def extract_title_keywords(member_video_data, keyword_banks, export_data=True):
                        'Japanese': unpack_keywords(keyword_banks.get('Japanese', {})),
                        'Indonesian': unpack_keywords(keyword_banks.get('Indonesian', {}))}
 
+    _check_search_keyword(search_keywords)
+
     for member_name, video_data in member_video_data.items():
         video_data['video_title_keywords'] = _extract_member_keywords(member_name, video_data['video_attributes'],
                                                                       search_keywords, export_data)
 
     return member_video_data
+
+
+def _check_search_keyword(search_keywords):
+
+    for value in search_keywords.values():
+        if value:
+            return
+
+    raise ValueError("Provided keyword banks do not include keyword banks for any of the accepted languages.")
 
 
 def _extract_member_keywords(member_name, video_attributes, search_keywords, export_data):
