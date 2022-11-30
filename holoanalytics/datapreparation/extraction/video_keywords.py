@@ -51,7 +51,9 @@ def extract_title_keywords(member_video_data, keyword_banks, export_data=True):
 
     Args:
         member_video_data: Dictionary of dictionaries of Pandas DataFrames containing imported video data,
-                           returned by holoanalytics.utils.importing.import_video_data()
+                           returned by holoanalytics.utils.importing.import_video_data().
+        keyword_banks: Dictionary of keyword banks, originally returned by
+                       holoanalytics.utils.importing.import_keyword_banks().
         export_data: Boolean specifying whether collected data is to be exported. Default = True.
 
     Returns:
