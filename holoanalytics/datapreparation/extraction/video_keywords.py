@@ -63,7 +63,7 @@ def extract_title_keywords(member_video_data, keyword_banks, export_data=True):
                        'Japanese': unpack_keywords(keyword_banks.get('Japanese', {})),
                        'Indonesian': unpack_keywords(keyword_banks.get('Indonesian', {}))}
 
-    _check_search_keyword(search_keywords)
+    _check_search_keywords(search_keywords)
 
     for member_name, video_data in member_video_data.items():
         video_data['video_title_keywords'] = _extract_member_keywords(member_name, video_data['video_attributes'],
@@ -72,7 +72,7 @@ def extract_title_keywords(member_video_data, keyword_banks, export_data=True):
     return member_video_data
 
 
-def _check_search_keyword(search_keywords):
+def _check_search_keywords(search_keywords):
     """Checks search keywords and verifies that keywords are present.
 
     Args:
