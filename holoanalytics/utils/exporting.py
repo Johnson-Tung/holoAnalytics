@@ -170,7 +170,7 @@ def export_keyword_banks(keyword_banks):
 
     Args:
         keyword_banks: Dictionary of keyword banks, originally returned by
-                       holoanalytics.utils.importing.import_keyword_banks()
+                       holoanalytics.utils.importing.import_keyword_banks().
 
     Returns:
         None
