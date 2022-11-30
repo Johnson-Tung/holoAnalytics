@@ -5,47 +5,6 @@ import pandas as pd
 from holoanalytics.utils import exporting
 
 
-eng_keyword_bank = {'Music Video': ['Official', 'Original', 'Cover', 'Covered', 'MV', 'AMV', '3DMV'],
-                    'Karaoke': ['Karaoke', 'Singing', 'I tried singing', 'Song', 'Sing'],
-                    'Chatting': ['Chat', 'Chatting', "Chattin'", "Let's Chat", 'CHIT-CHAT', 'Chit Chat', 'Talk',
-                                 'FREE TALK', 'FREETALK', 'Zatsu', 'Zatsudan'],
-                    'Watchalong': ['Watchalong', 'Watch-a-long', 'Watch-along'],
-                    'Superchat Reading': ['Superchat Reading', 'SC Reading',  'SC Catchup', 'Supers',
-                                          'Superchat', 'Superchats', 'Super Chat', 'Super Chats',
-                                          'Supas', 'MCTHANKIES', 'SUPA Sunday', 'SUPASUNDAY', 'SUPASUNDAE',
-                                          'Donation Reading'],
-                    '3DLive': ['3DLIVE', '3D LIVE', 'Live'],
-                    'Collab': ['Collab', 'Off Collab', 'Off Collaboration'],
-                    'VR': ['VR', '3DVR', '360'],
-                    'Drawing': ['Drawing', 'Draw', "Let's Draw"],
-                    'Other Content': ['ASMR', 'Vlog', 'Animation', 'Manga Reading'],
-                    'Debut': ['DEBUT STREAM', 'Debut', 'Self Introduction', 'First Live'],
-                    'Outfit Reveal': ['New Outfit Reveal', 'New Outfit', 'Reveal'],
-                    'Q&A': ['Q&A', 'Q & A', 'Marshmallow'],
-                    'Review': ['Room Review'],
-                    'Gaming': ['Minecraft', 'Mine craft', 'APEX', 'Abex', 'Elden Ring',
-                               'AmongUs', 'Among Us', 'Tetris', 'Resident Evil',
-                               'Pokemon', 'Pokémon',
-                               'Mario', 'Mario Galaxy', 'Mario Party',
-                               'Tetris99', 'Duolingo', 'Simulator', 'HoloCure', 'Rust', 'League of Legends',
-                               'Ring Fit', 'RFA', 'Ring Fit Adventure', 'VALORANT', 'Raft',
-                               'hololiveError', 'hololive ERROR']}
-jp_keyword_bank = {'Music Video': ['公式', 'オリジナル曲'],  # Official, original song
-                   'Karaoke': ['歌枠', '歌ってみた'],  # Song frame, I tried to sing
-                   'Chatting': ['雑談'],  # Chatting
-                   'Collab': ['オフコラボ'],  # Off collaboration
-                   'Other Content': ['お絵かき'],  # Drawing
-                   'Debut': ['初放送', '初配信', '初配神'],  # Debut
-                   'Gaming': ['マイクラ', 'テトリス', 'テトリス99'],  # Minecraft, Tetris, Tetris99
-                   'Other': ['告知']}  # Announcement
-id_keywords = {}  # TODO: WIP
-
-keyword_translated = {'歌枠': 'singing?', '歌ってみた': 'Tried Singing', '公式': 'Official', '雑談': 'Chat', '告知': 'Announcement',
-                      '新衣装': 'New Costume', 'マイクラ': 'Minecraft', 'お絵かき': 'Drawing',
-                      'ゲリラモンスターハンターライズ': 'Monster Hunter Rise?', 'テトリス99': ' Tetris99',
-                      'オフコラボ': 'Off Collaboration', '初配神': 'Debut Stream?'}
-
-
 def extract_title_keywords(member_video_data, keyword_banks, export_data=True):
     """Extracts keywords from YouTube video titles in the imported data.
 
