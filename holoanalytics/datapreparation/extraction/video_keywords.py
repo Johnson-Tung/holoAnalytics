@@ -73,6 +73,14 @@ def extract_title_keywords(member_video_data, keyword_banks, export_data=True):
 
 
 def _check_search_keyword(search_keywords):
+    """Checks search keywords and verifies that keywords are present.
+
+    Args:
+        search_keywords: Dictionary of lists containing keywords for accepted languages.
+
+    Returns:
+        None
+    """
 
     for value in search_keywords.values():
         if value:
