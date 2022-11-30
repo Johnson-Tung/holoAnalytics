@@ -58,7 +58,8 @@ def extract_title_keywords(member_video_data, keyword_banks, export_data=True):
         member_video_data: YouTube video data updated with video title keyword data.
     """
     search_keywords = {'English': unpack_keywords(keyword_banks.get('English', {})),
-                       'Japanese': unpack_keywords(keyword_banks.get('Japanese', {}))}
+                       'Japanese': unpack_keywords(keyword_banks.get('Japanese', {})),
+                       'Indonesian': unpack_keywords(keyword_banks.get('Indonesian', {}))}
 
     for member_name, video_data in member_video_data.items():
         video_data['video_title_keywords'] = _extract_member_keywords(member_name, video_data['video_attributes'],
@@ -90,6 +91,7 @@ def _extract_member_keywords(member_name, video_attributes, search_keywords, exp
         results = extract_bracketed_words(title)
         results |= extract_keywords(title, search_keywords['English'])
         results |= extract_keywords(title, search_keywords['Japanese'])
+        results |= extract_keywords(title, search_keywords['Indonesian'])
         results |= extract_hashtags(title)
         all_results.append(results)
 
