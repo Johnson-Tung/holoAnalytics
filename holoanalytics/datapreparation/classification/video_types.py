@@ -25,7 +25,7 @@ def classify_video_type(member_video_data, export_data=True):
         member_video_data: Dictionary of dictionaries of Pandas DataFrames containing YouTube video data
                            for Hololive Production members, originally returned by
                            holoanalytics.utils.importing.import_video_data().
-        export_data: Boolean specifying whether collected data is to be exported. Default = True.
+        export_data: Boolean specifying if video type data is to be exported. Default = True.
 
     Returns:
         member_video_data: YouTube video data updated with video type data.
