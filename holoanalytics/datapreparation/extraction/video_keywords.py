@@ -13,7 +13,7 @@ def extract_title_keywords(member_video_data, keyword_banks, export_data=True):
                            returned by holoanalytics.utils.importing.import_video_data().
         keyword_banks: Dictionary of keyword banks, originally returned by
                        holoanalytics.utils.importing.import_keyword_banks().
-        export_data: Boolean specifying whether collected data is to be exported. Default = True.
+        export_data: Boolean specifying if extracted data is to be exported. Default = True.
 
     Returns:
         member_video_data: YouTube video data updated with video title keyword data.
