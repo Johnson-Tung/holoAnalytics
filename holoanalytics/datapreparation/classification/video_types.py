@@ -32,7 +32,7 @@ def classify_video_type(member_video_data, export_data=True):
     """
 
     for member_name, video_data in member_video_data.items():
-        video_data['video_type'] = _classify_member_videos(member_name, video_data['video_attributes'], export_data)
+        video_data['video_types'] = _classify_member_videos(member_name, video_data['video_attributes'], export_data)
 
     return member_video_data
 
