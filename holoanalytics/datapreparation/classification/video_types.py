@@ -44,7 +44,7 @@ def _classify_member_videos(member_name, video_attributes, export_data):
         member_name: String specifying the name of the Hololive Production member whose video data is being
                      prepared.
         video_attributes: Pandas DataFrame containing video attribute data for the specified member.
-        export_data: Boolean specifying whether collected data is to be exported.
+        export_data: Boolean specifying if video type data is to be exported. Default = True.
 
     Returns:
         data: Pandas DataFrame containing video ids and video type for the member's videos.
