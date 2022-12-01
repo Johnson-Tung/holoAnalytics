@@ -9,8 +9,8 @@ def classify_content_type(member_video_data, keyword_banks, export_data=True):
     keyword_bank = ref.combine_keyword_banks(keyword_banks)
 
     for member_name, video_data in member_video_data.items():
-        video_data['content_type'] = _classify_member_videos(member_name, video_data['video_title_keywords'],
-                                                             keyword_bank, export_data)
+        video_data['content_types'] = _classify_member_videos(member_name, video_data['video_title_keywords'],
+                                                              keyword_bank, export_data)
 
     return member_video_data
 
