@@ -6,6 +6,14 @@ DATETIME_COLS = ['publish_datetime', 'scheduled_start_time', 'scheduled_end_time
                  'actual_end_time']
 
 
+def reformat_video_data(member_video_data):
+
+    for video_data in member_video_data.values():
+        video_data['video_attributes'] = convert_times(video_data['video_attributes'])
+
+    return member_video_data
+
+
 def zulutime_to_utc(date_time, show_tz=False):
     """Convert datetime format from Zulu time to standard UTC.
 
