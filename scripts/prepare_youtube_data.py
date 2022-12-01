@@ -14,6 +14,8 @@ def main():
     keyword_banks = importing.import_keyword_banks('english', 'japanese', 'indonesian')
     combined_keyword_bank = ref.combine_keyword_banks(keyword_banks)
 
+    data = ref.reformat_video_data(data)
+
     data = extract_title_keywords(data, keyword_banks)
     data = classify_video_type(data)
     data = classify_content_type(data, combined_keyword_bank)
