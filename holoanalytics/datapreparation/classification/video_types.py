@@ -22,8 +22,9 @@ def classify_video_type(member_video_data, export_data=True):
     4) Premiere
 
     Args:
-        member_video_data: Dictionary of dictionaries of Pandas DataFrames containing YouTube video data,
-                           originally returned by holoanalytics.utils.importing.import_video_data().
+        member_video_data: Dictionary of dictionaries of Pandas DataFrames containing YouTube video data
+                           for Hololive Production members, originally returned by
+                           holoanalytics.utils.importing.import_video_data().
         export_data: Boolean specifying whether collected data is to be exported. Default = True.
 
     Returns:
