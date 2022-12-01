@@ -12,13 +12,12 @@ def main():
 
     data = importing.import_video_data()
     keyword_banks = importing.import_keyword_banks('english', 'japanese', 'indonesian')
-    combined_keyword_bank = ref.combine_keyword_banks(keyword_banks)
 
     data = ref.reformat_video_data(data)
 
     data = extract_title_keywords(data, keyword_banks)
     data = classify_video_type(data)
-    data = classify_content_type(data, combined_keyword_bank)
+    data = classify_content_type(data, keyword_banks)
 
     return data
 
