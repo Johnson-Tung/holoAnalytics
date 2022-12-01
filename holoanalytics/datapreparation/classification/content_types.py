@@ -23,7 +23,7 @@ def _classify_member_videos(member_name, video_title_keywords, keyword_bank, exp
         all_results.append(results)
 
     content_types = pd.Series(all_results, name='content_types')
-    data = pd.concat([video_ids, content_types])
+    data = pd.concat([video_ids, content_types], axis=1)
 
     exporting.export_video_data(member_name, data, export_data, 'content_types')
 
