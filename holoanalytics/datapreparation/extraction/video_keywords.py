@@ -6,7 +6,12 @@ from holoanalytics.utils import exporting
 
 
 def extract_title_keywords(member_video_data, keyword_banks, export_data=True):
-    """Extracts keywords from YouTube video titles in the imported data.
+    """Searches for and extracts keywords from YouTube video titles.
+
+    This function searches for and extracts:
+    1) Keywords bound by various different kinds of brackets (e.g. []),
+    2) Keywords matching those in the keyword banks provided (e.g. 3D Live), and/or
+    3) Hashtags (e.g. #YouTube)
 
     Args:
         member_video_data: Dictionary of dictionaries of Pandas DataFrames containing imported video data,
@@ -18,6 +23,7 @@ def extract_title_keywords(member_video_data, keyword_banks, export_data=True):
     Returns:
         member_video_data: YouTube video data updated with video title keyword data.
     """
+
     search_keywords = {'English': unpack_keywords(keyword_banks.get('English', {})),
                        'Japanese': unpack_keywords(keyword_banks.get('Japanese', {})),
                        'Indonesian': unpack_keywords(keyword_banks.get('Indonesian', {}))}
