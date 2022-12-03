@@ -13,7 +13,7 @@ SHORT_MAX_LENGTH = pd.Timedelta('00:01:00')  # Maximum length for a short, as de
 
 
 def classify_video_type(member_video_data, export_data=True):
-    """Determines the video type for the YouTube videos in the imported data.
+    """Determines the video type for YouTube videos, using their video attribute data.
 
     All videos will have one of four types:
     1) Normal
