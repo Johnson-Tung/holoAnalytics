@@ -74,9 +74,9 @@ def _extract_member_keywords(member_name, video_attributes, search_keywords, exp
 
     for title in titles:
         results = extract_bracketed_words(title)
-        results |= extract_keywords(title, search_keywords['English'])
-        results |= extract_keywords(title, search_keywords['Japanese'])
-        results |= extract_keywords(title, search_keywords['Indonesian'])
+        results |= extract_specific_keywords(title, search_keywords['English'])
+        results |= extract_specific_keywords(title, search_keywords['Japanese'])
+        results |= extract_specific_keywords(title, search_keywords['Indonesian'])
         results |= extract_hashtags(title)
         all_results.append(results)
 
@@ -125,7 +125,7 @@ def extract_bracketed_words(title):
     return results
 
 
-def extract_keywords(title, keywords):
+def extract_specific_keywords(title, keywords):
     """Searches for and extracts specific keywords from YouTube video titles.
 
     Args:
