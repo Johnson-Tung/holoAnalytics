@@ -5,6 +5,22 @@ from holoanalytics.utils import exporting
 
 
 def classify_content_type(member_video_data, keyword_banks, export_data=True):
+    """Determines the content type(s) for YouTube videos, using their video title keywords.
+
+    Input data must include video title keywords returned by
+    holoanalytics.datapreparation.extraction.video_keywords.extract_title_keywords().
+
+    Args:
+        member_video_data: Dictionary of dictionaries of Pandas DataFrames containing YouTube video data
+                           for Hololive Production members, originally returned by
+                           holoanalytics.utils.importing.import_video_data().
+        keyword_banks: Dictionary of keyword banks, originally returned by
+                       holoanalytics.utils.importing.import_keyword_banks().
+        export_data: Boolean specifying if content type data is to be exported. Default = True.
+
+    Returns:
+        member_video_data: Dictionary of YouTube video data updated with content type data.
+    """
 
     keyword_bank = ref.combine_keyword_banks(keyword_banks)
 
