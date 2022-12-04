@@ -88,6 +88,8 @@ def create_session():
 
     session_dir_path = create_directory(sessions_path, f'{session_id}_Session', add_date=True)
 
+    df.SESSION_PATH = session_dir_path
+
     return session_dir_path
 
 
