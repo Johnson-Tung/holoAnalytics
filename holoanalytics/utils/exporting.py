@@ -8,7 +8,6 @@ Functions:
     - export_dataframe: Exports a Pandas DataFrame.
 """
 
-import os
 import csv
 from pathlib import Path
 from datetime import datetime
