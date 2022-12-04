@@ -138,8 +138,18 @@ def export_channel_data(data, export_data, filename):
         None
     """
 
-    if export_data is True and df.SESSION_PATH is not None:
-        export_dataframe(data, df.SESSION_PATH / 'Channel', filename)
+    if export_data is not True:
+        return
+
+    if df.SESSION_PATH is None:
+        df.SESSION_PATH = create_session()
+
+    dir_path = df.SESSION_PATH / 'Channel'
+
+    if not dir_path.exists():
+        dir_path = create_directory(dir_path.parent, dir_path.name, add_date=False)
+
+    export_dataframe(data, dir_path, filename)
 
 
 def export_video_data(member_name, data, export_data, filename, add_datetime=True, filetype='csv'):
