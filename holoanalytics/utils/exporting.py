@@ -176,12 +176,12 @@ def export_video_data(member_name, data, export_data, filename, add_datetime=Tru
     if df.SESSION_PATH is None:
         df.SESSION_PATH = create_session()
 
+    member_name = member_name.replace(' ', '_')
     dir_path = df.SESSION_PATH / 'Video' / member_name
 
     if not dir_path.exists():
         dir_path = create_directory(dir_path.parent, dir_path.name, add_date=False)
 
-    member_name = member_name.replace(' ', '_')
     export_dataframe(data, dir_path, f'{member_name.lower()}_{filename}', add_datetime,
                      filetype)
 
