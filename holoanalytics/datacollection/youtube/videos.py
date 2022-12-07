@@ -150,7 +150,7 @@ def get_video_ids(member_name, responses, export_data=True):
             video_ids.append(result['snippet']['resourceId']['videoId'])
             # Note: 'publishedAt' refers to the date and time that the video was added to the playlist,
             # not necessarily when the video was published to YouTube.
-            added_to_playlist .append(result['snippet']['publishedAt'])
+            added_to_playlist.append(result['snippet']['publishedAt'])
 
     data = pd.DataFrame(zip(video_ids, added_to_playlist), columns=['video_id', 'added_to_playlist'])
 
