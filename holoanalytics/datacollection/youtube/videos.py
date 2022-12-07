@@ -99,27 +99,22 @@ def _link_names_to_ids(starting_data, collected_data, id_type):
 
 
 def _video_ids_exist(client, member_name, video_data, max_results, export_data):
-    """Retrieves video attributes and statistics for videos of the current Hololive Production member.
+    """Retrieves video attributes and statistics for videos of the specified Hololive Production member.
 
     PRIVATE function.
 
     Args:
-        client:
-        all_video_ids: Dictionary of Pandas DataFrames containing video ids, collected so far, of Hololive Production
-                       members' videos.
-        all_video_attributes: Dictionary of Pandas DataFrames containing video attributes, collected so far, of
-                              Hololive Production members' videos.
-        all_video_stats: Dictionary of Pandas DataFrames containing video statistics, collected so far, of Hololive
-                         Production members' videos.
-        member_name: String specifying the name of the Hololive Production member whose videos data is being
-                     collected for.
+        client: YouTube Data API client.
+        member_name: String specifying the name of the member whose videos data is being collected for.
+        video_data: Dictionary containing video data that has been collected so far (i.e. a Pandas DataFrame with video
+                    ids) on the specified member and where future video data will be stored.
         max_results: Integer representing the maximum number of results that the API can return in a single response.
                      Default = 50, the highest possible value.
         export_data: Boolean specifying whether collected data is to be exported. Default = True.
 
     Returns:
-        all_video_attributes: Dictionary of Pandas DataFrames updated with video attributes for the current member.
-        all_video_stats: Dictionary of Pandas DataFrames updated with video statistics for the current member.
+        video_data: Dictionary of Pandas DataFrames containing video ids and their corresponding video attributes and
+                    video statistics for the specified member.
     """
 
     video_ids = video_data['video_ids']['video_id']
