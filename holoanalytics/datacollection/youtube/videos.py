@@ -74,7 +74,7 @@ def get_video_data(client, starting_data, playlist_ids_df, max_results=50, expor
         if video_data['video_ids'] is None:  # I.e. The API found no public videos in the playlist.
             continue
         else:
-            video_data = _video_ids_exist(client, video_data, member_name, max_results, export_data)
+            video_data = _video_ids_exist(client, member_name, video_data, max_results, export_data)
             member_video_data[member_name] = video_data
 
     return member_video_data
@@ -98,7 +98,7 @@ def _link_names_to_ids(starting_data, collected_data, id_type):
     return names_and_ids
 
 
-def _video_ids_exist(client, video_data, member_name, max_results, export_data):
+def _video_ids_exist(client, member_name, video_data, max_results, export_data):
     """Retrieves video attributes and statistics for videos of the current Hololive Production member.
 
     PRIVATE function.
