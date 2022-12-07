@@ -14,10 +14,10 @@ def main():
     client = youtube_api.initialize_api()
 
     # Collect YouTube Channel Data
-    _, _, _, uploads_playlist_ids = channels.get_channel_data(client, starting_data.youtube_channel_id)
+    channel_data = channels.get_channel_data(client, starting_data.youtube_channel_id)
 
     # Collect YouTube Video Data
-    videos.get_video_data(client, starting_data, uploads_playlist_ids)
+    videos.get_video_data(client, starting_data, channel_data['uploads_playlist_ids'])
 
     # Close Client
     client.close()
