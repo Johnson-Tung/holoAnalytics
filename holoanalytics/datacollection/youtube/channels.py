@@ -33,8 +33,8 @@ def get_channel_data(client, channel_ids, max_results=50, export_data=True):
     - Uploads playlist ids
 
     This function makes requests for YouTube channel data using the YouTube Data API, extracts relevant data from the
-    API's responses to the request, exports copies of the data (unless instructed otherwise), and returns Pandas
-    DataFrames containing the collected data.
+    API's responses to the request, exports copies of the data (unless instructed otherwise), and returns a dictionary
+    of four Pandas DataFrames, one for each of the different types of channel data specified above.
 
     Args:
         client: YouTube Data API client.
@@ -44,10 +44,8 @@ def get_channel_data(client, channel_ids, max_results=50, export_data=True):
         export_data: Boolean specifying whether collected data is to be exported. Default = True.
 
     Returns:
-        channel_titles: Pandas DataFrame containing channel ids and corresponding channel titles.
-        channel_stats: Pandas DataFrame containing channel ids and corresponding channel statistics.
-        channel_thumbnail_urls: Pandas DataFrame containing channel ids and corresponding thumbnail URLs
-        uploads_playlist_ids: Pandas DataFrame containing channel ids and corresponding uploads playlist ids.
+        member_channel_data: Dictionary of four Pandas DataFrames containing channel ids and their corresponding
+                             channel titles, channel statistics, thumbnail URLs, and uploads playlist ids.
     """
     member_channel_data = {}
 
