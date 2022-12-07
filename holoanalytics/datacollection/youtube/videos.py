@@ -48,32 +48,24 @@ def get_video_data(client, starting_data, playlist_ids_df, max_results=50, expor
         all_video_stats: Dictionary of Pandas DataFrames containing video statistics for each Hololive Production
                               member.
     """
-
-    all_video_ids = {}
-    all_video_attributes = {}
-    all_video_stats = {}
-    member_dir_path = None
+    member_video_data = {}
 
     id_type = playlist_ids_df.columns[1]  # Get type of playlist id, i.e. uploads or members
     names_and_ids = _link_names_to_ids(starting_data, playlist_ids_df, id_type)
 
     for member_name, playlist_id in zip(names_and_ids['name'], names_and_ids[id_type]):
-
-        if export_data is True and df.SESSION_PATH is not None:
-            member_dir_path = exporting.create_directory(df.SESSION_PATH / 'Video', member_name.replace(' ', '_'),
-                                                         add_date=False)
+        video_data = {}
 
         playlist_responses = youtube_api.request_data(client, 'playlistItems', ids=playlist_id, max_results=max_results)
-        all_video_ids[member_name] = get_video_ids(member_name, playlist_responses, export_data)
+        video_data['video_ids'] = get_video_ids(member_name, playlist_responses, export_data)
 
-        if all_video_ids[member_name] is None:
-            all_video_ids = _video_ids_missing(all_video_ids, member_name, member_dir_path)
+        if video_data['video_ids'] is None:  # I.e. The API found no public videos in the playlist.
+            continue
         else:
-            all_video_attributes, all_video_stats = _video_ids_exist(client, all_video_ids, all_video_attributes,
-                                                                     all_video_stats, member_name, max_results,
-                                                                     export_data)
+            video_data = _video_ids_exist(client, video_data, member_name, max_results, export_data)
+            member_video_data[member_name] = video_data
 
-    return all_video_ids, all_video_attributes, all_video_stats
+    return member_video_data
 
 
 def _link_names_to_ids(starting_data, collected_data, id_type):
@@ -118,8 +110,7 @@ def _video_ids_missing(all_video_ids, member_name, member_dir_path):
     return all_video_ids
 
 
-def _video_ids_exist(client, all_video_ids, all_video_attributes, all_video_stats, member_name,
-                     max_results, export_data):
+def _video_ids_exist(client, video_data, member_name, max_results, export_data):
     """Retrieves video attributes and statistics for videos of the current Hololive Production member.
 
     PRIVATE function.
@@ -143,12 +134,14 @@ def _video_ids_exist(client, all_video_ids, all_video_attributes, all_video_stat
         all_video_stats: Dictionary of Pandas DataFrames updated with video statistics for the current member.
     """
 
-    video_ids = all_video_ids[member_name]['video_id']
-    video_responses = youtube_api.request_data(client, 'video', video_ids, max_results)
-    all_video_attributes[member_name] = get_video_attributes(member_name, video_responses, export_data)
-    all_video_stats[member_name] = get_video_stats(member_name, video_responses, export_data)
+    video_ids = video_data['video_ids']['video_id']
 
-    return all_video_attributes, all_video_stats
+    video_responses = youtube_api.request_data(client, 'video', video_ids, max_results)
+
+    video_data['video_attributes'] = get_video_attributes(member_name, video_responses, export_data)
+    video_data['video_stats'] = get_video_stats(member_name, video_responses, export_data)
+
+    return video_data
 
 
 def get_video_ids(member_name, responses, export_data=True):
