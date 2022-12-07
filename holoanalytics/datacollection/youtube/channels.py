@@ -49,18 +49,19 @@ def get_channel_data(client, channel_ids, max_results=50, export_data=True):
         channel_thumbnail_urls: Pandas DataFrame containing channel ids and corresponding thumbnail URLs
         uploads_playlist_ids: Pandas DataFrame containing channel ids and corresponding uploads playlist ids.
     """
+    member_channel_data = {}
 
     if export_data is True and df.SESSION_PATH is not None:
         _ = exporting.create_directory(df.SESSION_PATH, 'Channel', add_date=False)
 
     responses = youtube_api.request_data(client, 'channel', channel_ids, max_results)
 
-    channel_titles = get_channel_titles(responses, export_data)
-    channel_stats = get_channel_stats(responses, export_data)
-    channel_thumbnail_urls = get_channel_thumbnail_urls(responses, export_data)
-    uploads_playlist_ids = get_uploads_playlist_ids(responses, export_data)
+    member_channel_data['channel_titles'] = get_channel_titles(responses, export_data)
+    member_channel_data['channel_stats'] = get_channel_stats(responses, export_data)
+    member_channel_data['channel_thumbnail_urls'] = get_channel_thumbnail_urls(responses, export_data)
+    member_channel_data['uploads_playlist_ids'] = get_uploads_playlist_ids(responses, export_data)
 
-    return channel_titles, channel_stats, channel_thumbnail_urls, uploads_playlist_ids
+    return member_channel_data
 
 
 def get_channel_titles(responses, export_data=True):
