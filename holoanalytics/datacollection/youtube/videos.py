@@ -86,30 +86,6 @@ def _link_names_to_ids(starting_data, collected_data, id_type):
     return names_and_ids
 
 
-def _video_ids_missing(all_video_ids, member_name, member_dir_path):
-    """Removes the specified Hololive Production member from the data collection process due to a lack of video ids.
-
-    PRIVATE function.
-
-    Args:
-        all_video_ids: Dictionary of Pandas DataFrames containing video ids, collected so far, of Hololive Production
-                       members' videos.
-        member_name: String specifying the name of the Hololive Production member whose videos data is being
-                     collected for.
-        member_dir_path: Path object specifying the absolute path to the current member's directory.
-
-    Returns:
-        all_video_ids: Dictionary of Pandas DataFrames updated with video ids for the current member.
-    """
-
-    del all_video_ids[member_name]
-    if member_dir_path is not None:
-        member_dir_path.rmdir()
-        print(f"'{member_dir_path.name}' has been successfully deleted from '{member_dir_path.parent}'.")
-
-    return all_video_ids
-
-
 def _video_ids_exist(client, video_data, member_name, max_results, export_data):
     """Retrieves video attributes and statistics for videos of the current Hololive Production member.
 
