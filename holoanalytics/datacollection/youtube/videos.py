@@ -27,9 +27,24 @@ def get_video_data(client, starting_data, playlist_ids_df, max_results=50, expor
     """Retrieves relevant video data of Hololive Production members' videos using each members' playlist id.
 
     Relevant data includes:
+
     - Video ids
     - Video attributes
     - Video stats
+
+    For each and every member listed in the starting data, this function starts by making requests for their YouTube
+    video ids using their playlist id and the YouTube Data API. The video ids are extracted from the API's responses.
+
+    If video ids exist, requests are then made for the remaining types of data specified above, and this data is
+    extracted from the API's responses.
+
+    If video ids do not exist (i.e. There are no public videos in the playlist), that member is skipped.
+
+    The function returns a dictionary of dictionaries of Pandas DataFrames where every member with existing video ids
+    will have an inner dictionary containing their video data in the form of Pandas DataFrames, one for each of the
+    different types of data specific above.
+
+    Unless instructed otherwise, copies of all extracted data are exported.
 
     Args:
         client: YouTube Data API client.
@@ -41,12 +56,9 @@ def get_video_data(client, starting_data, playlist_ids_df, max_results=50, expor
         export_data: Boolean specifying whether collected data is to be exported. Default = True.
 
     Returns:
-        all_video_ids: Dictionary of Pandas DataFrames containing video ids for each Hololive Production member data
-                       is being collected for.
-        all_video_attributes: Dictionary of Pandas DataFrames containing video attributes for each Hololive Production
-                              member.
-        all_video_stats: Dictionary of Pandas DataFrames containing video statistics for each Hololive Production
-                              member.
+        member_video_data: Dictionary of dictionaries of Pandas DataFrames containing video ids, video attributes,
+                           and video statistics for each member that has videos in their playlist.
+
     """
     member_video_data = {}
 
