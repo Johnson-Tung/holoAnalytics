@@ -198,13 +198,11 @@ def export_keyword_banks(keyword_banks):
     """
 
     for language, keyword_bank in keyword_banks.items():
-        _export_language_bank(language, keyword_bank)
 
+        file_path = df.KEYWORD_BANKS_PATH / f'{language.lower()}_video_title_keywords.csv'
 
-def _export_language_bank(language, keyword_bank):
-    file_path = df.KEYWORD_BANKS_PATH / f'{language.lower()}_video_title_keywords.csv'
+        with open(file_path, 'w', newline='', encoding='utf-8') as file:
+            writer = csv.writer(file)
+            for keyword_group, keywords in keyword_bank.items():
+                writer.writerow([keyword_group] + list(keywords))
 
-    with open(file_path, 'w', newline='', encoding='utf-8') as file:
-        writer = csv.writer(file)
-        for keyword_group, keywords in keyword_bank.items():
-            writer.writerow([keyword_group] + list(keywords))
