@@ -1,3 +1,6 @@
+import pandas as pd
+
+
 def live_broadcast_duration(dataframe):
     """Calculate duration of live broadcasts for a YouTube Video Attribute DataFrame.
 
