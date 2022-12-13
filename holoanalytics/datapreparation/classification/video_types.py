@@ -1,7 +1,6 @@
 import requests
 import numpy as np
 import pandas as pd
-from holoanalytics.datapreparation import calculation as calc
 from holoanalytics.datapreparation import reformatting as reform
 from holoanalytics.utils import exporting
 
@@ -92,7 +91,8 @@ def _classify_live_broadcast(live_broadcasts):
                          live broadcasts.
     """
 
-    live_broadcasts = calc.live_broadcast_duration(live_broadcasts)
+    live_broadcasts['live_broadcast_duration'] = (live_broadcasts['actual_end_time']
+                                                  - live_broadcasts['actual_start_time'])
     live_broadcasts['difference'] = live_broadcasts['live_broadcast_duration'] - live_broadcasts['duration']
     live_broadcasts['video_type'] = np.where(((PREMIERE_COUNTDOWN - BOUNDS) < live_broadcasts['difference'])
                                              & (live_broadcasts['difference'] < (PREMIERE_COUNTDOWN + BOUNDS)),
