@@ -100,6 +100,15 @@ def _classify_live_broadcast(live_broadcasts):
 
 
 def _assign_labels(live_broadcasts):
+    """Assigns a label, i.e. live stream or Premiere, to every live broadcast.
+
+    Args:
+        live_broadcasts: Pandas DataFrame containing data on YouTube videos that are live broadcasts.
+
+    Returns:
+        live_broadcasts: Pandas DataFrame containing data on YouTube videos that are live broadcasts, updated with
+                         labels indicating whether a video is a live stream or a Premiere.
+    """
 
     live_broadcasts['live_broadcast_duration'] = (live_broadcasts['actual_end_time']
                                                   - live_broadcasts['actual_start_time'])
@@ -112,6 +121,16 @@ def _assign_labels(live_broadcasts):
 
 
 def _fix_labels(live_broadcasts):
+    """Attempts to fix any incorrect labels assigned to live broadcasts due to false positives and false negatives.
+
+    Args:
+        live_broadcasts: Pandas DataFrame containing data on YouTube videos that are live broadcasts, including
+                         labels indicating whether a video is a live stream or a Premiere.
+
+    Returns:
+        live_broadcasts: Pandas DataFrame containing data on YouTube videos that are live broadcasts, updated with
+                         corrected labels, if applicable.
+    """
 
     live_broadcasts.loc[(live_broadcasts['video_type'] == 'Premiere')
                         & (live_broadcasts['duration'] >= PREMIERE_CUTOFF),
