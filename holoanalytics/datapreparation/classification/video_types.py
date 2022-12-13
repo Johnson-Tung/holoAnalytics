@@ -60,7 +60,7 @@ def _classify_member_videos(member_name, video_attributes, export_data):
 
 
 def is_live_stream(video_attributes):
-    """Classify YouTube live broadcasts as live streams or Premieres.
+    """Classifies YouTube live broadcasts as live streams or Premieres.
 
     Args:
         video_attributes: Pandas DataFrame containing YouTube video attribute data.
@@ -81,7 +81,7 @@ def is_live_stream(video_attributes):
 
 
 def _classify_live_broadcast(live_broadcasts):
-    """Classify YouTube videos that are live broadcasts as live streams or Premieres.
+    """Classifies YouTube videos that are live broadcasts as live streams or Premieres.
 
     Args:
         live_broadcasts: Pandas DataFrame containing data on YouTube videos that are live broadcasts.
@@ -144,7 +144,7 @@ def _fix_labels(live_broadcasts):
 
 
 def is_short(video_attributes):
-    """Classify YouTube non-live broadcasts as shorts or normal / non-short videos.
+    """Classifies YouTube non-live broadcasts as shorts or normal / non-short videos.
 
     Args:
         video_attributes: Pandas DataFrame containing YouTube video attribute data.
@@ -165,7 +165,7 @@ def is_short(video_attributes):
 
 
 def _classify_non_live_broadcast(non_live_broadcasts):
-    """Classify YouTube videos that are not live broadcasts as Shorts or "normal" videos.
+    """Classifies YouTube videos that are not live broadcasts as Shorts or "normal" videos.
 
     Args:
         non_live_broadcasts: Pandas DataFrame containing data on YouTube videos that are not live broadcasts.
@@ -185,7 +185,7 @@ def _classify_non_live_broadcast(non_live_broadcasts):
 
 
 def _check_response_code(video_id):
-    """Access YouTube's website, get the HTTP response status code, and classify a YouTube video based on the code.
+    """Accesses YouTube's website, gets the HTTP response status code, and classifies a YouTube video based on the code.
 
     How it works:
 
@@ -214,7 +214,7 @@ def _check_response_code(video_id):
 
 
 def filter_video_duration(video_attributes, min_length='00:00:00', max_length=None):
-    """Filter a YouTube Video Attributes DataFrame to remove all videos whose duration is not within the minimum and
+    """Filters a YouTube Video Attributes DataFrame to remove all videos whose duration is not within the minimum and
     maximum lengths.
 
     'min_length' and 'max_length' values can be in any format accepted by Pandas Timedelta class. H:M:S format,
