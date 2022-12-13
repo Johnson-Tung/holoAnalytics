@@ -91,6 +91,16 @@ def _classify_live_broadcast(live_broadcasts):
                          live broadcasts.
     """
 
+    live_broadcasts = _assign_labels(live_broadcasts)
+    live_broadcasts = _fix_labels(live_broadcasts)
+
+    classified_data = live_broadcasts[['video_id', 'live_broadcast_duration', 'video_type']]
+
+    return classified_data
+
+
+def _assign_labels(live_broadcasts):
+
     live_broadcasts['live_broadcast_duration'] = (live_broadcasts['actual_end_time']
                                                   - live_broadcasts['actual_start_time'])
     live_broadcasts['difference'] = live_broadcasts['live_broadcast_duration'] - live_broadcasts['duration']
@@ -98,7 +108,11 @@ def _classify_live_broadcast(live_broadcasts):
                                              & (live_broadcasts['difference'] < (PREMIERE_COUNTDOWN + BOUNDS)),
                                              'Premiere', 'Live Stream')
 
-    # Fix incorrect labels
+    return live_broadcasts
+
+
+def _fix_labels(live_broadcasts):
+
     live_broadcasts.loc[(live_broadcasts['video_type'] == 'Premiere')
                         & (live_broadcasts['duration'] >= PREMIERE_CUTOFF),
                         'video_type'] = 'Live Stream'
@@ -107,9 +121,7 @@ def _classify_live_broadcast(live_broadcasts):
                         & ~(live_broadcasts['live_broadcast_duration'].isna()),
                         'video_type'] = 'Premiere'
 
-    classified_data = live_broadcasts[['video_id', 'live_broadcast_duration', 'video_type']]
-
-    return classified_data
+    return live_broadcasts
 
 
 def is_short(video_attributes):
