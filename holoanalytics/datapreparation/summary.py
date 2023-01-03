@@ -30,7 +30,15 @@ def summarize_video_data(member_channel_data, member_video_data, export_data=Tru
 
 
 def summarize_video_types(video_types):
-    pass
+    summary = {}
+
+    counts = video_types.groupby('video_type').count()
+
+    for video_type in counts.index:
+        key = f'{video_type.lower().replace(" ", "_")}_(count)'
+        summary[key] = counts.loc[video_type, counts.columns[0]]
+
+    return summary
 
 
 def summarize_video_attributes(video_attributes, video_types=None):
