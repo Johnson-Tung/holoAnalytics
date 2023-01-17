@@ -1,3 +1,4 @@
+from collections import Counter
 from datetime import datetime
 import pandas as pd
 from holoanalytics.utils import exporting
@@ -57,5 +58,17 @@ def summarize_video_stats(video_stats, video_types=None):
 
 
 def summarize_content_types(content_types, video_types=None):
-    pass
+    summary = {}
+    content_types_list = []
+
+    for values in content_types['content_types']:
+        values = eval(values) if isinstance(values, str) else values
+        content_types_list += list(values)
+
+    counts = Counter(content_types_list)
+
+    for content_type, count in counts.items():
+        summary[f'{content_type.lower().replace(" ", "_")}_(count)'] = count
+
+    return summary
 
