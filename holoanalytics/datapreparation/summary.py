@@ -6,6 +6,8 @@ from holoanalytics.utils import exporting
 VIDEO_DTYPES = ('video_attributes', 'video_stats', 'video_types', 'content_types')
 VIDEO_STATS_DTYPES = ('view_count', 'like_count', 'comment_count')
 VIDEO_TYPES_DTYPES = ('Normal', 'Short', 'Live Stream', 'Premiere')
+CONTENT_TYPES = ('3DLive', 'Chatting', 'Collab', 'Debut', 'Drawing', 'Gaming', 'Karaoke', 'Music Video',
+                 'Other Content', 'Outfit Reveal', 'Q&A', 'Review', 'Superchat Reading', 'VR', 'Watchalong')
 START_YEAR = 2017  # Year when the first Hololive Production member debuted.
 CURRENT_YEAR = datetime.now().year
 
@@ -67,8 +69,12 @@ def summarize_content_types(content_types, video_types=None):
 
     counts = Counter(content_types_list)
 
-    for content_type, count in counts.items():
-        summary[f'{content_type.lower().replace(" ", "_")}_(count)'] = count
+    for content_type in CONTENT_TYPES:
+        label = f'{content_type.lower().replace(" ", "_")}_(count)'
+        if content_type in counts.keys():
+            summary[label] = counts[content_type]
+        else:
+            summary[label] = 0
 
     return summary
 
