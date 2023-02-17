@@ -17,11 +17,13 @@ def main():
     channel_data = channels.get_channel_data(client, starting_data.youtube_channel_id)
 
     # Collect YouTube Video Data
-    videos.get_video_data(client, starting_data, channel_data['uploads_playlist_ids'])
+    video_data = videos.get_video_data(client, starting_data, channel_data['uploads_playlist_ids'])
 
     # Close Client
     client.close()
 
+    return channel_data, video_data
+
 
 if __name__ == '__main__':
-    main()
+    member_channel_data, member_video_data = main()
