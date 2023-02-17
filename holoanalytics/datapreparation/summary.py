@@ -61,13 +61,13 @@ def summarize_video_stats(video_stats, video_types=None):
 
 def summarize_content_types(content_types, video_types=None):
     summary = {}
-    content_types_list = []
+    all_content_types = []
 
-    for values in content_types['content_types']:
-        values = eval(values) if isinstance(values, str) else values
-        content_types_list += list(values)
+    for ct_set in content_types['content_types']:
+        ct_set = eval(ct_set) if isinstance(ct_set, str) else ct_set
+        all_content_types += list(ct_set)
 
-    counts = Counter(content_types_list)
+    counts = Counter(all_content_types)
 
     for content_type in CONTENT_TYPES:
         label = f'{content_type.lower().replace(" ", "_")}_(count)'
