@@ -63,7 +63,22 @@ def summarize_video_attributes(video_attributes, video_types=None):
 
 
 def summarize_video_stats(video_stats, video_types=None):
-    pass
+    summary = {}
+
+    for video_stat in VIDEO_STATS_DTYPES:
+        summary |= summary_stats(video_stats[video_stat], video_stat, count=False)
+
+    if video_types is not None:
+        merged_data = video_stats.merge(video_types, on='video_id')
+
+        for video_type in VIDEO_TYPES_DTYPES:
+            filtered_data = merged_data.loc[merged_data['video_type'] == video_type, VIDEO_STATS_DTYPES]
+
+            for video_stat in VIDEO_STATS_DTYPES:
+                summary |= summary_stats(filtered_data[video_stat],
+                                         f'{video_type.lower().replace(" ", "_")}_{video_stat}', count=False)
+
+    return summary
 
 
 def summarize_content_types(content_types, video_types=None):
@@ -84,4 +99,8 @@ def summarize_content_types(content_types, video_types=None):
             summary[label] = 0
 
     return summary
+
+
+def summary_stats(data_col, label, count=True):
+    pass
 
