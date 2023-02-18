@@ -7,7 +7,7 @@ VIDEO_DTYPES = ('video_attributes', 'video_stats', 'video_types', 'content_types
 VIDEO_STATS_DTYPES = ('view_count', 'like_count', 'comment_count')
 VIDEO_TYPES_DTYPES = ('Normal', 'Short', 'Live Stream', 'Premiere')
 CONTENT_TYPES = ('3DLive', 'Chatting', 'Collab', 'Debut', 'Drawing', 'Gaming', 'Karaoke', 'Music Video',
-                 'Other Content', 'Outfit Reveal', 'Q&A', 'Review', 'Superchat Reading', 'VR', 'Watchalong')
+                 'Other', 'Outfit Reveal', 'Q&A', 'Review', 'Superchat Reading', 'VR', 'Watchalong')
 START_YEAR = 2017  # Year when the first Hololive Production member debuted.
 CURRENT_YEAR = datetime.now().year
 
