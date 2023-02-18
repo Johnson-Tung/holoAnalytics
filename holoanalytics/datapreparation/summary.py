@@ -1,5 +1,6 @@
 from collections import Counter
 from datetime import datetime
+import math
 import pandas as pd
 from holoanalytics.utils import exporting
 
@@ -10,6 +11,7 @@ CONTENT_TYPES = ('3DLive', 'Chatting', 'Collab', 'Debut', 'Drawing', 'Gaming', '
                  'Other', 'Outfit Reveal', 'Q&A', 'Review', 'Superchat Reading', 'VR', 'Watchalong')
 START_YEAR = 2017  # Year when the first Hololive Production member debuted.
 CURRENT_YEAR = datetime.now().year
+ROUNDING = 2  # For calculations, number of decimal places to round to
 
 
 def summarize_video_data(member_channel_data, member_video_data, export_data=True):
@@ -102,5 +104,24 @@ def summarize_content_types(content_types, video_types=None):
 
 
 def summary_stats(data_col, label, count=True):
-    pass
+    summary = {}
 
+    # Counting the number of data points is sometimes unnecessary and redundant. Therefore, make it optional.
+    if count is True:
+        summary[f'{label}_(count)'] = round(data_col.count(), ROUNDING)
+
+    summary[f'{label}_(sum)'] = round(data_col.sum(), ROUNDING)
+    summary[f'{label}_(mean)'] = round(data_col.mean(), ROUNDING)
+
+    # std() returns NaN if there is only one data point. There is no deviation, so replace NaN with zero.
+    std = round(data_col.std(), ROUNDING)
+    summary[f'{label}_(std)'] = 0 if math.isnan(std) else std
+
+    summary[f'{label}_(q1)'] = round(data_col.quantile(0.25), ROUNDING)
+    summary[f'{label}_(median)'] = round(data_col.median(), ROUNDING)
+    summary[f'{label}_(q3)'] = round(data_col.quantile(0.75), ROUNDING)
+
+    summary[f'{label}_(min)'] = round(data_col.min(), ROUNDING)
+    summary[f'{label}_(max)'] = round(data_col.max(), ROUNDING)
+
+    return summary
