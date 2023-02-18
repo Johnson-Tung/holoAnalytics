@@ -39,7 +39,7 @@ def summarize_video_data(member_channel_data, member_video_data, export_data=Tru
                       for member_summary in member_summaries], axis=1).dropna(how='all').transpose()
     data.insert(0, 'member_name', member_names)
 
-    member_channel_data['Summaries']['video_data_summary'] = data
+    member_channel_data['Summaries']['video_data'] = data
 
     exporting.export_channel_data(data, export_data, 'channel_video_summaries')
 
