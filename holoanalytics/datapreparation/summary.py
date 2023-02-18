@@ -4,9 +4,9 @@ import math
 import pandas as pd
 from holoanalytics.utils import exporting
 
-VIDEO_DTYPES = ('video_attributes', 'video_stats', 'video_types', 'content_types')
-VIDEO_STATS_DTYPES = ('view_count', 'like_count', 'comment_count')
-VIDEO_TYPES_DTYPES = ('Normal', 'Short', 'Live Stream', 'Premiere')
+VIDEO_DATA_TYPES = ('video_attributes', 'video_stats', 'video_types', 'content_types')
+VIDEO_STATS = ('view_count', 'like_count', 'comment_count')
+VIDEO_TYPES = ('Normal', 'Short', 'Live Stream', 'Premiere')
 CONTENT_TYPES = ('3DLive', 'Chatting', 'Collab', 'Debut', 'Drawing', 'Gaming', 'Karaoke', 'Music Video',
                  'Other', 'Outfit Reveal', 'Q&A', 'Review', 'Superchat Reading', 'VR', 'Watchalong')
 START_YEAR = 2017  # Year when the first Hololive Production member debuted.
@@ -53,7 +53,7 @@ def summarize_video_types(video_types):
 
     counts = video_types.groupby('video_type').count()
 
-    for video_type in VIDEO_TYPES_DTYPES:
+    for video_type in VIDEO_TYPES:
         key = f'{video_type.lower().replace(" ", "_")}_(count)'
         if video_type in counts.index:
             summary[key] = counts.loc[video_type, counts.columns[0]]
@@ -70,16 +70,16 @@ def summarize_video_attributes(video_attributes, video_types=None):
 def summarize_video_stats(video_stats, video_types=None):
     summary = {}
 
-    for video_stat in VIDEO_STATS_DTYPES:
+    for video_stat in VIDEO_STATS:
         summary |= summary_stats(video_stats[video_stat], video_stat, count=False)
 
     if video_types is not None:
         merged_data = video_stats.merge(video_types, on='video_id')
 
-        for video_type in VIDEO_TYPES_DTYPES:
-            filtered_data = merged_data.loc[merged_data['video_type'] == video_type, VIDEO_STATS_DTYPES]
+        for video_type in VIDEO_TYPES:
+            filtered_data = merged_data.loc[merged_data['video_type'] == video_type, VIDEO_STATS]
 
-            for video_stat in VIDEO_STATS_DTYPES:
+            for video_stat in VIDEO_STATS:
                 summary |= summary_stats(filtered_data[video_stat],
                                          f'{video_type.lower().replace(" ", "_")}_{video_stat}', count=False)
 
