@@ -53,9 +53,12 @@ def summarize_video_types(video_types):
 
     counts = video_types.groupby('video_type').count()
 
-    for video_type in counts.index:
+    for video_type in VIDEO_TYPES_DTYPES:
         key = f'{video_type.lower().replace(" ", "_")}_(count)'
-        summary[key] = counts.loc[video_type, counts.columns[0]]
+        if video_type in counts.index:
+            summary[key] = counts.loc[video_type, counts.columns[0]]
+        else:
+            summary[key] = 0
 
     return summary
 
