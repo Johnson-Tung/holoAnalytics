@@ -14,25 +14,32 @@ CURRENT_YEAR = datetime.now().year
 
 def summarize_video_data(member_channel_data, member_video_data, export_data=True):
     member_summaries = []
+    member_names = []
+
+    if 'Summaries' not in member_channel_data.keys():
+        member_channel_data['Summaries'] = {}
 
     for member_name, member_data in member_video_data.items():
-        summary = {'name': member_name}
+        member_summary = {}
 
         video_attributes = member_data['video_attributes']
         video_stats = member_data['video_stats']
         video_types = member_data['video_types']
         content_types = member_data['content_types']
 
-        summary |= summarize_video_types(video_types)
-        summary |= summarize_video_attributes(video_attributes, video_types)
-        summary |= summarize_video_stats(video_stats, video_types)
-        summary |= summarize_content_types(content_types, video_types)
+        member_summary |= {'video_types': summarize_video_types(video_types)}
+        member_summary |= {'video_attributes': summarize_video_attributes(video_attributes, video_types)}
+        member_summary |= {'video_stats': summarize_video_stats(video_stats, video_types)}
+        member_summary |= {'content_types': summarize_content_types(content_types, video_types)}
 
-        member_summaries.append(summary)
+        member_summaries.append(member_summary)
+        member_names.append(member_name)
 
-    data = pd.DataFrame(member_summaries)
+    data = pd.concat([pd.DataFrame.from_dict(member_summary).unstack()
+                      for member_summary in member_summaries], axis=1).dropna(how='all').transpose()
+    data.insert(0, 'member_name', member_names)
 
-    member_channel_data['channel_video_summaries'] = data
+    member_channel_data['Summaries']['video_data_summary'] = data
 
     exporting.export_channel_data(data, export_data, 'channel_video_summaries')
 
