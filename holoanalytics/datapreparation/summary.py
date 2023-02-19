@@ -64,6 +64,19 @@ def summarize_video_types(video_types):
 
 
 def summarize_video_attributes(video_attributes, video_types=None):
+    summary = {}
+
+    summary |= summarize_durations(video_attributes, video_types)
+    summary |= summarize_publish_datetimes(video_attributes, video_types)
+
+    return summary
+
+
+def summarize_durations(video_attributes, video_types=None):
+    pass
+
+
+def summarize_publish_datetimes(video_attributes, video_types=None):
     pass
 
 
