@@ -91,6 +91,30 @@ def summarize_durations(video_attributes, video_types=None):
 
 
 def summarize_publish_datetimes(video_attributes, video_types=None):
+    summary = {}
+
+    publish_datetimes = video_attributes['publish_datetime']
+
+    summary |= _count_by_year(publish_datetimes, 'video')
+    summary |= _count_by_month(publish_datetimes, 'video')
+
+    if isinstance(video_types, pd.DataFrame):
+        merged_data = video_attributes[['video_id', 'publish_datetime']].merge(video_types, on='video_id')
+        publish_datetimes_ls = merged_data.loc[merged_data['video_type'] == 'Live Stream', 'publish_datetime']
+
+        summary |= _count_by_year(publish_datetimes_ls, 'live_stream')
+        summary |= _count_by_month(publish_datetimes_ls, 'live_stream')
+
+    return summary
+
+
+def _count_by_year(publish_datetimes, video_type):
+
+    pass
+
+
+def _count_by_month(publish_datetimes, video_type):
+
     pass
 
 
