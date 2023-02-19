@@ -1,3 +1,4 @@
+import calendar
 from collections import Counter
 from datetime import datetime
 import math
@@ -109,13 +110,34 @@ def summarize_publish_datetimes(video_attributes, video_types=None):
 
 
 def _count_by_year(publish_datetimes, video_type):
+    summary = {}
 
-    pass
+    counts_year = publish_datetimes.groupby(publish_datetimes.dt.year).count()
+
+    for year in range(START_YEAR, CURRENT_YEAR+1):
+        label = f'{video_type}_count_({year})'
+        if year in counts_year.index:
+            summary[label] = counts_year[year]
+        else:
+            summary[label] = 0
+
+    return summary
 
 
 def _count_by_month(publish_datetimes, video_type):
+    summary = {}
 
-    pass
+    counts_month = publish_datetimes.groupby(publish_datetimes.dt.month).count()
+
+    for month_number in range(1, 13):
+        month = calendar.month_name[month_number].lower()
+        label = f'{video_type}_count_({month})'
+        if month_number in counts_month.index:
+            summary[label] = counts_month[month_number]
+        else:
+            summary[label] = 0
+
+    return summary
 
 
 def summarize_video_stats(video_stats, video_types=None):
