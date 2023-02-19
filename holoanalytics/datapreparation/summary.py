@@ -73,7 +73,21 @@ def summarize_video_attributes(video_attributes, video_types=None):
 
 
 def summarize_durations(video_attributes, video_types=None):
-    pass
+    summary = {}
+
+    durations = video_attributes['duration']
+
+    summary |= summary_stats(durations, 'video_duration')
+
+    if isinstance(video_types, pd.DataFrame):
+        merged_data = video_attributes[['video_id', 'duration']].merge(video_types, on='video_id')
+
+        for video_type in VIDEO_TYPES:
+            filtered_data = merged_data.loc[merged_data['video_type'] == video_type, 'duration']
+            summary |= summary_stats(filtered_data['duration'], f'{video_type.lower().replace(" ", "_")}_duration',
+                                     count=False)
+
+    return summary
 
 
 def summarize_publish_datetimes(video_attributes, video_types=None):
