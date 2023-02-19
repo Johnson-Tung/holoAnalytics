@@ -107,7 +107,7 @@ def to_timedelta(dataframe, column_name):
     """
 
     if not is_timedelta64_dtype(dataframe[column_name]):
-        dataframe[column_name] = dataframe[column_name].apply(pd.to_timedelta)
+        dataframe[column_name] = pd.to_timedelta(dataframe[column_name])
 
     return dataframe
 
