@@ -18,9 +18,6 @@ def summarize_video_data(member_channel_data, member_video_data, export_data=Tru
     member_summaries = []
     member_names = []
 
-    if 'Summaries' not in member_channel_data.keys():
-        member_channel_data['Summaries'] = {}
-
     for member_name, member_data in member_video_data.items():
         member_summary = {}
 
@@ -41,9 +38,9 @@ def summarize_video_data(member_channel_data, member_video_data, export_data=Tru
                       for member_summary in member_summaries], axis=1).dropna(how='all').transpose()
     data.insert(0, 'member_name', member_names)
 
-    member_channel_data['Summaries']['video_data'] = data
+    member_channel_data['channel_video_summary'] = data
 
-    exporting.export_channel_data(data, export_data, 'channel_video_summaries')
+    exporting.export_channel_data(data, export_data, 'channel_video_summary')
 
     return member_channel_data
 
