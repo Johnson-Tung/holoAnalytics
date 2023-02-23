@@ -53,7 +53,7 @@ def open_session(session):
 def import_channel_data(member_names='all', channel_data_types='all'):
 
     member_names = _check_member_names(member_names)
-    channel_data_types = _check_data_types('channel', channel_data_types)
+    channel_data_types = _check_data_subtypes('channel', channel_data_types)
 
     member_channel_data = _member_channel_data(member_names, channel_data_types)
 
@@ -77,7 +77,7 @@ def import_video_data(member_names='all', data_types='all'):
     """
 
     member_names = _check_member_names(member_names)
-    data_types = _check_data_types(data_types)
+    data_types = _check_data_subtypes('video', data_types)
 
     member_video_data = _member_video_data(member_names, data_types)
 
@@ -99,19 +99,24 @@ def _check_member_names(member_names):
     return member_names
 
 
-def _check_data_types(data_types):
+def _check_data_subtypes(data_type, data_subtypes):
 
-    if isinstance(data_types, str):
-        if data_types.lower() == 'all':
-            data_types = VIDEO_DATA_TYPES
+    if isinstance(data_subtypes, str):
+        if data_subtypes.lower() == 'all':
+            if data_type.lower() == 'channel':
+                data_subtypes = CHANNEL_DATA_TYPES
+            elif data_type.lower() == 'video':
+                data_subtypes = VIDEO_DATA_TYPES
+            else:
+                raise ValueError("Invalid value for 'data_type' was given. Valid values: 'channel' and 'video'.")
         else:
-            data_types = [data_types]
-    elif isinstance(data_types, list) or isinstance(data_types, tuple) or isinstance(data_types, pd.Series):
+            data_subtypes = [data_subtypes]
+    elif isinstance(data_subtypes, list) or isinstance(data_subtypes, tuple) or isinstance(data_subtypes, pd.Series):
         pass
     else:
         raise ValueError
 
-    return data_types
+    return data_subtypes
 
 
 def _member_video_data(member_names, data_types):
