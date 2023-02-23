@@ -64,22 +64,22 @@ def _member_channel_data(member_names, channel_data_types):
     pass
 
 
-def import_video_data(member_names='all', data_types='all'):
+def import_video_data(member_names='all', video_data_types='all'):
     """Imports video data for specified Hololive Production members.
 
     Args:
         member_names: String or collection, e.g. list, of strings specifying the names of members whose video data is
                       to be imported. Default = 'all'.
-        data_types: String or collection, e.g. list, of strings specifying the types of video data to be imported.
-                    Default = 'all'.
+        video_data_types: String or collection, e.g. list, of strings specifying the types of video data to be imported.
+                          Default = 'all'.
     Returns:
         member_video_data: Dictionary of dictionaries, one for each member, of Pandas DataFrames containing video data.
     """
 
     member_names = _check_member_names(member_names)
-    data_types = _check_data_subtypes('video', data_types)
+    video_data_types = _check_data_subtypes('video', video_data_types)
 
-    member_video_data = _member_video_data(member_names, data_types)
+    member_video_data = _member_video_data(member_names, video_data_types)
 
     return member_video_data
 
