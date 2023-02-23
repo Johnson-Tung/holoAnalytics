@@ -3,6 +3,7 @@ import pandas as pd
 from holoanalytics import definitions as df
 
 VIDEO_DATA_TYPES = ('video_attributes', 'video_stats')
+CHANNEL_DATA_TYPES = ('channel_stats', 'channel_thumbnail_urls', 'channel_titles', 'uploads_playlist_ids')
 
 
 def request_session():
@@ -47,6 +48,20 @@ def open_session(session):
     """
 
     df.SESSION_PATH = df.YT_DAPI_SESSIONS_PATH / session
+
+
+def import_channel_data(member_names='all', channel_data_types='all'):
+
+    member_names = _check_member_names(member_names)
+    channel_data_types = _check_data_types('channel', channel_data_types)
+
+    member_channel_data = _member_channel_data(member_names, channel_data_types)
+
+    return member_channel_data
+
+
+def _member_channel_data(member_names, channel_data_types):
+    pass
 
 
 def import_video_data(member_names='all', data_types='all'):
