@@ -58,8 +58,23 @@ def import_channel_data(channel_data_types='all'):
     return member_channel_data
 
 
-def _member_channel_data(member_names, channel_data_types):
-    pass
+def _member_channel_data(channel_data_types):
+    member_channel_data = {}
+
+    dir_path = df.SESSION_PATH / 'Channel'
+
+    if not dir_path.exists():
+        raise FileNotFoundError("This session does not have a 'Channel' data folder.")
+
+    file_paths = reversed(list(dir_path.iterdir()))  # Get file paths from latest to earliest.
+
+    for channel_data_type in channel_data_types():
+        for file_path in file_paths:
+            if f'{channel_data_type}' in file_path.name:
+                member_channel_data[channel_data_type] = pd.read_csv(file_path)
+                break
+
+    return member_channel_data
 
 
 def import_video_data(member_names='all', video_data_types='all'):
