@@ -66,9 +66,10 @@ def _member_channel_data(channel_data_types):
     if not dir_path.exists():
         raise FileNotFoundError("This session does not have a 'Channel' data folder.")
 
-    file_paths = reversed(list(dir_path.iterdir()))  # Get file paths from latest to earliest.
+    file_paths = list(dir_path.iterdir())
+    file_paths.reverse()  # Get file paths from latest to earliest.
 
-    for channel_data_type in channel_data_types():
+    for channel_data_type in channel_data_types:
         for file_path in file_paths:
             if f'{channel_data_type}' in file_path.name:
                 member_channel_data[channel_data_type] = pd.read_csv(file_path)
