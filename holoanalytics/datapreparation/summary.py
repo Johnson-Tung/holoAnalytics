@@ -84,7 +84,7 @@ def summarize_durations(video_attributes, video_types=None):
 
         for video_type in VIDEO_TYPES:
             filtered_data = merged_data.loc[merged_data['video_type'] == video_type, 'duration']
-            summary |= summary_stats(filtered_data['duration'], f'{video_type.lower().replace(" ", "_")}_duration',
+            summary |= summary_stats(filtered_data, f'{video_type.lower().replace(" ", "_")}_duration',
                                      count=False)
 
     return summary
