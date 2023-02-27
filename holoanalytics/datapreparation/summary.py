@@ -14,9 +14,12 @@ START_YEAR = 2017  # Year when the first Hololive Production member debuted.
 CURRENT_YEAR = datetime.now().year
 
 
-def summarize_video_data(member_channel_data, member_video_data, export_data=True):
+def summarize_video_data(member_video_data, member_channel_data=None, export_data=True):
     member_summaries = []
     member_names = []
+
+    if member_channel_data is None:
+        member_channel_data = {}
 
     for member_name, member_data in member_video_data.items():
         member_summary = {}
