@@ -3,6 +3,7 @@ from holoanalytics.datapreparation.extraction.video_keywords import extract_titl
 from holoanalytics.datapreparation import reformatting as ref
 from holoanalytics.datapreparation.classification.video_types import classify_video_type
 from holoanalytics.datapreparation.classification.content_types import classify_content_type
+from holoanalytics.datapreparation import summary
 
 
 def main():
@@ -19,9 +20,11 @@ def main():
     data = classify_video_type(data)
     data = classify_content_type(data, keyword_banks)
 
-    return data
+    channel_data = summary.summarize_video_data(data)
+
+    return channel_data, data
 
 
 if __name__ == '__main__':
-    member_video_data = main()
+    member_channel_data, member_video_data = main()
 
