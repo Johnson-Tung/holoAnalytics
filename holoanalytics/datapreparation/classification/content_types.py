@@ -46,7 +46,7 @@ def _classify_member_videos(member_name, video_title_keywords, keyword_bank, exp
 
     exporting.export_video_data(member_name, data, export_data, 'content_types')
 
-    return content_types
+    return data
 
 
 def _check_keywords(keyword_set, keyword_bank):
