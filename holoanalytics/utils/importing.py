@@ -2,8 +2,10 @@ import csv
 import pandas as pd
 from holoanalytics import definitions as df
 
-VIDEO_DATA_TYPES = ('video_attributes', 'video_stats')
-CHANNEL_DATA_TYPES = ('channel_stats', 'channel_thumbnail_urls', 'channel_titles', 'uploads_playlist_ids')
+VIDEO_DATA_TYPES = ('video_attributes', 'video_stats',  # Collected
+                    'content_types', 'video_title_keywords', 'video_types')  # Prepared
+CHANNEL_DATA_TYPES = ('channel_stats', 'channel_thumbnail_urls', 'channel_titles', 'uploads_playlist_ids',  # Collected
+                      'channel_video_summary')  # Prepared
 
 
 def request_session():
