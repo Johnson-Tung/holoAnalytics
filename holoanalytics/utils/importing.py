@@ -74,7 +74,8 @@ def _member_channel_data(channel_data_types):
     for channel_data_type in channel_data_types:
         for file_path in file_paths:
             if f'{channel_data_type}' in file_path.name:
-                member_channel_data[channel_data_type] = pd.read_csv(file_path)
+                headers = [0, 1] if channel_data_type == 'channel_video_summary' else [0]  # Note: Temporary solution.
+                member_channel_data[channel_data_type] = pd.read_csv(file_path, header=headers)
                 break
 
     return member_channel_data
