@@ -52,6 +52,13 @@ def open_session(session):
     df.SESSION_PATH = df.YT_DAPI_SESSIONS_PATH / session
 
 
+def import_member_data():
+
+    member_data = pd.read_csv(df.STARTING_DATA_FILE)
+
+    return member_data
+
+
 def import_channel_data(channel_data_types='all'):
 
     channel_data_types = _check_data_subtypes('channel', channel_data_types)
