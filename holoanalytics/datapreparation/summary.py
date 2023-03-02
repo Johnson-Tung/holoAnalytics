@@ -16,13 +16,12 @@ CURRENT_YEAR = datetime.now().year
 
 def summarize_video_data(member_video_data, member_channel_data=None, export_data=True):
     member_summaries = []
-    member_names = []
 
     if member_channel_data is None:
         member_channel_data = {}
 
     for member_name, member_data in member_video_data.items():
-        member_summary = {}
+        member_summary = {'member_data': {'member_name': member_name}}
 
         video_attributes = member_data['video_attributes']
         video_stats = member_data['video_stats']
@@ -35,11 +34,9 @@ def summarize_video_data(member_video_data, member_channel_data=None, export_dat
         member_summary |= {'content_types': summarize_content_types(content_types, video_types)}
 
         member_summaries.append(member_summary)
-        member_names.append(member_name)
 
     data = pd.concat([pd.DataFrame.from_dict(member_summary).unstack()
                       for member_summary in member_summaries], axis=1).dropna(how='all').transpose()
-    data.insert(0, 'member_name', member_names)
 
     member_channel_data['channel_video_summary'] = data
 
