@@ -6,7 +6,7 @@ DATETIME_COLS = ['publish_datetime', 'scheduled_start_time', 'scheduled_end_time
                  'actual_end_time']
 
 
-def reformat_video_data(member_video_data):
+def reformat_datetimes(member_channel_data=None, member_video_data=None):
     """Preprocesses YouTube video data by making required formatting changes.
 
     E.g. Convert datetime data from strings to Datetime or Pandas.Timestamp objects.
@@ -19,11 +19,32 @@ def reformat_video_data(member_video_data):
     Returns:
         member_video_data: Updated dictionary containing reformatted YouTube video data.
     """
+    channel_data_check = isinstance(member_channel_data, dict)
+    video_data_check = isinstance(member_video_data, dict)
 
-    for video_data in member_video_data.values():
-        video_data['video_attributes'] = convert_times(video_data['video_attributes'])
+    if not channel_data_check and not video_data_check:
+        return
 
-    return member_video_data
+    if channel_data_check:
+        member_channel_data = _reformat_channel_datetimes(member_channel_data)
+
+    if video_data_check:
+        for video_data in member_video_data.values():
+            if 'video_attributes' in video_data:
+                video_data['video_attributes'] = convert_times(video_data['video_attributes'])
+
+    if channel_data_check and video_data_check:
+        return member_channel_data, member_video_data
+    elif channel_data_check:
+        return member_channel_data
+    elif video_data_check:
+        return member_video_data
+
+
+def _reformat_channel_datetimes(member_channel_data):
+    pass
+
+    return member_channel_data
 
 
 def zulutime_to_utc(date_time, show_tz=False):
