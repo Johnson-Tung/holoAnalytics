@@ -74,7 +74,7 @@ def summarize_durations(video_attributes, video_types=None):
 
     durations = video_attributes['duration']
 
-    summary |= summary_stats(durations, 'video_duration')
+    summary |= summary_stats(durations, 'video_duration', count=False)
 
     if isinstance(video_types, pd.DataFrame):
         merged_data = video_attributes[['video_id', 'duration']].merge(video_types, on='video_id')
