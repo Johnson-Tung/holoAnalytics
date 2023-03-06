@@ -56,9 +56,9 @@ def _confirm_list_or_tuple(data):
         data: Sequence of values contained in a list or tuple.
     """
 
-    if isinstance(data, list) or isinstance(data, tuple):
+    if isinstance(data, (list, tuple)):
         pass
-    elif isinstance(data, pd.Series) or isinstance(data, set) or isinstance(data, range):
+    elif isinstance(data, (pd.Series, set, range)):
         data = list(data)
     elif isinstance(data, str):
         data = [data]

@@ -74,7 +74,7 @@ def zulutime_to_utc(date_time, show_tz=False):
         new_date_time: Datetime object representing the input time converted to UTC.
     """
 
-    if isinstance(date_time, datetime) or isinstance(date_time, pd.Timestamp):
+    if isinstance(date_time, (datetime, pd.Timestamp)):
         return date_time
 
     try:

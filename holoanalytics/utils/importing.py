@@ -115,7 +115,7 @@ def _check_member_names(member_names):
             member_names = pd.read_csv(df.STARTING_DATA_FILE)['name']
         else:
             member_names = [member_names]
-    elif isinstance(member_names, list) or isinstance(member_names, tuple) or isinstance(member_names, pd.Series):
+    elif isinstance(member_names, (list, tuple, pd.Series)):
         pass
     else:
         raise ValueError
@@ -135,7 +135,7 @@ def _check_data_subtypes(data_type, data_subtypes):
                 raise ValueError("Invalid value for 'data_type' was given. Valid values: 'channel' and 'video'.")
         else:
             data_subtypes = [data_subtypes]
-    elif isinstance(data_subtypes, list) or isinstance(data_subtypes, tuple) or isinstance(data_subtypes, pd.Series):
+    elif isinstance(data_subtypes, (list, tuple, pd.Series)):
         pass
     else:
         raise ValueError
