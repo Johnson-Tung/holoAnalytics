@@ -7,18 +7,21 @@ DATETIME_COLS = ['publish_datetime', 'scheduled_start_time', 'scheduled_end_time
 
 
 def reformat_datetimes(member_channel_data=None, member_video_data=None):
-    """Preprocesses YouTube video data by making required formatting changes.
+    """Reformats datetime data in YouTube channel and/or video datasets.
 
     E.g. Convert datetime data from strings to Datetime or Pandas.Timestamp objects.
 
     Args:
-        member_video_data: Dictionary of dictionaries of Pandas DataFrames containing YouTube video data
-                           for Hololive Production members, originally returned by
-                           holoanalytics.utils.importing.import_video_data().
+        member_channel_data: Dictionary of Pandas DataFrames containing YouTube channel data, e.g. channel stats,
+                             for Hololive Production members.
+        member_video_data: Dictionary of dictionaries of Pandas DataFrames containing YouTube video data,
+                           e.g. video stats, for individual Hololive Production members.
 
     Returns:
+        member_channel_data: Updated dictionary containing reformatted YouTube channel data.
         member_video_data: Updated dictionary containing reformatted YouTube video data.
     """
+
     channel_data_check = isinstance(member_channel_data, dict)
     video_data_check = isinstance(member_video_data, dict)
 
