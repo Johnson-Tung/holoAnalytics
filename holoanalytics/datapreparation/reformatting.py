@@ -51,7 +51,7 @@ def _reformat_channel_datetimes(member_channel_data):
 
 
 def zulutime_to_utc(date_time, show_tz=False):
-    """Convert datetime format from Zulu time to standard UTC.
+    """Converts datetime format from Zulu time to standard UTC.
 
     Args:
         date_time: String representing a datetime in Zulu time format.
@@ -76,7 +76,7 @@ def zulutime_to_utc(date_time, show_tz=False):
 
 
 def timedelta_to_hms(timedelta):
-    """Convert Pandas Timedelta to a string using H:M:S format.
+    """Converts Pandas Timedelta to a string using H:M:S format.
 
     Args:
         timedelta: Pandas Timedelta object.
@@ -96,7 +96,7 @@ def timedelta_to_hms(timedelta):
 
 
 def convert_times(video_attributes):
-    """Convert time data in a YouTube Video Attributes Pandas DataFrame into Pandas Timedelta objects.
+    """Converts time data in a YouTube Video Attributes Pandas DataFrame into Pandas Timedelta objects.
 
     Time data includes duration, start times, and end times.
 
@@ -117,7 +117,7 @@ def convert_times(video_attributes):
 
 
 def to_timedelta(dataframe, column_name):
-    """Convert specified DataFrame column containing time duration data into Pandas Timedelta objects.
+    """Converts specified DataFrame column containing time duration data into Pandas Timedelta objects.
 
     Time duration data must be in a format that the 'pandas.to_timedelta' function accepts. If the data is already
     represented by Pandas Timedelta objects, no conversion will be made.
@@ -137,7 +137,7 @@ def to_timedelta(dataframe, column_name):
 
 
 def combine_same_columns(dataframe, column_name):
-    """Combine two "identical" columns that resulted from joining two Pandas DataFrames.
+    """Combines two "identical" columns that resulted from joining two Pandas DataFrames.
 
     Example: Combine 'duration_x' and 'duration_y' columns into a single 'duration' column.
 
@@ -161,7 +161,7 @@ def combine_same_columns(dataframe, column_name):
 
 
 def _combine_values(value1, value2):
-    """Combine two values and return the result as a string.
+    """Combines two values and return the result as a string.
 
      If a value is NaN or missing, it is ignored. If both values are not NaN, combine and separate with a '/'.
      If both values are NaN or missing, return empty string.
