@@ -45,9 +45,22 @@ def reformat_datetimes(member_channel_data=None, member_video_data=None):
 
 
 def _reformat_channel_datetimes(member_channel_data):
-    pass
+
+    dataset = 'channel_video_summary'
+
+    if dataset in member_channel_data:
+        member_channel_data[dataset] = _reformat_channel_video_summary(member_channel_data[dataset])
 
     return member_channel_data
+
+
+def _reformat_channel_video_summary(channel_video_summary):
+
+    for data_column in channel_video_summary['video_attributes']:
+        if 'duration' in data_column:
+            channel_video_summary = to_timedelta(channel_video_summary, data_column)
+
+    return channel_video_summary
 
 
 def zulutime_to_utc(date_time, show_tz=False):
