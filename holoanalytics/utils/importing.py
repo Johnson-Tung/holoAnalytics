@@ -8,7 +8,7 @@ CHANNEL_DATA_TYPES = ('channel_stats', 'channel_thumbnail_urls', 'channel_titles
                       'channel_video_summary')  # Prepared
 
 
-def request_session():
+def request_session(session_open=True):
     """Displays available data collection sessions and returns the name of the session selected by the user.
 
     Returns:
@@ -35,6 +35,9 @@ def request_session():
         print('\nInvalid session number. Please try again.')
 
     session_name = session_dir_paths[session_number].name
+
+    if session_open is True:
+        open_session(session_name)
 
     return session_name
 
