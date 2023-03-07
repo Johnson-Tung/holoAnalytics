@@ -5,7 +5,6 @@ import pandas as pd
 from pandas.core.dtypes.common import is_timedelta64_dtype
 from holoanalytics.utils import exporting
 
-VIDEO_DATA_TYPES = ('video_attributes', 'video_stats', 'video_types', 'content_types')
 VIDEO_STATS = ('view_count', 'like_count', 'comment_count')
 VIDEO_TYPES = ('Normal', 'Short', 'Live Stream', 'Premiere')
 CONTENT_TYPES = ('3DLive', 'Chatting', 'Collab', 'Debut', 'Drawing', 'Gaming', 'Karaoke', 'Music Video',
