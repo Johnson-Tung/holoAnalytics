@@ -58,7 +58,7 @@ def _reformat_channel_video_summary(channel_video_summary):
 
     for data_column in channel_video_summary['video_attributes']:
         if 'duration' in data_column:
-            channel_video_summary = to_timedelta(channel_video_summary, data_column)
+            channel_video_summary = to_timedelta(channel_video_summary, ('video_attributes', data_column))
 
     return channel_video_summary
 
