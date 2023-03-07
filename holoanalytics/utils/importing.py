@@ -28,14 +28,15 @@ def request_session(session_open=True):
             print(f'{index} - {file_path.name}')
 
         try:
-            session_number = int(input('Please enter the session number for the data that will be prepared, e.g. 0: '))
+            session_number = int(input('Please select a session and enter the number beside its name, '
+                                       'e.g. Enter "0" if you wish to select the first session: '))
         except ValueError:
             pass
         else:
             if 0 <= session_number <= max_index:
                 break
 
-        print('\nInvalid session number. Please try again.')
+        print('\nInvalid session selected. Please try again and enter a valid number.')
 
     session_name = session_dir_paths[session_number].name
 
