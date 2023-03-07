@@ -9,10 +9,13 @@ CHANNEL_DATA_TYPES = ('channel_stats', 'channel_thumbnail_urls', 'channel_titles
 
 
 def request_session(session_open=True):
-    """Displays available data collection sessions and returns the name of the session selected by the user.
+    """Displays available sessions and allows the user to request a specific session.
+
+    Args:
+        session_open: Boolean specifying if the requested session is to be opened. Default = True.
 
     Returns:
-        session_name: String specifying the data collection session to be opened.
+        session_name: String specifying the name of the requested session.
     """
 
     session_dir_paths = list(df.YT_DAPI_SESSIONS_PATH.iterdir())
