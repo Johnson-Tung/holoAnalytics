@@ -234,3 +234,10 @@ def _check_missing_types(reference, check):
                 keyword_bank[content_type] = []
 
     return check
+
+
+def convert_to_multilevel(dataframe, dataset_name):
+
+    dataframe.columns = pd.MultiIndex.from_product([[dataset_name], dataframe.columns])
+
+    return dataframe
