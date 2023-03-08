@@ -241,3 +241,23 @@ def convert_to_multilevel(dataframe, dataset_name):
     dataframe.columns = pd.MultiIndex.from_product([[dataset_name], dataframe.columns])
 
     return dataframe
+
+
+def convert_timedelta(timedelta, unit='hours'):
+    total_seconds = 0
+
+    total_seconds += timedelta.components.days * 86400
+    total_seconds += timedelta.components.hours * 3600
+    total_seconds += timedelta.components.minutes * 60
+    total_seconds += timedelta.components.seconds
+
+    if unit.lower() == 'days':
+        return total_seconds / 86400
+    elif unit.lower() == 'hours':
+        return total_seconds / 3600
+    elif unit.lower() == 'minutes':
+        return total_seconds / 60
+    elif unit.lower() == 'seconds':
+        return total_seconds
+    else:
+        raise ValueError('Please provide a valid unit of time, i.e. days, hours, minutes, or seconds.')
