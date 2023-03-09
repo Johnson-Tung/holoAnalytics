@@ -236,7 +236,14 @@ def _check_missing_types(reference, check):
     return check
 
 
-def convert_to_multilevel(dataframe, dataset_name):
+def convert_to_multilevel(dataframe, dataset_name, inplace=False):
+
+    if inplace is False:
+        dataframe = dataframe.copy()
+    elif inplace is True:
+        pass
+    else:
+        raise ValueError("The argument for the 'inplace' parameter needs to be a boolean.")
 
     dataframe.columns = pd.MultiIndex.from_product([[dataset_name], dataframe.columns])
 
