@@ -87,18 +87,22 @@ def _get_member_channel_data(channel_data_types):
     file_paths.reverse()  # Get file paths from latest to earliest.
 
     for channel_data_type in channel_data_types:
-        for file_path in file_paths:
-            if f'{channel_data_type}' in file_path.name:
-                member_channel_data[channel_data_type] = {}
-
-                headers = [0, 1] if channel_data_type == 'channel_video_summary' else [0]  # Note: Temporary solution.
-
-                member_channel_data[channel_data_type]['data'] = pd.read_csv(file_path, header=headers)
-                member_channel_data[channel_data_type]['datetime'] = _extract_datetime(file_path.stem)
-
-                break
+        member_channel_data[channel_data_type] = _get_channel_data(file_paths, channel_data_type)
 
     return member_channel_data
+
+
+def _get_channel_data(file_paths, channel_data_type):
+    channel_data = {}
+
+    for file_path in file_paths:
+        if f'{channel_data_type}' in file_path.name:
+            headers = [0, 1] if channel_data_type == 'channel_video_summary' else [0]  # Note: Temporary solution
+
+            channel_data['data'] = pd.read_csv(file_path, header=headers)
+            channel_data['datetime'] = _extract_datetime(file_path.stem)
+
+    return channel_data
 
 
 def _extract_datetime(file_name):
