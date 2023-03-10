@@ -70,12 +70,12 @@ def import_member_data():
 def import_channel_data(channel_data_types='all'):
 
     channel_data_types = _check_data_subtypes('channel', channel_data_types)
-    member_channel_data = _member_channel_data(channel_data_types)
+    member_channel_data = _get_member_channel_data(channel_data_types)
 
     return member_channel_data
 
 
-def _member_channel_data(channel_data_types):
+def _get_member_channel_data(channel_data_types):
     member_channel_data = {}
 
     dir_path = df.SESSION_PATH / 'Channel'
@@ -129,7 +129,7 @@ def import_video_data(member_names='all', video_data_types='all'):
     member_names = _check_member_names(member_names)
     video_data_types = _check_data_subtypes('video', video_data_types)
 
-    member_video_data = _member_video_data(member_names, video_data_types)
+    member_video_data = _get_member_video_data(member_names, video_data_types)
 
     return member_video_data
 
@@ -169,28 +169,28 @@ def _check_data_subtypes(data_type, data_subtypes):
     return data_subtypes
 
 
-def _member_video_data(member_names, data_types):
+def _get_member_video_data(member_names, data_types):
     member_video_data = {}
 
     for member_name in member_names:
         member_name = member_name.replace(' ', '_')
         member_dir_path = df.SESSION_PATH / 'Video' / member_name
         if member_dir_path.exists():
-            member_video_data[member_name] = _all_video_data(member_dir_path, data_types)
+            member_video_data[member_name] = _get_single_member_video_data(member_dir_path, data_types)
 
     return member_video_data
 
 
-def _all_video_data(member_dir_path, data_types):
+def _get_single_member_video_data(member_dir_path, data_types):
     video_data = {}
 
     for data_type in data_types:
-        video_data[data_type] = _video_data(member_dir_path, data_type)
+        video_data[data_type] = _get_video_data(member_dir_path, data_type)
 
     return video_data
 
 
-def _video_data(member_dir_path, data_type):
+def _get_video_data(member_dir_path, data_type):
     data_file_path = None
     member_name = member_dir_path.name
 
