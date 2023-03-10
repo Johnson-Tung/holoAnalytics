@@ -188,17 +188,19 @@ def _get_member_video_data(member_names, video_data_types):
 def _get_single_member_video_data(member_dir_path, video_data_types):
     single_member_video_data = {}
 
+    member_name = member_dir_path.name
+    file_paths = member_dir_path.iterdir()
+
     for video_data_type in video_data_types:
-        single_member_video_data[video_data_type] = _get_video_data(member_dir_path, video_data_type)
+        single_member_video_data[video_data_type] = _get_video_data(member_name, file_paths, video_data_type)
 
     return single_member_video_data
 
 
-def _get_video_data(member_dir_path, video_data_type):
+def _get_video_data(member_name, file_paths, video_data_type):
     data_file_path = None
-    member_name = member_dir_path.name
 
-    for file_path in member_dir_path.iterdir():
+    for file_path in file_paths:
         if f'{member_name.lower()}_{video_data_type}' in file_path.name:
             data_file_path = file_path
             break
