@@ -198,17 +198,13 @@ def _get_single_member_video_data(member_dir_path, video_data_types):
 
 
 def _get_video_data(member_name, file_paths, video_data_type):
-    data_file_path = None
+    video_data = {}
 
     for file_path in file_paths:
         if f'{member_name.lower()}_{video_data_type}' in file_path.name:
-            data_file_path = file_path
+            video_data['data'] = pd.read_csv(file_path)
+            video_data['datetime'] = _extract_datetime(file_path.stem)
             break
-
-    if data_file_path is None:
-        video_data = None
-    else:
-        video_data = pd.read_csv(data_file_path)
 
     return video_data
 
