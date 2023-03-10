@@ -169,42 +169,42 @@ def _check_data_subtypes(data_type, data_subtypes):
     return data_subtypes
 
 
-def _get_member_video_data(member_names, data_types):
+def _get_member_video_data(member_names, video_data_types):
     member_video_data = {}
 
     for member_name in member_names:
         member_name = member_name.replace(' ', '_')
         member_dir_path = df.SESSION_PATH / 'Video' / member_name
         if member_dir_path.exists():
-            member_video_data[member_name] = _get_single_member_video_data(member_dir_path, data_types)
+            member_video_data[member_name] = _get_single_member_video_data(member_dir_path, video_data_types)
 
     return member_video_data
 
 
-def _get_single_member_video_data(member_dir_path, data_types):
-    video_data = {}
+def _get_single_member_video_data(member_dir_path, video_data_types):
+    single_member_video_data = {}
 
-    for data_type in data_types:
-        video_data[data_type] = _get_video_data(member_dir_path, data_type)
+    for video_data_type in video_data_types:
+        single_member_video_data[video_data_type] = _get_video_data(member_dir_path, video_data_type)
 
-    return video_data
+    return single_member_video_data
 
 
-def _get_video_data(member_dir_path, data_type):
+def _get_video_data(member_dir_path, video_data_type):
     data_file_path = None
     member_name = member_dir_path.name
 
     for file_path in member_dir_path.iterdir():
-        if f'{member_name.lower()}_{data_type}' in file_path.name:
+        if f'{member_name.lower()}_{video_data_type}' in file_path.name:
             data_file_path = file_path
             break
 
     if data_file_path is None:
-        data = None
+        video_data = None
     else:
-        data = pd.read_csv(data_file_path)
+        video_data = pd.read_csv(data_file_path)
 
-    return data
+    return video_data
 
 
 def import_keyword_banks(*languages):
