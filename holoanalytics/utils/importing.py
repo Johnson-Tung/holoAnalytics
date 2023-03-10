@@ -1,4 +1,5 @@
 import csv
+from datetime import datetime
 import pandas as pd
 from holoanalytics import definitions as df
 
@@ -88,11 +89,29 @@ def _member_channel_data(channel_data_types):
     for channel_data_type in channel_data_types:
         for file_path in file_paths:
             if f'{channel_data_type}' in file_path.name:
+                member_channel_data[channel_data_type] = {}
+
                 headers = [0, 1] if channel_data_type == 'channel_video_summary' else [0]  # Note: Temporary solution.
-                member_channel_data[channel_data_type] = pd.read_csv(file_path, header=headers)
+
+                member_channel_data[channel_data_type]['data'] = pd.read_csv(file_path, header=headers)
+                member_channel_data[channel_data_type]['datetime'] = _extract_datetime(file_path.stem)
+
                 break
 
     return member_channel_data
+
+
+def _extract_datetime(file_name):
+
+    year = int(file_name[0:4])
+    month = int(file_name[5:7])
+    day = int(file_name[8:10])
+    hour = int(file_name[11:13])
+    minute = int(file_name[13:15])
+
+    file_datetime = datetime(year, month, day, hour, minute)
+
+    return file_datetime
 
 
 def import_video_data(member_names='all', video_data_types='all'):
