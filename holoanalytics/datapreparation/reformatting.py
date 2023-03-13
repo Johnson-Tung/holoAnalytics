@@ -34,7 +34,7 @@ def reformat_datetimes(member_channel_data=None, member_video_data=None):
     if video_data_check:
         for video_data in member_video_data.values():
             if 'video_attributes' in video_data:
-                video_data['video_attributes'] = convert_times(video_data['video_attributes'])
+                video_data['video_attributes']['data'] = convert_times(video_data['video_attributes']['data'])
 
     if channel_data_check and video_data_check:
         return member_channel_data, member_video_data
@@ -49,7 +49,7 @@ def _reformat_channel_datetimes(member_channel_data):
     dataset = 'channel_video_summary'
 
     if dataset in member_channel_data:
-        member_channel_data[dataset] = _reformat_channel_video_summary(member_channel_data[dataset])
+        member_channel_data[dataset] = _reformat_channel_video_summary(member_channel_data[dataset]['data'])
 
     return member_channel_data
 
