@@ -136,7 +136,7 @@ def _extract_datetime(file_name):
 
 
 def import_video_data(member_names='all', video_data_types='all'):
-    """Imports video data for specified Hololive Production members.
+    """Imports YouTube video data for specified Hololive Production members.
 
     Args:
         member_names: String or collection, e.g. list, of strings specifying the names of members whose video data is
