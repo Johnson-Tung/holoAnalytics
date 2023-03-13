@@ -237,6 +237,16 @@ def _check_missing_types(reference, check):
 
 
 def convert_to_multilevel(dataframe, dataset_name, inplace=False):
+    """Converts a Pandas DataFrame with single-level columns to use multi-level, i.e. two-level, columns.
+
+    Args:
+        dataframe: Pandas DataFrame with single-level columns.
+        dataset_name: String specifying the name of the dataset / Pandas DataFrame.
+        inplace: Boolean specifying if changes are to be made in-place or on a copy. Default = False.
+
+    Returns:
+        dataframe: Modified Pandas DataFrame with multi-level columns.
+    """
 
     if inplace is False:
         dataframe = dataframe.copy()
@@ -251,6 +261,20 @@ def convert_to_multilevel(dataframe, dataset_name, inplace=False):
 
 
 def convert_timedelta(timedelta, unit='hours'):
+    """Converts a Pandas Timedelta object to a float specifying the duration of time in the specified unit.
+
+    Acceptable units of time: Days, hours, minutes, and seconds.
+
+    Example: A Timedelta with a value of '5 days 12:30:00' and 'hours' as the unit will return a float with a
+             value of 132.5.
+
+    Args:
+        timedelta: Pandas Timedelta object to be converted.
+        unit: String specifying the unit of time that the Timedelta is to be converted to.
+
+    Returns:
+        Float specifying the duration of time in the specified unit.
+    """
     total_seconds = 0
 
     total_seconds += timedelta.components.days * 86400
