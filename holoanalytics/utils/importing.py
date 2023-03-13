@@ -61,6 +61,13 @@ def open_session(session):
 
 
 def import_member_data():
+    """Imports starting data for Hololive Production members.
+
+    Starting data includes, but is not limited to, details such as names, groups, unit names, and debut dates.
+
+    Returns:
+        member_data: Pandas DataFrame containing starting data of Hololive Production members.
+    """
 
     member_data = pd.read_csv(df.STARTING_DATA_FILE)
 
@@ -68,6 +75,16 @@ def import_member_data():
 
 
 def import_channel_data(channel_data_types='all'):
+    """Imports YouTube channel data for specified Hololive Production members.
+
+    Args:
+        channel_data_types: String or collection, e.g. list, of strings specifying the types of channel data to be
+                            imported. Default = 'all'.
+
+    Returns:
+        member_channel_data: Dictionary of Pandas DataFrames containing YouTube channel data, e.g. channel stats,
+                             for Hololive Production members.
+    """
 
     channel_data_types = _check_data_subtypes('channel', channel_data_types)
     member_channel_data = _get_member_channel_data(channel_data_types)
