@@ -14,6 +14,20 @@ CURRENT_YEAR = datetime.now().year
 
 
 def summarize_video_data(member_video_data, member_channel_data=None, export_data=True):
+    """Summarizes YouTube video data on a per-channel basis.
+
+    This function summarizes video attributes, video stats, video types, and content types.
+
+    Args:
+        member_video_data: Dictionary of dictionaries of Pandas DataFrames containing YouTube video data,
+                           e.g. video stats, for individual Hololive Production members.
+        member_channel_data: Dictionary of Pandas DataFrames containing YouTube channel data, e.g. channel stats,
+                             for Hololive Production members.
+        export_data: Boolean specifying whether collected data is to be exported. Default = True.
+
+    Returns:
+        member_channel_data: Updated dictionary containing video summary data for each channel.
+    """
     member_summaries = []
 
     if member_channel_data is None:
@@ -45,6 +59,17 @@ def summarize_video_data(member_video_data, member_channel_data=None, export_dat
 
 
 def summarize_video_types(video_types):
+    """Summarizes YouTube video type data by counting the number of videos for each type.
+
+    This function summarizes based on the four video types: Normal, Short, Live Stream, and Premiere.
+
+    Args:
+        video_types: Pandas DataFrame containing video ids and video types of YouTube videos.
+
+    Returns:
+        summary: Dictionary where the keys specify the type of result, e.g. 'live_stream_(count)', and the values are
+                 the results, e.g. 100.
+    """
     summary = {}
 
     counts = video_types.groupby('video_type').count()
@@ -60,6 +85,22 @@ def summarize_video_types(video_types):
 
 
 def summarize_video_attributes(video_attributes, video_types=None):
+    """Summarizes YouTube video attribute data.
+
+    This function summarizes video durations and video publish datetimes.
+
+    In all instances, summaries will be done on the videos as a whole, i.e. Video types do not matter.
+    However, by passing in appropriate data to the 'video_types' parameter, additional summaries will also be done for
+    individual video types, e.g. live streams.
+
+    Args:
+        video_attributes: Pandas DataFrame containing video ids and video attributes of YouTube videos.
+        video_types: Pandas DataFrame containing video ids and video types of YouTube videos. Default = None.
+
+    Returns:
+        summary: Dictionary where the keys specify the type of result, e.g. 'live_stream_duration_(median)' and
+                 the values are the results, e.g. 3:00:00.
+    """
     summary = {}
 
     summary |= summarize_durations(video_attributes, video_types)
@@ -69,6 +110,16 @@ def summarize_video_attributes(video_attributes, video_types=None):
 
 
 def summarize_durations(video_attributes, video_types=None):
+    """Summarizes YouTube video duration data.
+
+    Args:
+        video_attributes: Pandas DataFrame containing video ids and video attributes of YouTube videos.
+        video_types: Pandas DataFrame containing video ids and video types of YouTube videos. Default = None.
+
+    Returns:
+        summary: Dictionary where the keys specify the type of result, e.g. 'video_duration_(max)' and the values are
+                 the results, e.g. 8:08:51.
+    """
     summary = {}
 
     durations = video_attributes['duration']
@@ -87,6 +138,22 @@ def summarize_durations(video_attributes, video_types=None):
 
 
 def summarize_publish_datetimes(video_attributes, video_types=None):
+    """Summarizes YouTube video publish datetime data.
+
+    This function summarizes the video publish datetimes by counting the number of videos by month and year.
+
+    In all instances, summaries will be done on the videos as a whole, i.e. Video types do not matter.
+    However, by passing in appropriate data to the 'video_types' parameter, summaries will also be done for live streams
+    specifically.
+
+    Args:
+        video_attributes: Pandas DataFrame containing video ids and video attributes of YouTube videos.
+        video_types: Pandas DataFrame containing video ids and video types of YouTube videos. Default = None.
+
+    Returns:
+        summary: Dictionary where the keys specify the type of result, e.g. 'video_count_(2022)' and the values are
+                 the results, e.g. 120.
+    """
     summary = {}
 
     publish_datetimes = video_attributes['publish_datetime']
@@ -136,6 +203,22 @@ def _count_by_month(publish_datetimes, video_type):
 
 
 def summarize_video_stats(video_stats, video_types=None):
+    """Summarizes YouTube video stat data.
+
+    This function summarizes view, like, and comment counts.
+
+    In all instances, summaries will be done on the videos as a whole, i.e. Video types do not matter.
+    However, by passing in appropriate data to the 'video_types' parameter, additional summaries will also be done for
+    individual video types, e.g. live streams.
+
+    Args:
+        video_stats: Pandas DataFrame containing video ids and video stats of YouTube videos.
+        video_types: Pandas DataFrame containing video ids and video types of YouTube videos. Default = None.
+
+    Returns:
+        summary: Dictionary where the keys specify the type of result, e.g. 'view_count_(mean)' and the values are
+                 the results, e.g. 750,000.
+    """
     summary = {}
 
     for video_stat in VIDEO_STATS:
@@ -155,6 +238,21 @@ def summarize_video_stats(video_stats, video_types=None):
 
 
 def summarize_content_types(content_types, video_types=None):
+    """Summarizes YouTube content type data.
+
+    This function generates summary statistics for YouTube videos based on their content type.
+
+    In all instances, summaries will be done on the videos as a whole, i.e. Video types do not matter.
+    In a future update, there will be the option to summarize data based on video types.
+
+    Args:
+        content_types: Pandas DataFrame containing video ids and content types of YouTube videos.
+        video_types: Pandas DataFrame containing video ids and video types of YouTube videos. Default = None.
+
+    Returns:
+        summary: Dictionary where the keys specify the type of result, e.g. 'music_video_(count)' and the values are
+                 the results, e.g. 50.
+    """
     summary = {}
     all_content_types = []
 
@@ -175,6 +273,21 @@ def summarize_content_types(content_types, video_types=None):
 
 
 def summary_stats(data_col, label, count=True, rounding=None):
+    """Generates summary statistics for a Pandas DataFrame column or Series.
+
+    Summary statistics include: Count (Optional), Sum, Mean, Standard Deviation, 1st Quartile, Median, 3rd Quartile,
+    Min, and Max.
+
+    Args:
+        data_col: Pandas DataFrame column / Pandas Series containing the data to be summarized.
+        label: String specifying the type of data that is being summarized, e.g. 'view_count'.
+        count: Boolean specifying if the number of data points / values are to be counted. Default = True.
+        rounding: Integer representing the number of decimal places to round results to. Default = None (No rounding).
+
+    Returns:
+        summary: Dictionary where the keys specify the type of result, e.g. 'view_count_(median)' and the values are
+                 the results, e.g. 200,000.
+    """
     summary = {}
 
     # Counting the number of data points is sometimes unnecessary and redundant. Therefore, make it optional.
