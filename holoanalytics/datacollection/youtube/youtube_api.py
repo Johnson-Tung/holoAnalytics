@@ -7,6 +7,7 @@ Functions:
     2) request_data: Makes request(s) for YouTube data and receives responses.
 """
 
+from datetime import datetime
 import os
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
@@ -48,7 +49,7 @@ def request_data(client, resource_type, ids, max_results=50):
         responses: List containing the API's responses to requests.
     """
 
-    responses = []
+    responses = {'responses': []}
 
     client_resource, part, resource_type = _check_resource_type(client, resource_type)
 
@@ -62,7 +63,7 @@ def request_data(client, resource_type, ids, max_results=50):
             except HttpError:  # If playlist is empty, YouTube API returns HttpError 404.
                 break
             else:
-                responses.append(response)
+                responses['responses'].append(response)
                 token = response.get('nextPageToken', None)
                 if token is None:
                     break
@@ -70,7 +71,9 @@ def request_data(client, resource_type, ids, max_results=50):
         batched_ids = dr.split_n_sized_batches(ids, max_results)
         for batch in batched_ids:
             request = client_resource.list(part=part, id=batch, maxResults=max_results)
-            responses.append(request.execute())
+            responses['responses'].append(request.execute())
+
+    responses['datetime'] = datetime.utcnow().replace(microsecond=0)
 
     return responses
 
