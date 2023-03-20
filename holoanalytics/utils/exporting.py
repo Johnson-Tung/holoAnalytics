@@ -11,6 +11,7 @@ Functions:
 import csv
 from pathlib import Path
 from datetime import datetime
+import pandas as pd
 from holoanalytics import definitions as df
 
 
@@ -92,7 +93,7 @@ def create_session():
     return session_dir_path
 
 
-def export_dataframe(dataframe, dir_path, file_name, add_datetime=True, filetype='csv'):
+def export_dataframe(dataframe, dir_path, file_name, timestamp=None, auto_timestamp=True, filetype='csv'):
     """Exports a Pandas DataFrame to a text file based on the specified file type, file name, and location.
 
     It is recommended to export the data to csv files.
@@ -108,13 +109,23 @@ def export_dataframe(dataframe, dir_path, file_name, add_datetime=True, filetype
         None
     """
 
-    if add_datetime is True:
-        current_datetime = str(datetime.utcnow())
-        current_date = current_datetime[0:10]
-        current_time = current_datetime[11:16].replace(':', '')
-        full_filename = f'{current_date}-{current_time}_{file_name}.{filetype}'
-    else:
+    if timestamp is None and auto_timestamp is False:
         full_filename = f'{file_name}.{filetype}'
+    else:
+        # Check if a valid timestamp was specified.
+        if isinstance(timestamp, (datetime, pd.Timestamp)):
+            pass
+        elif timestamp is not None:
+            raise TypeError(f"'date_time' needs to be a Datetime object, not a '{type(timestamp)}' object.")
+        # No timestamp was specified, so check if a timestamp was requested to be added automatically.
+        elif auto_timestamp is True:
+            timestamp = str(datetime.utcnow())
+        else:
+            raise TypeError(f"'add_datetime' needs to be a Boolean, not a '{type(auto_timestamp)}' object.")
+
+        date = timestamp[0:10]
+        time = timestamp[11:16].replace(':', '')
+        full_filename = f'{date}-{time}_{file_name}.{filetype}'
 
     full_path = dir_path / full_filename
     dataframe.to_csv(full_path, index=False)
