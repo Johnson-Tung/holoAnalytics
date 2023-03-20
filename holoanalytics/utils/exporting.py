@@ -133,7 +133,7 @@ def export_dataframe(dataframe, dir_path, file_name, timestamp=None, auto_timest
     print(f"'{full_filename}' has been successfully exported.")
 
 
-def export_channel_data(data, export_data, filename):
+def export_channel_data(data, export_data, filename, timestamp=None, auto_timestamp=True, filetype='csv'):
     """Exports collected YouTube channel data.
 
     This function exports collected YouTube channel data to a text-based file located in the current session's
@@ -159,10 +159,10 @@ def export_channel_data(data, export_data, filename):
     if not dir_path.exists():
         dir_path = create_directory(dir_path.parent, dir_path.name, add_date=False)
 
-    export_dataframe(data, dir_path, filename)
+    export_dataframe(data, dir_path, filename, timestamp, auto_timestamp, filetype)
 
 
-def export_video_data(member_name, data, export_data, filename, add_datetime=True, filetype='csv'):
+def export_video_data(member_name, data, export_data, filename, timestamp=None, auto_timestamp=True, filetype='csv'):
     """Exports collected YouTube video data.
 
     This function exports collected YouTube video data to a text-based file located in the current session's
@@ -193,8 +193,7 @@ def export_video_data(member_name, data, export_data, filename, add_datetime=Tru
     if not dir_path.exists():
         dir_path = create_directory(dir_path.parent, dir_path.name, add_date=False)
 
-    export_dataframe(data, dir_path, f'{member_name.lower()}_{filename}', add_datetime,
-                     filetype)
+    export_dataframe(data, dir_path, f'{member_name.lower()}_{filename}', timestamp, auto_timestamp, filetype)
 
 
 def export_keyword_banks(keyword_banks):
