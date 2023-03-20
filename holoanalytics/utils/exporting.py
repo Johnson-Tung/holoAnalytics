@@ -98,11 +98,19 @@ def export_dataframe(dataframe, dir_path, file_name, timestamp=None, auto_timest
 
     It is recommended to export the data to csv files.
 
+    When including a timestamp in the file name, non-None arguments for 'timestamp' will take priority over
+    'auto_timestamp', i.e. A timestamp that is manually provided will be used, even if an automatic timestamp was
+    requested.
+
     Args:
         dataframe: Pandas DataFrame to be exported.
         dir_path: Path object specifying the absolute path to the directory that the output file is to be created in.
         file_name: String specifying the name of the output file.
-        add_datetime: Boolean specifying if datetime is added to the filename.
+        timestamp: Datetime object or Pandas Timestamp that specifies the date and time to be used in the output file
+                   name, i.e.the timestamp associated with the collection or preparation of the DataFrame's data.
+                   Default = None.
+        auto_timestamp: Boolean specifying if a timestamp using the current date and time is to be automatically
+                        added to the file name. Default = False.
         filetype: String specifying the type of the output file. Default = 'csv'.
 
     Returns:
@@ -139,10 +147,20 @@ def export_channel_data(data, export_data, filename, timestamp=None, auto_timest
     This function exports collected YouTube channel data to a text-based file located in the current session's
     'Channel' directory and with the specified file name.
 
+    When including a timestamp in the file name, non-None arguments for 'timestamp' will take priority over
+    'auto_timestamp', i.e. A timestamp that is manually provided will be used, even if an automatic timestamp was
+    requested.
+
     Args:
         data: Pandas DataFrame containing collected YouTube channel data.
         export_data: Boolean specifying whether collected data is to be exported. Default = True.
         filename: String specifying the name of the output file.
+        timestamp: Datetime object or Pandas Timestamp that specifies the date and time to be used in the output file
+                   name, i.e.the timestamp associated with the collection or preparation of the DataFrame's data.
+                   Default = None.
+        auto_timestamp: Boolean specifying if a timestamp using the current date and time is to be automatically
+                        added to the file name. Default = False.
+        filetype: String specifying the type of the output file. Default = 'csv'.
 
     Returns:
         None
@@ -168,13 +186,21 @@ def export_video_data(member_name, data, export_data, filename, timestamp=None, 
     This function exports collected YouTube video data to a text-based file located in the current session's
     'Video' directory and with the specified file name.
 
+    When including a timestamp in the file name, non-None arguments for 'timestamp' will take priority over
+    'auto_timestamp', i.e. A timestamp that is manually provided will be used, even if an automatic timestamp was
+    requested.
+
     Args:
         member_name: String specifying the name of the Hololive Production member whose videos data is being
                      collected for.
         data: Pandas DataFrame containing YouTube video data.
         export_data: Boolean specifying whether collected data is to be exported. Default = True.
         filename: String specifying the name of the output file.
-        add_datetime: Boolean specifying if datetime is added to the filename.
+        timestamp: Datetime object or Pandas Timestamp that specifies the date and time to be used in the output file
+                   name, i.e.the timestamp associated with the collection or preparation of the DataFrame's data.
+                   Default = None.
+        auto_timestamp: Boolean specifying if a timestamp using the current date and time is to be automatically
+                        added to the file name. Default = False.
         filetype: String specifying the type of the output file. Default = 'csv'.
 
     Returns:
