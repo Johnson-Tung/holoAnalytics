@@ -76,9 +76,6 @@ def _adjust_file_path(old_path):
 def create_session():
     """Starts a new session and creates a directory to store all new files that will be created during said session.
 
-    Currently, creates session for new data collection using the YouTube Data API. Future update will support sessions
-    for other activities, including data collection using the Twitter and Twitch APIs.
-
     Returns:
         session_dir_path: Path object specifying the absolute path to the new session's directory.
     """
@@ -142,18 +139,18 @@ def export_dataframe(dataframe, dir_path, file_name, timestamp=None, auto_timest
 
 
 def export_channel_data(data, export_data, filename, timestamp=None, auto_timestamp=True, filetype='csv'):
-    """Exports collected YouTube channel data.
+    """Exports YouTube channel data.
 
-    This function exports collected YouTube channel data to a text-based file located in the current session's
-    'Channel' directory and with the specified file name.
+    This function exports collected or prepared YouTube channel data to a text-based file located in the current
+    session's 'Channel' directory and with the specified file name.
 
     When including a timestamp in the file name, non-None arguments for 'timestamp' will take priority over
     'auto_timestamp', i.e. A timestamp that is manually provided will be used, even if an automatic timestamp was
     requested.
 
     Args:
-        data: Pandas DataFrame containing collected YouTube channel data.
-        export_data: Boolean specifying whether collected data is to be exported. Default = True.
+        data: Pandas DataFrame containing YouTube channel data.
+        export_data: Boolean specifying whether the data is to be exported. Default = True.
         filename: String specifying the name of the output file.
         timestamp: Datetime object or Pandas Timestamp that specifies the date and time to be used in the output file
                    name, i.e.the timestamp associated with the collection or preparation of the DataFrame's data.
@@ -181,20 +178,19 @@ def export_channel_data(data, export_data, filename, timestamp=None, auto_timest
 
 
 def export_video_data(member_name, data, export_data, filename, timestamp=None, auto_timestamp=True, filetype='csv'):
-    """Exports collected YouTube video data.
+    """Exports YouTube video data.
 
-    This function exports collected YouTube video data to a text-based file located in the current session's
-    'Video' directory and with the specified file name.
+    This function exports collected or prepared YouTube video data to a text-based file located in the current
+    session's 'Video' directory and with the specified file name.
 
     When including a timestamp in the file name, non-None arguments for 'timestamp' will take priority over
     'auto_timestamp', i.e. A timestamp that is manually provided will be used, even if an automatic timestamp was
     requested.
 
     Args:
-        member_name: String specifying the name of the Hololive Production member whose videos data is being
-                     collected for.
+        member_name: String specifying the name of the Hololive Production member that the video data belongs to.
         data: Pandas DataFrame containing YouTube video data.
-        export_data: Boolean specifying whether collected data is to be exported. Default = True.
+        export_data: Boolean specifying whether the data is to be exported. Default = True.
         filename: String specifying the name of the output file.
         timestamp: Datetime object or Pandas Timestamp that specifies the date and time to be used in the output file
                    name, i.e.the timestamp associated with the collection or preparation of the DataFrame's data.
