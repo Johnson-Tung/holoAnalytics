@@ -17,7 +17,7 @@ def main():
     channel_data = channels.get_channel_data(client, starting_data.youtube_channel_id)
 
     # Collect YouTube Video Data
-    video_data = videos.get_video_data(client, starting_data, channel_data['uploads_playlist_ids'])
+    video_data = videos.get_video_data(client, starting_data, channel_data['uploads_playlist_ids']['data'])
 
     # Close Client
     client.close()
