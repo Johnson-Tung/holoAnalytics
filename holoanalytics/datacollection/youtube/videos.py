@@ -160,7 +160,8 @@ def get_video_ids(member_name, responses, export_data=True):
 
     data = pd.DataFrame(zip(video_ids, added_to_playlist), columns=['video_id', 'added_to_playlist'])
 
-    exporting.export_video_data(member_name, data, export_data, 'uploads_video_ids')
+    if export_data is True:
+        exporting.export_video_data(member_name, data, 'uploads_video_ids')
 
     return data
 
@@ -207,7 +208,8 @@ def get_video_stats(member_name, responses, export_data=True):
                         columns=['video_id', 'view_count', 'like_count', 'likes_enabled',
                                  'comment_count', 'comments_enabled'])
 
-    exporting.export_video_data(member_name, data, export_data, 'video_stats')
+    if export_data is True:
+        exporting.export_video_data(member_name, data, 'video_stats')
 
     return data
 
@@ -268,6 +270,7 @@ def get_video_attributes(member_name, responses, export_data=True):
                                  'category_id', 'live_broadcast',
                                  'scheduled_start_time', 'scheduled_end_time', 'actual_start_time', 'actual_end_time'])
 
-    exporting.export_video_data(member_name, data, export_data, 'video_attributes')
+    if export_data is True:
+        exporting.export_video_data(member_name, data, 'video_attributes')
 
     return data

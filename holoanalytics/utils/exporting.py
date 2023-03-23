@@ -138,7 +138,7 @@ def export_dataframe(dataframe, dir_path, file_name, timestamp=None, auto_timest
     print(f"'{full_filename}' has been successfully exported.")
 
 
-def export_channel_data(data, export_data, filename, timestamp=None, auto_timestamp=True, filetype='csv'):
+def export_channel_data(data, filename, timestamp=None, auto_timestamp=True, filetype='csv'):
     """Exports YouTube channel data.
 
     This function exports collected or prepared YouTube channel data to a text-based file located in the current
@@ -163,9 +163,6 @@ def export_channel_data(data, export_data, filename, timestamp=None, auto_timest
         None
     """
 
-    if export_data is not True:
-        return
-
     if df.SESSION_PATH is None:
         df.SESSION_PATH = create_session()
 
@@ -177,7 +174,7 @@ def export_channel_data(data, export_data, filename, timestamp=None, auto_timest
     export_dataframe(data, dir_path, filename, timestamp, auto_timestamp, filetype)
 
 
-def export_video_data(member_name, data, export_data, filename, timestamp=None, auto_timestamp=True, filetype='csv'):
+def export_video_data(member_name, data, filename, timestamp=None, auto_timestamp=True, filetype='csv'):
     """Exports YouTube video data.
 
     This function exports collected or prepared YouTube video data to a text-based file located in the current
@@ -202,9 +199,6 @@ def export_video_data(member_name, data, export_data, filename, timestamp=None, 
     Returns:
         None
     """
-
-    if export_data is not True:
-        return
 
     if df.SESSION_PATH is None:
         df.SESSION_PATH = create_session()

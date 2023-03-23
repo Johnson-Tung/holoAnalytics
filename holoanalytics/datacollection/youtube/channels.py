@@ -87,7 +87,8 @@ def get_channel_titles(responses, export_data=True):
 
     data = pd.DataFrame(zip(channel_ids, channel_titles), columns=['channel_id', 'channel_title'])
 
-    exporting.export_channel_data(data, export_data, 'channel_titles')
+    if export_data is True:
+        exporting.export_channel_data(data, 'channel_titles')
 
     return data
 
@@ -127,7 +128,8 @@ def get_channel_stats(responses, export_data=True):
     data = pd.DataFrame(zip(channel_ids, subscriber_counts, video_counts, view_counts),
                         columns=['channel_id', 'subscriber_count', 'video_count', 'view_count'])
 
-    exporting.export_channel_data(data, export_data, 'channel_stats')
+    if export_data is True:
+        exporting.export_channel_data(data, 'channel_stats')
 
     return data
 
@@ -164,7 +166,8 @@ def get_channel_thumbnail_urls(responses, export_data=True):
     data = pd.DataFrame(zip(channel_ids, default_thumbnail_urls, medium_thumbnail_urls, high_thumbnail_urls),
                         columns=['channel_id', 'default', 'medium', 'high'])
 
-    exporting.export_channel_data(data, export_data, 'channel_thumbnail_urls')
+    if export_data is True:
+        exporting.export_channel_data(data, 'channel_thumbnail_urls')
 
     return data
 
@@ -194,6 +197,7 @@ def get_uploads_playlist_ids(responses, export_data=True):
 
     data = pd.DataFrame(zip(channel_ids, uploads_playlist_ids), columns=['channel_id', 'uploads_playlist_id'])
 
-    exporting.export_channel_data(data, export_data, 'uploads_playlist_ids')
+    if export_data is True:
+        exporting.export_channel_data(data, 'uploads_playlist_ids')
 
     return data
