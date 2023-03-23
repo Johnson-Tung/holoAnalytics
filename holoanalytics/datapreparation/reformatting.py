@@ -49,7 +49,7 @@ def _reformat_channel_datetimes(member_channel_data):
     dataset = 'channel_video_summary'
 
     if dataset in member_channel_data:
-        member_channel_data[dataset] = _reformat_channel_video_summary(member_channel_data[dataset]['data'])
+        member_channel_data[dataset]['data'] = _reformat_channel_video_summary(member_channel_data[dataset]['data'])
 
     return member_channel_data
 
