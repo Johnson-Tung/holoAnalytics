@@ -116,7 +116,7 @@ def _video_ids_exist(client, member_name, video_data, max_results, export_data):
                     video statistics for the specified member.
     """
 
-    video_ids = video_data['video_ids']['video_id']
+    video_ids = video_data['video_ids']['data']['video_id']
 
     video_responses = youtube_api.request_data(client, 'video', video_ids, max_results)
 
@@ -142,7 +142,7 @@ def get_video_ids(member_name, responses, export_data=True):
             data: Pandas DataFrame containing video ids for the current member and date and time each video was added
                   to the playlist.
         """
-
+    video_data = {}
     video_ids = []
     added_to_playlist = []
 
@@ -150,7 +150,7 @@ def get_video_ids(member_name, responses, export_data=True):
         print(f"{member_name} has no videos available in this playlist.")
         return
 
-    for response in responses:
+    for response in responses['responses']:
         results = response['items']
         for result in results:
             video_ids.append(result['snippet']['resourceId']['videoId'])
@@ -158,12 +158,13 @@ def get_video_ids(member_name, responses, export_data=True):
             # not necessarily when the video was published to YouTube.
             added_to_playlist.append(result['snippet']['publishedAt'])
 
-    data = pd.DataFrame(zip(video_ids, added_to_playlist), columns=['video_id', 'added_to_playlist'])
+    video_data['data'] = pd.DataFrame(zip(video_ids, added_to_playlist), columns=['video_id', 'added_to_playlist'])
+    video_data['datetime'] = responses['datetime']
 
     if export_data is True:
-        exporting.export_video_data(member_name, data, 'uploads_video_ids')
+        exporting.export_video_data(member_name, video_data['data'], 'uploads_video_ids', video_data['datetime'])
 
-    return data
+    return video_data
 
 
 def get_video_stats(member_name, responses, export_data=True):
@@ -181,7 +182,7 @@ def get_video_stats(member_name, responses, export_data=True):
     Returns:
         data: Pandas DataFrame containing video ids and corresponding video statistics for the current member.
     """
-
+    video_data = {}
     video_ids = []
     view_counts = []
     like_counts = []
@@ -189,7 +190,7 @@ def get_video_stats(member_name, responses, export_data=True):
     comment_counts = []
     comments_enabled = []
 
-    for response in responses:
+    for response in responses['responses']:
         results = response['items']
         for result in results:
             video_ids.append(result['id'])
@@ -204,14 +205,16 @@ def get_video_stats(member_name, responses, export_data=True):
             # Provide additional context in event of commentCount of zero
             comments_enabled.append(('commentCount' in result['statistics']))
 
-    data = pd.DataFrame(zip(video_ids, view_counts, like_counts, likes_enabled, comment_counts, comments_enabled),
-                        columns=['video_id', 'view_count', 'like_count', 'likes_enabled',
-                                 'comment_count', 'comments_enabled'])
+    video_data['data'] = pd.DataFrame(zip(video_ids, view_counts, like_counts, likes_enabled, comment_counts,
+                                          comments_enabled),
+                                      columns=['video_id', 'view_count', 'like_count', 'likes_enabled',
+                                               'comment_count', 'comments_enabled'])
+    video_data['datetime'] = responses['datetime']
 
     if export_data is True:
-        exporting.export_video_data(member_name, data, 'video_stats')
+        exporting.export_video_data(member_name, video_data['data'], 'video_stats', video_data['datetime'])
 
-    return data
+    return video_data
 
 
 def get_video_attributes(member_name, responses, export_data=True):
@@ -229,7 +232,7 @@ def get_video_attributes(member_name, responses, export_data=True):
     Returns:
         data: Pandas DataFrame containing video ids and corresponding video attributes for the current member.
     """
-
+    video_data = {}
     video_ids = []
     titles = []
     publish_datetimes = []
@@ -241,7 +244,7 @@ def get_video_attributes(member_name, responses, export_data=True):
     actual_start_times = []
     actual_end_times = []
 
-    for response in responses:
+    for response in responses['responses']:
         results = response['items']
         for result in results:
             video_ids.append(result['id'])
@@ -263,14 +266,15 @@ def get_video_attributes(member_name, responses, export_data=True):
                 actual_start_times.append(np.NaN)
                 actual_end_times.append(np.NaN)
 
-    data = pd.DataFrame(zip(video_ids, titles, publish_datetimes, durations,
-                            category_ids, is_live_broadcast,
-                            scheduled_start_times, scheduled_end_times, actual_start_times, actual_end_times),
-                        columns=['video_id', 'title', 'publish_datetime', 'duration',
-                                 'category_id', 'live_broadcast',
-                                 'scheduled_start_time', 'scheduled_end_time', 'actual_start_time', 'actual_end_time'])
+    video_data['data'] = pd.DataFrame(zip(video_ids, titles, publish_datetimes, durations, category_ids,
+                                          is_live_broadcast, scheduled_start_times, scheduled_end_times,
+                                          actual_start_times, actual_end_times),
+                                      columns=['video_id', 'title', 'publish_datetime', 'duration', 'category_id',
+                                               'live_broadcast', 'scheduled_start_time', 'scheduled_end_time',
+                                               'actual_start_time', 'actual_end_time'])
+    video_data['datetime'] = responses['datetime']
 
     if export_data is True:
-        exporting.export_video_data(member_name, data, 'video_attributes')
+        exporting.export_video_data(member_name, video_data['data'], 'video_attributes', video_data['datetime'])
 
-    return data
+    return video_data
