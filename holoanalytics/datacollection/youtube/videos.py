@@ -154,7 +154,7 @@ def get_video_ids(member_name, responses, export_data=True):
     video_ids = []
     added_to_playlist = []
 
-    if not responses:
+    if not responses['responses']:
         print(f"{member_name} has no videos available in this playlist.")
         return
 
