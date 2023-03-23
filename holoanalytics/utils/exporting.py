@@ -128,8 +128,8 @@ def export_dataframe(dataframe, dir_path, file_name, timestamp=None, auto_timest
         else:
             raise TypeError(f"'add_datetime' needs to be a Boolean, not a '{type(auto_timestamp)}' object.")
 
-        date = timestamp[0:10]
-        time = timestamp[11:16].replace(':', '')
+        date = str(timestamp)[0:10]
+        time = str(timestamp)[11:16].replace(':', '')
         full_filename = f'{date}-{time}_{file_name}.{filetype}'
 
     full_path = dir_path / full_filename
