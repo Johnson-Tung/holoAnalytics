@@ -75,22 +75,24 @@ def get_channel_titles(responses, export_data=True):
     Returns:
         data: Pandas DataFrame containing channel ids and corresponding channel titles
     """
-
+    channel_data = {}
     channel_ids = []
     channel_titles = []
 
-    for response in responses:
+    for response in responses['responses']:
         results = response['items']
         for result in results:
             channel_ids.append(result['id'])
             channel_titles.append(result['snippet']['title'])
 
-    data = pd.DataFrame(zip(channel_ids, channel_titles), columns=['channel_id', 'channel_title'])
+    channel_data['data'] = pd.DataFrame(zip(channel_ids, channel_titles),
+                                        columns=['channel_id', 'channel_title'])
+    channel_data['datetime'] = responses['datetime']
 
     if export_data is True:
-        exporting.export_channel_data(data, 'channel_titles')
+        exporting.export_channel_data(channel_data['data'], 'channel_titles', channel_data['datetime'])
 
-    return data
+    return channel_data
 
 
 def get_channel_stats(responses, export_data=True):
@@ -111,13 +113,13 @@ def get_channel_stats(responses, export_data=True):
     Returns:
         data: Pandas DataFrame containing channel ids and corresponding channel statistics.
     """
-
+    channel_data = {}
     channel_ids = []
     subscriber_counts = []
     video_counts = []
     view_counts = []
 
-    for response in responses:
+    for response in responses['responses']:
         results = response['items']
         for result in results:
             channel_ids.append(result['id'])
@@ -125,13 +127,14 @@ def get_channel_stats(responses, export_data=True):
             video_counts.append(int(result['statistics']['videoCount']))
             view_counts.append(int(result['statistics']['viewCount']))
 
-    data = pd.DataFrame(zip(channel_ids, subscriber_counts, video_counts, view_counts),
-                        columns=['channel_id', 'subscriber_count', 'video_count', 'view_count'])
+    channel_data['data'] = pd.DataFrame(zip(channel_ids, subscriber_counts, video_counts, view_counts),
+                                        columns=['channel_id', 'subscriber_count', 'video_count', 'view_count'])
+    channel_data['datetime'] = responses['datetime']
 
     if export_data is True:
-        exporting.export_channel_data(data, 'channel_stats')
+        exporting.export_channel_data(channel_data['data'], 'channel_stats', channel_data['datetime'])
 
-    return data
+    return channel_data
 
 
 def get_channel_thumbnail_urls(responses, export_data=True):
@@ -149,13 +152,13 @@ def get_channel_thumbnail_urls(responses, export_data=True):
     Returns:
         data: Pandas DataFrame containing channel ids and corresponding thumbnail URLs.
     """
-
+    channel_data = {}
     channel_ids = []
     default_thumbnail_urls = []
     medium_thumbnail_urls = []
     high_thumbnail_urls = []
 
-    for response in responses:
+    for response in responses['responses']:
         results = response['items']
         for result in results:
             channel_ids.append(result['id'])
@@ -163,13 +166,15 @@ def get_channel_thumbnail_urls(responses, export_data=True):
             medium_thumbnail_urls.append(result['snippet']['thumbnails']['medium']['url'])
             high_thumbnail_urls.append(result['snippet']['thumbnails']['high']['url'])
 
-    data = pd.DataFrame(zip(channel_ids, default_thumbnail_urls, medium_thumbnail_urls, high_thumbnail_urls),
-                        columns=['channel_id', 'default', 'medium', 'high'])
+    channel_data['data'] = pd.DataFrame(zip(channel_ids, default_thumbnail_urls, medium_thumbnail_urls,
+                                            high_thumbnail_urls),
+                                        columns=['channel_id', 'default', 'medium', 'high'])
+    channel_data['datetime'] = responses['datetime']
 
     if export_data is True:
-        exporting.export_channel_data(data, 'channel_thumbnail_urls')
+        exporting.export_channel_data(channel_data['data'], 'channel_thumbnail_urls', channel_data['datetime'])
 
-    return data
+    return channel_data
 
 
 def get_uploads_playlist_ids(responses, export_data=True):
@@ -185,19 +190,21 @@ def get_uploads_playlist_ids(responses, export_data=True):
     Returns:
         data: Pandas DataFrame containing channel ids and corresponding uploads playlist ids.
     """
-
+    channel_data = {}
     channel_ids = []
     uploads_playlist_ids = []
 
-    for response in responses:
+    for response in responses['responses']:
         results = response['items']
         for result in results:
             channel_ids.append(result['id'])
             uploads_playlist_ids.append(result['contentDetails']['relatedPlaylists']['uploads'])
 
-    data = pd.DataFrame(zip(channel_ids, uploads_playlist_ids), columns=['channel_id', 'uploads_playlist_id'])
+    channel_data['data'] = pd.DataFrame(zip(channel_ids, uploads_playlist_ids),
+                                        columns=['channel_id', 'uploads_playlist_id'])
+    channel_data['datetime'] = responses['datetime']
 
     if export_data is True:
-        exporting.export_channel_data(data, 'uploads_playlist_ids')
+        exporting.export_channel_data(channel_data['data'], 'uploads_playlist_ids', channel_data['datetime'])
 
-    return data
+    return channel_data
