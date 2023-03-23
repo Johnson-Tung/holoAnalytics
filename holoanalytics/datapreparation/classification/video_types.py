@@ -1,3 +1,4 @@
+from datetime import datetime
 import requests
 import numpy as np
 import pandas as pd
@@ -31,7 +32,8 @@ def classify_video_type(member_video_data, export_data=True):
     """
 
     for member_name, video_data in member_video_data.items():
-        video_data['video_types'] = _classify_member_videos(member_name, video_data['video_attributes'], export_data)
+        video_data['video_types'] = _classify_member_videos(member_name, video_data['video_attributes']['data'],
+                                                            export_data)
 
     return member_video_data
 
@@ -48,15 +50,17 @@ def _classify_member_videos(member_name, video_attributes, export_data):
     Returns:
         data: Pandas DataFrame containing video ids and video type for the member's videos.
     """
-
+    video_data = {}
     video_attributes = is_live_stream(video_attributes)
     video_attributes = is_short(video_attributes)
 
-    data = video_attributes[['video_id', 'video_type']]
+    video_data['data'] = video_attributes[['video_id', 'video_type']]
+    video_data['datetime'] = datetime.utcnow().replace(microsecond=0)
 
-    exporting.export_video_data(member_name, data, export_data, 'video_types')
+    if export_data is True:
+        exporting.export_video_data(member_name, video_data['data'], 'video_types', video_data['datetime'])
 
-    return data
+    return video_data
 
 
 def is_live_stream(video_attributes):

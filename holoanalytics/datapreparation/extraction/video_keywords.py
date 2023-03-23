@@ -1,3 +1,4 @@
+from datetime import datetime
 import re
 
 import pandas as pd
@@ -31,7 +32,8 @@ def extract_title_keywords(member_video_data, keyword_banks, export_data=True):
     _check_search_keywords(search_keywords)
 
     for member_name, video_data in member_video_data.items():
-        video_data['video_title_keywords'] = _extract_member_keywords(member_name, video_data['video_attributes'],
+        video_data['video_title_keywords'] = _extract_member_keywords(member_name,
+                                                                      video_data['video_attributes']['data'],
                                                                       search_keywords, export_data)
 
     return member_video_data
@@ -66,7 +68,7 @@ def _extract_member_keywords(member_name, video_attributes, search_keywords, exp
     Returns:
         data: Pandas DataFrame containing video ids and corresponding video title keywords for the specified member.
     """
-
+    video_data = {}
     titles = video_attributes['title']
     video_ids = video_attributes['video_id']
 
@@ -81,11 +83,13 @@ def _extract_member_keywords(member_name, video_attributes, search_keywords, exp
         all_results.append(results)
 
     title_keywords = pd.Series(all_results, name='title_keywords')
-    data = pd.concat([video_ids, titles, title_keywords], axis=1)
+    video_data['data'] = pd.concat([video_ids, titles, title_keywords], axis=1)
+    video_data['datetime'] = datetime.utcnow().replace(microsecond=0)
 
-    exporting.export_video_data(member_name, data, export_data, 'video_title_keywords')
+    if export_data is True:
+        exporting.export_video_data(member_name, video_data['data'], 'video_title_keywords', video_data['datetime'])
 
-    return data
+    return video_data
 
 
 def unpack_keywords(keyword_bank):

@@ -28,6 +28,7 @@ def summarize_video_data(member_video_data, member_channel_data=None, export_dat
     Returns:
         member_channel_data: Updated dictionary containing video summary data for each channel.
     """
+    channel_data = {}
     member_summaries = []
 
     if member_channel_data is None:
@@ -36,10 +37,10 @@ def summarize_video_data(member_video_data, member_channel_data=None, export_dat
     for member_name, member_data in member_video_data.items():
         member_summary = {'member_data': {'member_name': member_name.replace('_', ' ')}}
 
-        video_attributes = member_data['video_attributes']
-        video_stats = member_data['video_stats']
-        video_types = member_data['video_types']
-        content_types = member_data['content_types']
+        video_attributes = member_data['video_attributes']['data']
+        video_stats = member_data['video_stats']['data']
+        video_types = member_data['video_types']['data']
+        content_types = member_data['content_types']['data']
 
         member_summary |= {'video_types': summarize_video_types(video_types)}
         member_summary |= {'video_attributes': summarize_video_attributes(video_attributes, video_types)}
@@ -48,12 +49,14 @@ def summarize_video_data(member_video_data, member_channel_data=None, export_dat
 
         member_summaries.append(member_summary)
 
-    data = pd.concat([pd.DataFrame.from_dict(member_summary).unstack()
-                      for member_summary in member_summaries], axis=1).dropna(how='all').transpose()
+    channel_data['data'] = pd.concat([pd.DataFrame.from_dict(member_summary).unstack()
+                                      for member_summary in member_summaries], axis=1).dropna(how='all').transpose()
+    channel_data['datetime'] = datetime.utcnow().replace(microsecond=0)
 
-    member_channel_data['channel_video_summary'] = data
+    member_channel_data['channel_video_summary'] = channel_data
 
-    exporting.export_channel_data(data, export_data, 'channel_video_summary')
+    if export_data is True:
+        exporting.export_channel_data(channel_data['data'], 'channel_video_summary', channel_data['datetime'])
 
     return member_channel_data
 
