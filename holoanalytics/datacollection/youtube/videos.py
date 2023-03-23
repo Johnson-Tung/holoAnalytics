@@ -39,10 +39,6 @@ def get_video_data(client, starting_data, playlist_ids_df, max_results=50, expor
 
     If video ids do not exist (i.e. There are no public videos in the playlist), that member is skipped.
 
-    The function returns a dictionary of dictionaries of Pandas DataFrames where every member with existing video ids
-    will have an inner dictionary containing their video data in the form of Pandas DataFrames, one for each of the
-    different types of data specific above.
-
     Unless instructed otherwise, copies of all extracted data are exported.
 
     Args:
@@ -52,12 +48,22 @@ def get_video_data(client, starting_data, playlist_ids_df, max_results=50, expor
                          being collected for.
         max_results: Integer representing the maximum number of results that the API can return in a single response.
                      Default = 50, the highest possible value.
-        export_data: Boolean specifying whether collected data is to be exported. Default = True.
+        export_data: Boolean specifying whether the collected data is to be exported. Default = True.
 
     Returns:
-        member_video_data: Dictionary of dictionaries of Pandas DataFrames containing video ids, video attributes,
-                           and video statistics for each member that has videos in their playlist.
-
+        member_video_data: Three-level dictionary where:
+                             Level 1 contains:
+                                a) Keys that are strings specifying the names of each member that has videos in their
+                                   playlist.
+                                b) Values that are dictionaries containing their data.
+                             Level 2 contains:
+                                a) Keys that are strings specifying the data type, e.g. 'video_stats'.
+                                b) Values that are dictionaries containing the data and timestamps.
+                             Level 3 contains two key-value pairs:
+                                a) 'data': Pandas DataFrame containing channel ids and their corresponding
+                                        channel titles, channel statistics, thumbnail URLs, and uploads playlist ids.
+                                b) 'datetime': Datetime object specifying the date and time when the data was returned
+                                               by the API.
     """
     member_video_data = {}
 
@@ -109,7 +115,7 @@ def _video_ids_exist(client, member_name, video_data, max_results, export_data):
                     ids) on the specified member and where future video data will be stored.
         max_results: Integer representing the maximum number of results that the API can return in a single response.
                      Default = 50, the highest possible value.
-        export_data: Boolean specifying whether collected data is to be exported. Default = True.
+        export_data: Boolean specifying whether the collected data is to be exported. Default = True.
 
     Returns:
         video_data: Dictionary of Pandas DataFrames containing video ids and their corresponding video attributes and
@@ -129,18 +135,20 @@ def _video_ids_exist(client, member_name, video_data, max_results, export_data):
 def get_video_ids(member_name, responses, export_data=True):
     """Extracts video ids for the specified Hololive Production member from the API's responses.
 
-        This function extracts YouTube video ids from YouTube Data API responses, exports a copy of the data
-        (unless instructed otherwise), and returns a Pandas DataFrame containing the collected data.
+    This function extracts YouTube video ids from YouTube Data API responses, exports a copy of the data
+    (unless instructed otherwise), and returns the data along with their timestamps.
 
-        Args:
-            member_name: String specifying the name of the Hololive Production member whose videos data is being
-                         collected for.
-            responses: List of YouTube Data API responses to requests for playlistItem data.
-            export_data: Boolean specifying whether collected data is to be exported. Default = True.
+    Args:
+        member_name: String specifying the name of the Hololive Production member whose videos data is being
+                     collected for.
+        responses: List of YouTube Data API responses to requests for playlistItem data.
+        export_data: Boolean specifying whether the collected data is to be exported. Default = True.
 
-        Returns:
-            data: Pandas DataFrame containing video ids for the current member and date and time each video was added
-                  to the playlist.
+    Returns:
+        video_data: Dictionary containing two key-value pairs:
+                    1) 'data': Pandas DataFrame containing video ids for the current member and date and time each
+                               video was added to the playlist.
+                    2) 'datetime': Datetime object specifying the date and time when the data was returned by the API.
         """
     video_data = {}
     video_ids = []
@@ -171,16 +179,19 @@ def get_video_stats(member_name, responses, export_data=True):
     """Extracts video statistics for the specified Hololive Production member's videos from the API's responses.
 
     This function extracts YouTube video statistics from YouTube Data API responses, exports a copy of the data
-    (unless instructed otherwise), and returns a Pandas DataFrame containing the collected data.
+    (unless instructed otherwise), and returns the data along with their timestamps.
 
     Args:
         member_name: String specifying the name of the Hololive Production member whose videos data is being
                      collected for.
         responses: List of YouTube Data API responses to requests for video data.
-        export_data: Boolean specifying whether collected data is to be exported. Default = True.
+        export_data: Boolean specifying whether the collected data is to be exported. Default = True.
 
     Returns:
-        data: Pandas DataFrame containing video ids and corresponding video statistics for the current member.
+        video_data: Dictionary containing two key-value pairs:
+                    1) 'data': Pandas DataFrame containing video ids and corresponding video statistics for the current
+                               member.
+                    2) 'datetime': Datetime object specifying the date and time when the data was returned by the API.
     """
     video_data = {}
     video_ids = []
@@ -221,16 +232,19 @@ def get_video_attributes(member_name, responses, export_data=True):
     """Extracts video attributes for the specified Hololive Production member's videos from the API's responses.
 
     This function extracts YouTube video attributes from YouTube Data API responses, exports a copy of the data
-    (unless instructed otherwise), and returns a Pandas DataFrame containing the collected data.
+    (unless instructed otherwise), and returns the data along with their timestamps.
 
     Args:
         member_name: String specifying the name of the Hololive Production member whose videos data is being
                      collected for.
         responses: List of YouTube Data API responses to requests for video data.
-        export_data: Boolean specifying whether collected data is to be exported. Default = True.
+        export_data: Boolean specifying whether the collected data is to be exported. Default = True.
 
     Returns:
-        data: Pandas DataFrame containing video ids and corresponding video attributes for the current member.
+        video_data: Dictionary containing two key-value pairs:
+                    1) 'data': Pandas DataFrame containing video ids and corresponding video attributes for the current
+                               member.
+                    2) 'datetime': Datetime object specifying the date and time when the data was returned by the API.
     """
     video_data = {}
     video_ids = []

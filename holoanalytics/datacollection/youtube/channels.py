@@ -33,19 +33,26 @@ def get_channel_data(client, channel_ids, max_results=50, export_data=True):
     - Uploads playlist ids
 
     This function makes requests for YouTube channel data using the YouTube Data API, extracts relevant data from the
-    API's responses to the request, exports copies of the data (unless instructed otherwise), and returns a dictionary
-    of four Pandas DataFrames, one for each of the different types of channel data specified above.
+    API's responses to the requests, exports copies of the data (unless instructed otherwise), and returns the data
+    along with their timestamps.
 
     Args:
         client: YouTube Data API client.
         channel_ids: Sequence, e.g. Pandas Series, of strings representing YouTube channel ids.
         max_results: Integer representing the maximum number of results that the API can return in a single response.
                      Default = 50, the highest possible value.
-        export_data: Boolean specifying whether collected data is to be exported. Default = True.
+        export_data: Boolean specifying whether the collected data is to be exported. Default = True.
 
     Returns:
-        member_channel_data: Dictionary of four Pandas DataFrames containing channel ids and their corresponding
-                             channel titles, channel statistics, thumbnail URLs, and uploads playlist ids.
+        member_channel_data: Two-level dictionary where:
+                             Level 1 contains:
+                                a) Keys that are strings specifying the data type, e.g. 'channel_stats'.
+                                b) Values that are dictionaries containing the data and timestamps.
+                             Level 2 contains two key-value pairs:
+                                a) 'data': Pandas DataFrame containing channel ids and their corresponding
+                                           channel titles, channel statistics, thumbnail URLs, or uploads playlist ids.
+                                b) 'datetime': Datetime object specifying the date and time when the data was returned
+                                               by the API.
     """
     member_channel_data = {}
 
@@ -65,15 +72,17 @@ def get_channel_data(client, channel_ids, max_results=50, export_data=True):
 def get_channel_titles(responses, export_data=True):
     """Extracts channel titles for the specified Hololive Production member's channel from the API's responses.
 
-    This function extracts YouTube channel titles from YouTube Data API responses, exports a copy of the data
-    (unless instructed otherwise), and returns a Pandas DataFrame containing the collected data.
+    This function extracts YouTube channel titles from YouTube Data API responses, exports a copy of the data (unless
+    instructed otherwise), and returns the data along with its timestamp.
 
     Args:
         responses: List containing the API's responses to requests for YouTube channel data.
-        export_data: Boolean specifying whether collected data is to be exported. Default = True.
+        export_data: Boolean specifying whether the collected data is to be exported. Default = True.
 
     Returns:
-        data: Pandas DataFrame containing channel ids and corresponding channel titles
+        channel_data: Dictionary containing two key-value pairs:
+                      1) 'data': Pandas DataFrame containing channel ids and their corresponding channel titles
+                      2) 'datetime': Datetime object specifying the date and time when the data was returned by the API.
     """
     channel_data = {}
     channel_ids = []
@@ -99,7 +108,7 @@ def get_channel_stats(responses, export_data=True):
     """Extracts channel statistics for the specified Hololive Production member's channel from the API's responses.
 
     This function extracts YouTube channel statistics from YouTube Data API responses, exports a copy of the data
-    (unless instructed otherwise), and returns a Pandas DataFrame containing the collected data.
+    (unless instructed otherwise), and returns the data along with its timestamp.
 
     Channel statistics include:
     - Subscriber counts
@@ -108,10 +117,12 @@ def get_channel_stats(responses, export_data=True):
 
     Args:
         responses: List containing the API's responses to requests for YouTube channel data.
-        export_data: Boolean specifying whether collected data is to be exported. Default = True.
+        export_data: Boolean specifying whether the collected data is to be exported. Default = True.
 
     Returns:
-        data: Pandas DataFrame containing channel ids and corresponding channel statistics.
+        channel_data: Dictionary containing two key-value pairs:
+                      1) 'data': Pandas DataFrame containing channel ids and their corresponding channel statistics.
+                      2) 'datetime': Datetime object specifying the date and time when the data was returned by the API.
     """
     channel_data = {}
     channel_ids = []
@@ -141,16 +152,19 @@ def get_channel_thumbnail_urls(responses, export_data=True):
     """Extracts channel thumbnail URLs for the specified Hololive Production member's channel from the API's responses.
 
     This functions extracts YouTube channel thumbnail (profile picture) URLs from YouTube Data API responses,
-    exports a copy of the data (unless instructed otherwise), and returns a Pandas DataFrame containing the collected
-    data. Up to three URLs will be returned per channel for different resolutions, i.e. default, medium, and high.
+    exports a copy of the data (unless instructed otherwise), and returns the data along with its timestamp.
+
+    Up to three URLs will be returned per channel for each resolution, i.e. default, medium, and high.
     URLs can then be used to download the images.
 
     Args:
         responses: List containing the API's responses to requests for YouTube channel data.
-        export_data: Boolean specifying whether collected data is to be exported. Default = True.
+        export_data: Boolean specifying whether the collected data is to be exported. Default = True.
 
     Returns:
-        data: Pandas DataFrame containing channel ids and corresponding thumbnail URLs.
+        channel_data: Dictionary containing two key-value pairs:
+                      1) 'data': Pandas DataFrame containing channel ids and their corresponding thumbnail URLs.
+                      2) 'datetime': Datetime object specifying the date and time when the data was returned by the API.
     """
     channel_data = {}
     channel_ids = []
@@ -181,14 +195,16 @@ def get_uploads_playlist_ids(responses, export_data=True):
     """Extracts uploads playlist ids for the specified Hololive Production member's channel from the API's responses.
 
     This function extracts YouTube uploads playlist ids from YouTube Data API responses, exports a copy of the data
-    (unless instructed otherwise), and returns a Pandas DataFrame containing the collected data.
+    (unless instructed otherwise), and returns the data along with its timestamp.
 
     Args:
         responses: List containing the API's responses to requests for YouTube channel data.
-        export_data: Boolean specifying whether collected data is to be exported. Default = True.
+        export_data: Boolean specifying whether the collected data is to be exported. Default = True.
 
     Returns:
-        data: Pandas DataFrame containing channel ids and corresponding uploads playlist ids.
+        channel_data: Dictionary containing two key-value pairs:
+                      1) 'data': Pandas DataFrame containing channel ids and their corresponding uploads playlist ids.
+                      2) 'datetime': Datetime object specifying the date and time when the data was returned by the API.
     """
     channel_data = {}
     channel_ids = []
