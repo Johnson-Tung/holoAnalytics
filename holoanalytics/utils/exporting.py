@@ -150,7 +150,6 @@ def export_channel_data(data, filename, timestamp=None, auto_timestamp=True, fil
 
     Args:
         data: Pandas DataFrame containing YouTube channel data.
-        export_data: Boolean specifying whether the data is to be exported. Default = True.
         filename: String specifying the name of the output file.
         timestamp: Datetime object or Pandas Timestamp that specifies the date and time to be used in the output file
                    name, i.e.the timestamp associated with the collection or preparation of the DataFrame's data.
@@ -187,7 +186,6 @@ def export_video_data(member_name, data, filename, timestamp=None, auto_timestam
     Args:
         member_name: String specifying the name of the Hololive Production member that the video data belongs to.
         data: Pandas DataFrame containing YouTube video data.
-        export_data: Boolean specifying whether the data is to be exported. Default = True.
         filename: String specifying the name of the output file.
         timestamp: Datetime object or Pandas Timestamp that specifies the date and time to be used in the output file
                    name, i.e.the timestamp associated with the collection or preparation of the DataFrame's data.
