@@ -35,7 +35,7 @@ def summarize_video_data(member_video_data, member_channel_data=None, export_dat
         member_channel_data = {}
 
     for member_name, member_data in member_video_data.items():
-        member_summary = {'member_data': {'member_name': member_name.replace('_', ' ')}}
+        member_summary = {'member_data': {'name': member_name.replace('_', ' ')}}
 
         video_attributes = member_data['video_attributes']['data']
         video_stats = member_data['video_stats']['data']
