@@ -46,7 +46,9 @@ def request_data(client, resource_type, ids, max_results=50):
                      Default = 50, the highest possible value.
 
     Returns:
-        responses: List containing the API's responses to requests.
+        responses: Dictionary containing two key-value pairs:
+                   1) 'responses': List containing the API's responses to requests.
+                   2) 'datetime': Datetime object specifying the date and time when the data was returned by the API.
     """
 
     responses = {'responses': []}

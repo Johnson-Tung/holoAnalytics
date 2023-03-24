@@ -141,7 +141,8 @@ def get_video_ids(member_name, responses, export_data=True):
     Args:
         member_name: String specifying the name of the Hololive Production member whose videos data is being
                      collected for.
-        responses: List of YouTube Data API responses to requests for playlistItem data.
+        responses: Dictionary containing the YouTube Data API's responses to requests for playlistItem data and a
+                   timestamp, returned by youtube_api.request_data().
         export_data: Boolean specifying whether the collected data is to be exported. Default = True.
 
     Returns:
@@ -184,7 +185,8 @@ def get_video_stats(member_name, responses, export_data=True):
     Args:
         member_name: String specifying the name of the Hololive Production member whose videos data is being
                      collected for.
-        responses: List of YouTube Data API responses to requests for video data.
+        responses: Dictionary containing the YouTube Data API's responses to requests for video data and a
+                   timestamp, returned by youtube_api.request_data().
         export_data: Boolean specifying whether the collected data is to be exported. Default = True.
 
     Returns:
@@ -237,7 +239,8 @@ def get_video_attributes(member_name, responses, export_data=True):
     Args:
         member_name: String specifying the name of the Hololive Production member whose videos data is being
                      collected for.
-        responses: List of YouTube Data API responses to requests for video data.
+        responses: Dictionary containing the YouTube Data API's responses to requests for video data and a
+                   timestamp, returned by youtube_api.request_data().
         export_data: Boolean specifying whether the collected data is to be exported. Default = True.
 
     Returns:

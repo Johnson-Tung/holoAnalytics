@@ -76,7 +76,8 @@ def get_channel_titles(responses, export_data=True):
     instructed otherwise), and returns the data along with its timestamp.
 
     Args:
-        responses: List containing the API's responses to requests for YouTube channel data.
+        responses: Dictionary containing the YouTube Data API's responses to requests for YouTube channel data and a
+                   timestamp, returned by youtube_api.request_data().
         export_data: Boolean specifying whether the collected data is to be exported. Default = True.
 
     Returns:
@@ -116,7 +117,8 @@ def get_channel_stats(responses, export_data=True):
     - Total view counts
 
     Args:
-        responses: List containing the API's responses to requests for YouTube channel data.
+        responses: Dictionary containing the YouTube Data API's responses to requests for YouTube channel data and a
+                   timestamp, returned by youtube_api.request_data().
         export_data: Boolean specifying whether the collected data is to be exported. Default = True.
 
     Returns:
@@ -158,7 +160,8 @@ def get_channel_thumbnail_urls(responses, export_data=True):
     URLs can then be used to download the images.
 
     Args:
-        responses: List containing the API's responses to requests for YouTube channel data.
+        responses: Dictionary containing the YouTube Data API's responses to requests for YouTube channel data and a
+                   timestamp, returned by youtube_api.request_data().
         export_data: Boolean specifying whether the collected data is to be exported. Default = True.
 
     Returns:
@@ -198,7 +201,8 @@ def get_uploads_playlist_ids(responses, export_data=True):
     (unless instructed otherwise), and returns the data along with its timestamp.
 
     Args:
-        responses: List containing the API's responses to requests for YouTube channel data.
+        responses: Dictionary containing the YouTube Data API's responses to requests for YouTube channel data and a
+                   timestamp, returned by youtube_api.request_data().
         export_data: Boolean specifying whether the collected data is to be exported. Default = True.
 
     Returns:
