@@ -207,7 +207,8 @@ def _get_single_member_video_data(member_dir_path, video_data_types):
     single_member_video_data = {}
 
     member_name = member_dir_path.name
-    file_paths = member_dir_path.iterdir()
+    file_paths = list(member_dir_path.iterdir())
+    file_paths.reverse()  # Get file paths from newest to oldest
 
     for video_data_type in video_data_types:
         single_member_video_data[video_data_type] = _get_video_data(member_name, file_paths, video_data_type)
