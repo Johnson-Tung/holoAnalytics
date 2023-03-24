@@ -118,6 +118,7 @@ def _get_channel_data(file_paths, channel_data_type):
 
             channel_data['data'] = pd.read_csv(file_path, header=headers)
             channel_data['datetime'] = _extract_datetime(file_path.stem)
+            break
 
     return channel_data
 
