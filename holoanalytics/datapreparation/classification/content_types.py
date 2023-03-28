@@ -1,5 +1,3 @@
-from datetime import datetime
-
 import pandas as pd
 
 from holoanalytics.datapreparation import reformatting as ref
@@ -46,7 +44,7 @@ def _classify_member_videos(member_name, video_title_keywords, keyword_bank, exp
 
     content_types = pd.Series(all_results, name='content_types')
     video_data['data'] = pd.concat([video_ids, content_types], axis=1)
-    video_data['datetime'] = datetime.utcnow().replace(microsecond=0)
+    video_data['datetime'] = exporting.create_timestamp()
 
     if export_data is True:
         exporting.export_video_data(member_name, video_data['data'], 'content_types', video_data['datetime'])

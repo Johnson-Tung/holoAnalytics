@@ -1,4 +1,3 @@
-from datetime import datetime
 import requests
 import numpy as np
 import pandas as pd
@@ -55,7 +54,7 @@ def _classify_member_videos(member_name, video_attributes, export_data):
     video_attributes = is_short(video_attributes)
 
     video_data['data'] = video_attributes[['video_id', 'video_type']]
-    video_data['datetime'] = datetime.utcnow().replace(microsecond=0)
+    video_data['datetime'] = exporting.create_timestamp()
 
     if export_data is True:
         exporting.export_video_data(member_name, video_data['data'], 'video_types', video_data['datetime'])

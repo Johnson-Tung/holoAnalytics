@@ -58,7 +58,7 @@ def summarize_video_data(member_video_data, member_channel_data=None, export_dat
 
     channel_data['data'] = pd.concat([pd.DataFrame.from_dict(member_summary).unstack()
                                       for member_summary in member_summaries], axis=1).dropna(how='all').transpose()
-    channel_data['datetime'] = datetime.utcnow().replace(microsecond=0)
+    channel_data['datetime'] = exporting.create_timestamp()
 
     member_channel_data['channel_video_summary'] = channel_data
 
@@ -363,7 +363,7 @@ def summarize_by_unit(member_data, member_channel_data, export_data=True):
                 unit_summaries.append(unit_summary)
 
     channel_data['data'] = pd.DataFrame(unit_summaries)
-    channel_data['datetime'] = datetime.utcnow().replace(microsecond=0)
+    channel_data['datetime'] = exporting.create_timestamp()
 
     member_channel_data['unit_summary'] = channel_data
 

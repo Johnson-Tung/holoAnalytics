@@ -7,11 +7,11 @@ Functions:
     2) request_data: Makes request(s) for YouTube data and receives responses.
 """
 
-from datetime import datetime
 import os
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from holoanalytics.utils import data_reformatting as dr
+from holoanalytics.utils import exporting
 
 
 def initialize_api():
@@ -75,7 +75,7 @@ def request_data(client, resource_type, ids, max_results=50):
             request = client_resource.list(part=part, id=batch, maxResults=max_results)
             responses['responses'].append(request.execute())
 
-    responses['datetime'] = datetime.utcnow().replace(microsecond=0)
+    responses['datetime'] = exporting.create_timestamp()
 
     return responses
 

@@ -1,4 +1,3 @@
-from datetime import datetime
 import re
 
 import pandas as pd
@@ -84,7 +83,7 @@ def _extract_member_keywords(member_name, video_attributes, search_keywords, exp
 
     title_keywords = pd.Series(all_results, name='title_keywords')
     video_data['data'] = pd.concat([video_ids, titles, title_keywords], axis=1)
-    video_data['datetime'] = datetime.utcnow().replace(microsecond=0)
+    video_data['datetime'] = exporting.create_timestamp()
 
     if export_data is True:
         exporting.export_video_data(member_name, video_data['data'], 'video_title_keywords', video_data['datetime'])
