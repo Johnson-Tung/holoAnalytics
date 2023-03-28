@@ -101,7 +101,7 @@ def _get_member_channel_data(channel_data_types):
         raise FileNotFoundError("This session does not have a 'Channel' data folder.")
 
     file_paths = list(dir_path.iterdir())
-    file_paths.reverse()  # Get file paths from latest to earliest.
+    file_paths.reverse()  # Get file paths from newest to oldest
 
     for channel_data_type in channel_data_types:
         member_channel_data[channel_data_type] = _get_channel_data(file_paths, channel_data_type)
@@ -261,3 +261,22 @@ def _import_keyword_bank(language):
             keyword_bank[row[0]] = set(row[1:]) if len(row) > 1 else set()
 
     return keyword_bank
+
+
+def get_groups_branches_units(starting_data):
+    groups_branches_units = {}
+
+    for group in starting_data['group'].unique():
+        groups_branches_units[group] = {}
+        group_data = starting_data.loc[starting_data['group'] == group]
+
+        for branch in group_data['branch'].unique():
+            groups_branches_units[group][branch] = []
+            branch_data = group_data.loc[group_data['branch'] == branch]
+
+            for unit in branch_data['unit'].unique():
+                groups_branches_units[group][branch].append(unit)
+
+            groups_branches_units[group][branch] = tuple(groups_branches_units[group][branch])
+
+    return groups_branches_units
