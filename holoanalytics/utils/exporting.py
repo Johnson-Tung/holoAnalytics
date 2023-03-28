@@ -230,3 +230,7 @@ def export_keyword_banks(keyword_banks):
             for keyword_group, keywords in keyword_bank.items():
                 writer.writerow([keyword_group] + list(keywords))
 
+
+def create_timestamp():
+
+    return datetime.utcnow().replace(microsecond=0)
