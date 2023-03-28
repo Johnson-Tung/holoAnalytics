@@ -4,6 +4,7 @@ from datetime import datetime
 import pandas as pd
 from pandas.core.dtypes.common import is_timedelta64_dtype
 from holoanalytics.utils import exporting
+from holoanalytics.datapreparation import reformatting as reform
 
 VIDEO_STATS = ('view_count', 'like_count', 'comment_count')
 VIDEO_TYPES = ('Normal', 'Short', 'Live Stream', 'Premiere')
@@ -11,6 +12,12 @@ CONTENT_TYPES = ('3DLive', 'Chatting', 'Collab', 'Debut', 'Drawing', 'Gaming', '
                  'Other', 'Outfit Reveal', 'Q&A', 'Review', 'Superchat Reading', 'VR', 'Watchalong')
 START_YEAR = 2017  # Year when the first Hololive Production member debuted.
 CURRENT_YEAR = datetime.now().year
+GROUPS_BRANCHES_UNITS = {'Hololive': {'Japan': ('0th Generation', '1st Generation', '2nd Generation', '3rd Generation',
+                                                '4th Generation', '5th Generation', '6th Generation', 'GAMERS'),
+                                      'Indonesia': ('1st Generation', '2nd Generation', '3rd Generation'),
+                                      'English': ('-Myth-', 'Project: HOPE', '-Council-')},
+                         'Holostars': {'Japan': ('1st Generation', '2nd Generation', '3rd Generation', 'UPROAR!!'),
+                                       'English': ('-TEMPUS-', )}}
 
 
 def summarize_video_data(member_video_data, member_channel_data=None, export_data=True):
@@ -316,3 +323,49 @@ def summary_stats(data_col, label, count=True, rounding=None):
             summary[key] = round(value, rounding)
 
     return summary
+
+
+def summarize_by_unit(member_data, member_channel_data, export_data=True):
+    channel_data = {}
+    unit_summaries = []
+
+    member_data_multilevel = reform.convert_to_multilevel(member_data, 'member_data')
+    channel_stats_multilevel = reform.convert_to_multilevel(member_channel_data['channel_stats']['data'],
+                                                            'channel_stats')
+    merged_data = member_data_multilevel.merge(channel_stats_multilevel,
+                                               left_on=[('member_data', 'youtube_channel_id')],
+                                               right_on=[('channel_stats', 'channel_id')])
+    merged_data = merged_data.merge(member_channel_data['channel_video_summary']['data'],
+                                    left_on=[('member_data', 'name')],
+                                    right_on=[('member_data', 'name')])
+
+    for group in GROUPS_BRANCHES_UNITS:
+        group_data = merged_data.loc[merged_data[('member_data', 'group')] == group]
+
+        for branch in GROUPS_BRANCHES_UNITS[group]:
+            branch_data = group_data.loc[group_data[('member_data', 'branch')] == branch]
+
+            for unit in GROUPS_BRANCHES_UNITS[group][branch]:
+                unit_summary = {'group': group,  'branch': branch, 'unit': unit}
+
+                unit_data = branch_data.loc[(branch_data[('member_data', 'unit')] == unit) |
+                                            (branch_data[('member_data', 'unit2')] == unit)]
+
+                # Note: More to be added later.
+                unit_summary['member_count'] = len(unit_data.index)
+                unit_summary['subscriber_count'] = unit_data[('channel_stats', 'subscriber_count')].sum()
+                unit_summary['video_count'] = unit_data[('channel_stats', 'video_count')].sum()
+                unit_summary['view_count'] = unit_data[('channel_stats', 'view_count')].sum()
+                unit_summary['total_video_duration'] = unit_data[('video_attributes', 'video_duration_(sum)')].sum()
+                unit_summary['total_live_stream_duration'] = unit_data[('video_attributes',
+                                                                        'live_stream_duration_(sum)')].sum()
+
+                unit_summaries.append(unit_summary)
+
+    channel_data['data'] = pd.DataFrame(unit_summaries)
+    channel_data['datetime'] = datetime.utcnow().replace(microsecond=0)
+
+    member_channel_data['unit_summary'] = channel_data
+
+    if export_data is True:
+        exporting.export_channel_data(channel_data['data'], 'unit_summary', channel_data['datetime'])
