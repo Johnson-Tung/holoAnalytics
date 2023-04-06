@@ -3,8 +3,8 @@ import string
 import matplotlib.pyplot as plt
 import numpy as np
 
-from holoanalytics.datapreparation import reformatting as reform
-from holoanalytics.datavisualization import formatting as format
+from holoanalytics.datapreparation import reformatting
+from holoanalytics.datavisualization import formatting
 
 
 def channel_stats_correlation(member_data, member_channel_data):
@@ -26,13 +26,14 @@ def channel_stats_correlation(member_data, member_channel_data):
     axes[0].set_xlabel('Subscriber Count (millions)', fontweight=label_weight)
     axes[0].set_ylabel('View Count (millions)', fontweight=label_weight)
     axes[0].set_title('View Count vs. Subscriber Count', fontsize=title_size, fontweight=title_weight)
-    format.set_upper_limits(axes[0], max_x=data['subscriber_count'].max()/scale, max_y=data['view_count'].max()/scale)
+    formatting.set_upper_limits(axes[0],
+                                max_x=data['subscriber_count'].max()/scale, max_y=data['view_count'].max()/scale)
 
     axes[1].scatter(x=data['video_count'], y=data['subscriber_count']/scale)
     axes[1].set_xlabel('Video Count', fontweight=label_weight)
     axes[1].set_ylabel('Subscriber Count (millions)', fontweight=label_weight)
     axes[1].set_title('Subscriber Count vs. Video Count', fontsize=title_size, fontweight=title_weight)
-    format.set_upper_limits(axes[1], max_x=data['video_count'].max(), max_y=data['subscriber_count'].max()/scale)
+    formatting.set_upper_limits(axes[1], max_x=data['video_count'].max(), max_y=data['subscriber_count'].max()/scale)
 
     axes[2].scatter(x=data['video_count'], y=data['view_count']/scale)
     axes[2].set_xlabel('Video Count', fontweight=label_weight)
@@ -40,7 +41,7 @@ def channel_stats_correlation(member_data, member_channel_data):
     axes[2].set_title('View Count vs. Video Count', fontsize=title_size, fontweight=title_weight)
     axes[2].yaxis.set_label_position('right')
     axes[2].yaxis.tick_right()
-    format.set_upper_limits(axes[2], max_x=data['video_count'].max(), max_y=data['view_count'].max()/scale)
+    formatting.set_upper_limits(axes[2], max_x=data['video_count'].max(), max_y=data['view_count'].max()/scale)
 
     for index, _ in enumerate(axes):
         axes[index].get_xaxis().get_major_formatter().set_scientific(False)
@@ -62,12 +63,12 @@ def total_video_duration(member_data, channel_video_summary, unit_time='hours', 
     unit_time_label = string.capwords(unit_time)
 
     # Prepare Data
-    member_data_multilevel = reform.convert_to_multilevel(member_data, 'member_data')
+    member_data_multilevel = reformatting.convert_to_multilevel(member_data, 'member_data')
     merged_data = member_data_multilevel.merge(channel_video_summary,
                                                on=[('member_data', 'name')])
     data = merged_data[[('member_data', 'name'), ('video_attributes', 'video_duration_(sum)')]].copy()
     data[('video_attributes', 'video_duration_(sum)')] = data[('video_attributes', 'video_duration_(sum)')].apply(
-        reform.convert_timedelta, unit=unit_time)
+        reformatting.convert_timedelta, unit=unit_time)
 
     if sort is None:
         pass
@@ -95,7 +96,7 @@ def total_video_duration(member_data, channel_video_summary, unit_time='hours', 
     ax.tick_params(axis='x', rotation=90)
     ax.set_xlabel('Members', fontweight=label_weight)
     ax.set_ylabel(f'Number of {unit_time_label}', fontweight=label_weight)
-    format.set_upper_limits(ax, max_y=data[('video_attributes', 'video_duration_(sum)')].max())
+    formatting.set_upper_limits(ax, max_y=data[('video_attributes', 'video_duration_(sum)')].max())
 
     plt.show()
 
@@ -198,7 +199,7 @@ def _channel_stats_by_unit_count(member_channel_data, group, branch):
         ax.set_xticks(ax.get_xticks())
 
         ax.set_xticklabels(ax.get_xticklabels(), weight=ticklabel_weight)
-        format.set_upper_limits(ax, max_y=branch_data[data_col].max())
+        formatting.set_upper_limits(ax, max_y=branch_data[data_col].max())
 
     for index, ax in enumerate(axes):
         ax.bar_label(bars[index], rotation=90, fontweight=label_weight)
