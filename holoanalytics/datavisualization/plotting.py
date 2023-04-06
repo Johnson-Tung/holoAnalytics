@@ -16,7 +16,6 @@ def channel_stats_correlation(member_data, member_channel_data):
     # Prepare Data
     data = member_data.merge(member_channel_data['channel_stats']['data'],
                              left_on='youtube_channel_id', right_on='channel_id')
-    max_y_value = data['view_count'].max()
 
     # Create and Format Plots
     fig, axes = plt.subplots(1, 3)
