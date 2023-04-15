@@ -264,6 +264,16 @@ def _import_keyword_bank(language):
 
 
 def get_groups_branches_units(starting_data):
+    """Gets all group, branch, and unit names for Hololive Production members from the starting data.
+
+    Args:
+        starting_data: Pandas DataFrame containing starting data of Hololive Production members.
+
+    Returns:
+        groups_branches_units: Dictionary of dictionaries of tuples of strings specifying the names of every unit
+                               in Hololive Production organized based on their branch and group,
+                               i.e. groups_branches_units[group_name][branch_name] = (unit_name1, unit_name2, ...).
+    """
     groups_branches_units = {}
 
     for group in starting_data['group'].unique():
