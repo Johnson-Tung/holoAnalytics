@@ -63,7 +63,7 @@ def total_video_duration(member_data, channel_video_summary, unit_time='hours', 
 
     # Prepare Data
     member_data_multilevel = reformatting.convert_to_multilevel(member_data, 'member_data')
-    merged_data = member_data_multilevel.merge(channel_video_summary,
+    merged_data = member_data_multilevel.merge(channel_video_summary['data'],
                                                on=[('member_data', 'name')])
     data = merged_data[[('member_data', 'name'), ('video_attributes', 'video_duration_(sum)')]].copy()
     data[('video_attributes', 'video_duration_(sum)')] = data[('video_attributes', 'video_duration_(sum)')].apply(
