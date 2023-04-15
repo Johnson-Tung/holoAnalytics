@@ -2,7 +2,7 @@ import pandas as pd
 
 
 def live_broadcast_duration(dataframe):
-    """Calculate duration of live broadcasts for a YouTube Video Attribute DataFrame.
+    """Calculates duration of live broadcasts for a YouTube Video Attribute DataFrame.
 
     Args:
         dataframe: Pandas DataFrame containing actual start and end times of YouTube live broadcasts.
@@ -18,7 +18,7 @@ def live_broadcast_duration(dataframe):
 
 
 def extract_time_values(timedelta, use_days=False):
-    """Extract time values (days, hours, minutes, seconds) from a Pandas Timedelta object.
+    """Extracts time values (days, hours, minutes, seconds) from a Pandas Timedelta object.
 
     Results can be given with or without days, e.g. 1 day, 12 hours versus 36 hours.
 
@@ -49,7 +49,7 @@ def extract_time_values(timedelta, use_days=False):
 
 
 def day_of_week(video_attributes):
-    """Get the day of the week for YouTube videos' datetime data, e.g. 'publish_datetime' and 'actual_start_time'.
+    """Gets the day of the week for YouTube videos' datetime data, e.g. 'publish_datetime' and 'actual_start_time'.
 
     Args:
         video_attributes: Pandas DataFrame containing YouTube video attribute data.
@@ -66,7 +66,7 @@ def day_of_week(video_attributes):
 
 
 def check_video_duration(duration, min_length='00:00:00', max_length=None):
-    """Check a YouTube video duration / length if it is between the minimum and maximum values.
+    """Checks a YouTube video duration / length if it is between the minimum and maximum values.
 
     'min_length' and 'max_length' values can be in any format accepted by Pandas Timedelta class. H:M:S format,
     e.g. '00:01:00' for one minute, is recommended.
