@@ -369,3 +369,5 @@ def summarize_by_unit(member_data, member_channel_data, export_data=True):
 
     if export_data is True:
         exporting.export_channel_data(channel_data['data'], 'unit_summary', channel_data['datetime'])
+
+    return member_channel_data
