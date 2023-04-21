@@ -8,6 +8,21 @@ from holoanalytics.datavisualization import formatting
 
 
 def channel_stats_correlation(member_data, member_channel_data):
+    """Plots the correlations between different types of channel stat data for Hololive Production members.
+
+    This function will create three plots:
+    - View Count vs. Subscriber Count
+    - Subscriber Count vs. Video Count
+    - View Count vs. Video Count
+
+    Args:
+        member_data: Pandas DataFrame containing starting data of Hololive Production members.
+        member_channel_data: Dictionary of Pandas DataFrames containing YouTube channel data, e.g. channel stats,
+                             for Hololive Production members.
+
+    Returns:
+        None
+    """
     title_size = 11
     title_weight = 'bold'
     label_weight = 'bold'
@@ -57,6 +72,19 @@ def channel_stats_correlation(member_data, member_channel_data):
 
 
 def total_video_duration(member_data, channel_video_summary, unit_time='hours', sort=None):
+    """Plots the total video duration in days, hours, minutes, or seconds for individual Hololive Production members.
+
+    Args:
+        member_data: Pandas DataFrame containing starting data of Hololive Production members.
+        channel_video_summary: Pandas DataFrame containing video summary data.
+        unit_time: String specifying the unit of time that the total video duration is to be presented in,
+                   i.e. 'days', 'hours', 'minutes', or 'seconds'. Default = 'hours'.
+        sort: String specifying if the data is to be sorted, i.e. 'ascending' or 'descending'.
+              Default = None (No sorting).
+
+    Returns:
+        None
+    """
     title_weight = 'bold'
     label_weight = 'bold'
     unit_time_label = string.capwords(unit_time)
@@ -101,6 +129,19 @@ def total_video_duration(member_data, channel_video_summary, unit_time='hours', 
 
 
 def channel_stats_by_unit(member_channel_data, group, branch, show):
+    """Plots channel stat data for Hololive Production members on a per-unit basis for a specific group and branch.
+
+    Args:
+        member_channel_data: Dictionary of Pandas DataFrames containing YouTube channel data, e.g. channel stats,
+                             for Hololive Production members.
+        group: String specifying the group of interest.
+        branch: String specifying the branch of interest.
+        show: String specifying if the percentages or counts are to be shown, i.e. 'percentage' or 'count'.
+
+    Returns:
+        None
+    """
+
     if show.lower() == 'percentage':
         _channel_stats_by_unit_percentage(member_channel_data, group, branch)
     elif show.lower() == 'count':
