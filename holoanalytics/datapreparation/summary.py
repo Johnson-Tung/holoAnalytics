@@ -326,6 +326,25 @@ def summary_stats(data_col, label, count=True, rounding=None):
 
 
 def summarize_by_unit(member_data, member_channel_data, export_data=True):
+    """Summarizes YouTube channel and video summary data for Hololive Production members on a per-unit basis.
+
+    This function summarizes the specified data and, for each unit, returns the following results:
+    - Member count
+    - Subscriber count
+    - Video count
+    - View count
+    - Total video duration
+    - Total live stream duration
+    
+    Args:
+        member_data: Pandas DataFrame containing starting data of Hololive Production members.
+        member_channel_data: Dictionary of Pandas DataFrames containing YouTube channel data, e.g. channel stats,
+                             for Hololive Production members.
+        export_data: Boolean specifying whether the collected data is to be exported. Default = True.
+
+    Returns:
+        member_channel_data: Updated dictionary containing video summary data for each channel.
+    """
     channel_data = {}
     unit_summaries = []
 
