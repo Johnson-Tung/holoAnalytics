@@ -335,7 +335,7 @@ def summarize_by_unit(member_data, member_channel_data, export_data=True):
     - View count
     - Total video duration
     - Total live stream duration
-    
+
     Args:
         member_data: Pandas DataFrame containing starting data of Hololive Production members.
         member_channel_data: Dictionary of Pandas DataFrames containing YouTube channel data, e.g. channel stats,
@@ -365,20 +365,10 @@ def summarize_by_unit(member_data, member_channel_data, export_data=True):
             branch_data = group_data.loc[group_data[('member_data', 'branch')] == branch]
 
             for unit in GROUPS_BRANCHES_UNITS[group][branch]:
-                unit_summary = {'group': group,  'branch': branch, 'unit': unit}
-
                 unit_data = branch_data.loc[(branch_data[('member_data', 'unit')] == unit) |
                                             (branch_data[('member_data', 'unit2')] == unit)]
 
-                # Note: More to be added later.
-                unit_summary['member_count'] = len(unit_data.index)
-                unit_summary['subscriber_count'] = unit_data[('channel_stats', 'subscriber_count')].sum()
-                unit_summary['video_count'] = unit_data[('channel_stats', 'video_count')].sum()
-                unit_summary['view_count'] = unit_data[('channel_stats', 'view_count')].sum()
-                unit_summary['total_video_duration'] = unit_data[('video_attributes', 'video_duration_(sum)')].sum()
-                unit_summary['total_live_stream_duration'] = unit_data[('video_attributes',
-                                                                        'live_stream_duration_(sum)')].sum()
-
+                unit_summary = _create_unit_summary(group, branch, unit, unit_data)
                 unit_summaries.append(unit_summary)
 
     channel_data['data'] = pd.DataFrame(unit_summaries)
@@ -390,3 +380,25 @@ def summarize_by_unit(member_data, member_channel_data, export_data=True):
         exporting.export_channel_data(channel_data['data'], 'unit_summary', channel_data['datetime'])
 
     return member_channel_data
+
+
+def _create_unit_summary(group, branch, unit, unit_data):
+
+    unit_summary = {'group': group, 'branch': branch, 'unit': unit}
+    unit_summary = _summarize_unit_data(unit_summary, unit_data)
+
+    return unit_summary
+
+
+def _summarize_unit_data(unit_summary, unit_data):
+
+    # Note: More to be added later.
+    unit_summary['member_count'] = len(unit_data.index)
+    unit_summary['subscriber_count'] = unit_data[('channel_stats', 'subscriber_count')].sum()
+    unit_summary['video_count'] = unit_data[('channel_stats', 'video_count')].sum()
+    unit_summary['view_count'] = unit_data[('channel_stats', 'view_count')].sum()
+    unit_summary['total_video_duration'] = unit_data[('video_attributes', 'video_duration_(sum)')].sum()
+    unit_summary['total_live_stream_duration'] = unit_data[('video_attributes',
+                                                            'live_stream_duration_(sum)')].sum()
+
+    return unit_summary
