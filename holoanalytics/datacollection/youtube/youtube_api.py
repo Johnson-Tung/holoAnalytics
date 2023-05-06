@@ -95,15 +95,15 @@ def _check_resource_type(client, resource_type):
         resource_type: String specifying the original or correct (if necessary) resource type.
     """
 
-    if resource_type.lower() == 'channel' or resource_type.lower() == 'channels':
+    if resource_type.lower() in ['channel', 'channels']:
         client_resource = client.channels()
         part = ['contentDetails', 'snippet', 'statistics']
         resource_type = 'channels'
-    elif resource_type.lower() == 'playlistitem' or resource_type.lower() == 'playlistitems':
+    elif resource_type.lower() in ['playlistitem', 'playlistitems']:
         client_resource = client.playlistItems()
         part = ['snippet']
         resource_type = 'playlistitems'
-    elif resource_type.lower() == 'video' or resource_type.lower() == 'videos':
+    elif resource_type.lower() in ['video', 'videos']:
         client_resource = client.videos()
         part = ['snippet', 'contentDetails', 'statistics', 'liveStreamingDetails']
         resource_type = 'videos'
