@@ -1,11 +1,15 @@
 """Exporting of data
 
-This module provides general-purpose tools relating the export of data for this project.
+This module provides general-purpose tools relating to the exporting of data for this project.
 
 Functions:
     - create_directory: Creates a directory in the specified parent directory using the specified name.
     - create_session: Starts a new session.
     - export_dataframe: Exports a Pandas DataFrame.
+    - export_channel_data: Exports YouTube channel data to the session directory.
+    - export_video_data: Exports YouTube video data to the session directory.
+    - export_keyword_banks: Exports keyword banks and replaces any existing keyword banks for this project.
+    - create_timestamp: Create a timestamp using the current time in UTC.
 """
 
 import csv
