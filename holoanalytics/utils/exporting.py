@@ -215,7 +215,7 @@ def export_video_data(member_name, data, filename, timestamp=None, auto_timestam
 
 
 def export_keyword_banks(keyword_banks):
-    """Exports keywords banks to .csv files.
+    """Exports keywords banks to .csv files and replaces any existing keyword banks.
 
     Args:
         keyword_banks: Dictionary of keyword banks, originally returned by
