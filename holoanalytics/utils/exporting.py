@@ -232,5 +232,9 @@ def export_keyword_banks(keyword_banks):
 
 
 def create_timestamp():
+    """Creates a timestamp using the current time in UTC.
 
+    Returns:
+        Datetime object specifying the current time in UTC.
+    """
     return datetime.utcnow().replace(microsecond=0)
