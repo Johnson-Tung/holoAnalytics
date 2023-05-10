@@ -10,6 +10,7 @@ SOURCE_ROOT = Path(__file__).parent
 PROJECT_ROOT = SOURCE_ROOT.parent
 STARTING_DATA_FILE = SOURCE_ROOT / 'data' / 'starting' / 'holopro_members.csv'
 KEYWORD_BANKS_PATH = SOURCE_ROOT / 'data' / 'keyword_banks'
+MEMBER_PLOT_COLOURS_PATH = SOURCE_ROOT / 'data' / 'misc' / 'member_plot_colours.csv'
 RESULTS_PATH = PROJECT_ROOT / 'results'
 YT_DAPI_SESSIONS_PATH = RESULTS_PATH / 'data' / 'YouTube' / 'YouTube-Data-API-Sessions'
 
