@@ -290,3 +290,10 @@ def get_groups_branches_units(starting_data):
             groups_branches_units[group][branch] = tuple(groups_branches_units[group][branch])
 
     return groups_branches_units
+
+
+def import_member_plot_colours():
+
+    member_colours = pd.read_csv(df.MEMBER_PLOT_COLOURS_PATH)
+
+    return member_colours
