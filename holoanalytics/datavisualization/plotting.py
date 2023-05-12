@@ -106,15 +106,6 @@ def total_video_duration(member_data, channel_video_summary, unit_time='hours', 
     data[('video_attributes', 'video_duration_(sum)')] = data[('video_attributes', 'video_duration_(sum)')].apply(
         reformatting.convert_timedelta, unit=unit_time)
 
-    if colours is None:
-        color = None
-    elif isinstance(colours, pd.DataFrame):
-        colour_data = reformatting.convert_to_multilevel(colours, 'member_plot_colours')
-        data = data.merge(colour_data, left_on=[('member_data', 'name')], right_on=[('member_plot_colours', 'name')])
-        color = data[('member_plot_colours', 'colour')]
-    else:
-        raise TypeError
-
     if sort is None:
         pass
     elif not isinstance(sort, str):
@@ -127,6 +118,15 @@ def total_video_duration(member_data, channel_video_summary, unit_time='hours', 
     else:
         raise ValueError("The argument for the 'sort' parameter is a string but needs to be 'ascending' "
                          "or 'descending'.")
+
+    if colours is None:
+        color = None
+    elif isinstance(colours, pd.DataFrame):
+        colour_data = reformatting.convert_to_multilevel(colours, 'member_plot_colours')
+        data = data.merge(colour_data, left_on=[('member_data', 'name')], right_on=[('member_plot_colours', 'name')])
+        color = data[('member_plot_colours', 'colour')]
+    else:
+        raise TypeError
 
     # Create Plot
     fig, ax = plt.subplots()
