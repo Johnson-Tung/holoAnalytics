@@ -263,3 +263,35 @@ def _channel_stats_by_unit_count(member_channel_data, group, branch):
         ax.bar_label(bars[index], rotation=90, fontweight=label_weight)
 
     plt.show()
+
+
+def merge_colour_data(plot_data, colour_data):
+
+    if not isinstance(plot_data, pd.DataFrame):
+        raise TypeError("The argument for the 'youtube_data' parameter needs to be a Pandas DataFrame, not a(n) "
+                        f"{type(plot_data)}.")
+
+    if colour_data is None:
+        merged_data = plot_data
+        ordered_colours = None
+    elif isinstance(colour_data, pd.DataFrame):
+        column_levels = plot_data.columns.nlevel
+
+        if column_levels == 1:
+            merged_data = plot_data.merge(colour_data, on='name')
+            ordered_colours = merged_data['colour']
+        elif column_levels == 2:
+            new_level_name = 'member_plot_colours'
+            colour_data = reformatting.convert_to_multilevel(colour_data, new_level_name)
+            merged_data = plot_data.merge(colour_data, left_on=[('member_data', 'name')],
+                                          right_on=[(new_level_name, 'name')])
+            ordered_colours = merged_data[(new_level_name, 'colour')]
+        else:
+            raise ValueError  # TODO: Raise a more appropriate error and include an error message.
+    else:
+        raise TypeError("The argument for the 'colour_data' parameter needs to be a Pandas DataFrame, not a(n) "
+                        f"{type(colour_data)}.")
+
+    return merged_data, ordered_colours
+
+
