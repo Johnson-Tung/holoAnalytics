@@ -33,32 +33,26 @@ def channel_stats_correlation(member_data, member_channel_data, colours=None):
     data = member_data.merge(member_channel_data['channel_stats']['data'],
                              left_on='youtube_channel_id', right_on='channel_id')
 
-    if colours is None:
-        color = None
-    elif isinstance(colours, pd.DataFrame):
-        data = data.merge(colours, on='name')
-        color = data['colour']
-    else:
-        raise TypeError
+    data, ordered_colours = merge_colour_data(data, colours)
 
     # Create and Format Plots
     fig, axes = plt.subplots(1, 3)
     fig.set_size_inches(11, 8.5)
 
-    axes[0].scatter(x=data['subscriber_count']/scale, y=data['view_count']/scale, color=color)
+    axes[0].scatter(x=data['subscriber_count']/scale, y=data['view_count']/scale, color=ordered_colours)
     axes[0].set_xlabel('Subscriber Count (millions)', fontweight=label_weight)
     axes[0].set_ylabel('View Count (millions)', fontweight=label_weight)
     axes[0].set_title('View Count vs. Subscriber Count', fontsize=title_size, fontweight=title_weight)
     formatting.set_upper_limits(axes[0],
                                 max_x=data['subscriber_count'].max()/scale, max_y=data['view_count'].max()/scale)
 
-    axes[1].scatter(x=data['video_count'], y=data['subscriber_count']/scale, color=color)
+    axes[1].scatter(x=data['video_count'], y=data['subscriber_count']/scale, color=ordered_colours)
     axes[1].set_xlabel('Video Count', fontweight=label_weight)
     axes[1].set_ylabel('Subscriber Count (millions)', fontweight=label_weight)
     axes[1].set_title('Subscriber Count vs. Video Count', fontsize=title_size, fontweight=title_weight)
     formatting.set_upper_limits(axes[1], max_x=data['video_count'].max(), max_y=data['subscriber_count'].max()/scale)
 
-    axes[2].scatter(x=data['video_count'], y=data['view_count']/scale, color=color)
+    axes[2].scatter(x=data['video_count'], y=data['view_count']/scale, color=ordered_colours)
     axes[2].set_xlabel('Video Count', fontweight=label_weight)
     axes[2].set_ylabel('View Count (millions)', fontweight=label_weight)
     axes[2].set_title('View Count vs. Video Count', fontsize=title_size, fontweight=title_weight)
@@ -119,18 +113,12 @@ def total_video_duration(member_data, channel_video_summary, unit_time='hours', 
         raise ValueError("The argument for the 'sort' parameter is a string but needs to be 'ascending' "
                          "or 'descending'.")
 
-    if colours is None:
-        color = None
-    elif isinstance(colours, pd.DataFrame):
-        colour_data = reformatting.convert_to_multilevel(colours, 'member_plot_colours')
-        data = data.merge(colour_data, left_on=[('member_data', 'name')], right_on=[('member_plot_colours', 'name')])
-        color = data[('member_plot_colours', 'colour')]
-    else:
-        raise TypeError
+    data, ordered_colours = merge_colour_data(data, colours)
 
     # Create Plot
     fig, ax = plt.subplots()
-    ax.bar(x=data[('member_data', 'name')], height=data[('video_attributes', 'video_duration_(sum)')], color=color)
+    ax.bar(x=data[('member_data', 'name')], height=data[('video_attributes', 'video_duration_(sum)')],
+           color=ordered_colours)
 
     # Format Plot
     fig.set_size_inches(8.5, 11)
