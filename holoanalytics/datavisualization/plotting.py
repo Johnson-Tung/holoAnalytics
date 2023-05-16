@@ -96,17 +96,21 @@ def total_video_duration(member_data, channel_video_summary, unit_time='hours', 
     Returns:
         None
     """
-    title_weight = 'bold'
-    label_weight = 'bold'
-    unit_time_label = string.capwords(unit_time)
 
-    # Prepare Data
+    prepared_data, ordered_colours = _tvd_prepare(member_data, channel_video_summary, unit_time, sort, colours)
+    _tvd_plot(prepared_data, ordered_colours, unit_time)
+
+
+def _tvd_prepare(member_data, channel_video_summary, unit_time, sort, colours):
+
+    member_name_col = ('member_data', 'name')
+    video_duration_sum_col = ('video_attributes', 'video_duration_(sum)')
+
     member_data_multilevel = reformatting.convert_to_multilevel(member_data, 'member_data')
-    merged_data = member_data_multilevel.merge(channel_video_summary['data'],
-                                               on=[('member_data', 'name')])
-    data = merged_data[[('member_data', 'name'), ('video_attributes', 'video_duration_(sum)')]].copy()
-    data[('video_attributes', 'video_duration_(sum)')] = data[('video_attributes', 'video_duration_(sum)')].apply(
-        reformatting.convert_timedelta, unit=unit_time)
+    merged_data = member_data_multilevel.merge(channel_video_summary['data'], on=[member_name_col])
+    plot_data = merged_data[[member_name_col, video_duration_sum_col]].copy()
+    plot_data[video_duration_sum_col] = plot_data[video_duration_sum_col].apply(reformatting.convert_timedelta,
+                                                                                unit=unit_time)
 
     if sort is None:
         pass
@@ -114,21 +118,28 @@ def total_video_duration(member_data, channel_video_summary, unit_time='hours', 
         raise TypeError("The argument for the 'sort' parameter needs to be None or a string with a value of "
                         "'ascending' or 'descending'.")
     elif sort.lower() == 'ascending':
-        data.sort_values(('video_attributes', 'video_duration_(sum)'), ascending=True, inplace=True)
+        plot_data.sort_values(('video_attributes', 'video_duration_(sum)'), ascending=True, inplace=True)
     elif sort.lower() == 'descending':
-        data.sort_values(('video_attributes', 'video_duration_(sum)'), ascending=False, inplace=True)
+        plot_data.sort_values(('video_attributes', 'video_duration_(sum)'), ascending=False, inplace=True)
     else:
         raise ValueError("The argument for the 'sort' parameter is a string but needs to be 'ascending' "
                          "or 'descending'.")
 
-    data, ordered_colours = merge_colour_data(data, colours)
+    prepared_data, ordered_colours = merge_colour_data(plot_data, colours)
 
-    # Create Plot
+    return prepared_data, ordered_colours
+
+
+def _tvd_plot(data, ordered_colours, unit_time):
+
+    title_weight = 'bold'
+    label_weight = 'bold'
+    unit_time_label = string.capwords(unit_time)
+
     fig, ax = plt.subplots()
     ax.bar(x=data[('member_data', 'name')], height=data[('video_attributes', 'video_duration_(sum)')],
            color=ordered_colours)
 
-    # Format Plot
     fig.set_size_inches(8.5, 11)
     fig.suptitle(f'Number of {unit_time_label} of Video Content of Hololive Production Members',
                  fontweight=title_weight)
