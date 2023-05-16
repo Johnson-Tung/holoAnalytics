@@ -24,18 +24,26 @@ def channel_stats_correlation(member_data, member_channel_data, colours=None):
     Returns:
         None
     """
+
+    prepared_data, ordered_colours = _csc_prepare(member_data, member_channel_data, colours)
+    _csc_plot(prepared_data, ordered_colours)
+
+
+def _csc_prepare(member_data, member_channel_data, colours):
+
+    plot_data = member_data.merge(member_channel_data['channel_stats']['data'],
+                                  left_on='youtube_channel_id', right_on='channel_id')
+    prepared_data, ordered_colours = merge_colour_data(plot_data, colours)
+
+    return prepared_data, ordered_colours
+
+
+def _csc_plot(data, ordered_colours):
     title_size = 11
     title_weight = 'bold'
     label_weight = 'bold'
     scale = 1_000_000
 
-    # Prepare Data
-    data = member_data.merge(member_channel_data['channel_stats']['data'],
-                             left_on='youtube_channel_id', right_on='channel_id')
-
-    data, ordered_colours = merge_colour_data(data, colours)
-
-    # Create and Format Plots
     fig, axes = plt.subplots(1, 3)
     fig.set_size_inches(11, 8.5)
 
