@@ -263,7 +263,7 @@ def merge_colour_data(plot_data, colour_data):
         merged_data = plot_data
         ordered_colours = None
     elif isinstance(colour_data, pd.DataFrame):
-        column_levels = plot_data.columns.nlevel
+        column_levels = plot_data.columns.nlevels
 
         if column_levels == 1:
             merged_data = plot_data.merge(colour_data, on='name')
