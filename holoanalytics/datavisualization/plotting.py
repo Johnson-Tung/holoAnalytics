@@ -47,33 +47,34 @@ def _csc_plot(data, ordered_colours):
     fig, axes = plt.subplots(1, 3)
     fig.set_size_inches(11, 8.5)
 
-    axes[0].scatter(x=data['subscriber_count']/scale, y=data['view_count']/scale, color=ordered_colours)
-    axes[0].set_xlabel('Subscriber Count (millions)', fontweight=label_weight)
-    axes[0].set_ylabel('View Count (millions)', fontweight=label_weight)
-    axes[0].set_title('View Count vs. Subscriber Count', fontsize=title_size, fontweight=title_weight)
-    formatting.set_upper_limits(axes[0],
-                                max_x=data['subscriber_count'].max()/scale, max_y=data['view_count'].max()/scale)
+    channel_stat_types = ('Subscriber Count', 'View Count', 'Video Count')
+    correlations = ((channel_stat_types[0], channel_stat_types[1]),
+                    (channel_stat_types[2], channel_stat_types[0]),
+                    (channel_stat_types[2], channel_stat_types[1]))
 
-    axes[1].scatter(x=data['video_count'], y=data['subscriber_count']/scale, color=ordered_colours)
-    axes[1].set_xlabel('Video Count', fontweight=label_weight)
-    axes[1].set_ylabel('Subscriber Count (millions)', fontweight=label_weight)
-    axes[1].set_title('Subscriber Count vs. Video Count', fontsize=title_size, fontweight=title_weight)
-    formatting.set_upper_limits(axes[1], max_x=data['video_count'].max(), max_y=data['subscriber_count'].max()/scale)
+    for index, (ax, correlation) in enumerate(zip(axes, correlations)):
 
-    axes[2].scatter(x=data['video_count'], y=data['view_count']/scale, color=ordered_colours)
-    axes[2].set_xlabel('Video Count', fontweight=label_weight)
-    axes[2].set_ylabel('View Count (millions)', fontweight=label_weight)
-    axes[2].set_title('View Count vs. Video Count', fontsize=title_size, fontweight=title_weight)
-    axes[2].yaxis.set_label_position('right')
-    axes[2].yaxis.tick_right()
-    formatting.set_upper_limits(axes[2], max_x=data['video_count'].max(), max_y=data['view_count'].max()/scale)
+        x, y = correlation
+        x_col, y_col = [channel_stat.replace(' ', '_').lower() for channel_stat in correlation]
+        x_unit, y_unit = [' (millions)' if channel_stat in channel_stat_types[0:-1] else ''
+                          for channel_stat in correlation]
 
-    for index, _ in enumerate(axes):
-        axes[index].get_xaxis().get_major_formatter().set_scientific(False)
-        axes[index].get_yaxis().get_major_formatter().set_scientific(False)
-        axes[index].tick_params(axis='x', rotation=90)
-        axes[index].set_xlim(0)
-        axes[index].set_ylim(0)
+        ax.scatter(x=data[x_col] / scale, y=data[y_col] / scale, color=ordered_colours)
+
+        ax.set_xlabel(f'{x}{x_unit}', fontweight=label_weight)
+        ax.set_ylabel(f'{y}{y_unit}', fontweight=label_weight)
+        ax.set_title(f'{y} vs. {x}', fontsize=title_size, fontweight=title_weight)
+
+        formatting.set_upper_limits(ax, max_x=data[x_col].max() / scale, max_y=data[y_col].max() / scale)
+        ax.get_xaxis().get_major_formatter().set_scientific(False)
+        ax.get_yaxis().get_major_formatter().set_scientific(False)
+        ax.tick_params(axis='x', rotation=90)
+        ax.set_xlim(0)
+        ax.set_ylim(0)
+
+        if index == 2:
+            ax.yaxis.set_label_position('right')
+            ax.yaxis.tick_right()
 
     fig.suptitle('Correlation of Subscriber, Video, and View Counts of Hololive Production Members',
                  fontsize=13, fontweight=title_weight)
