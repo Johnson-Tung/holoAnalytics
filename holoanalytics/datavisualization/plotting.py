@@ -175,16 +175,16 @@ def channel_stats_by_unit(member_channel_data, group, branch, show):
 
 
 def _channel_stats_by_unit_percentage(member_channel_data, group, branch):
-    title_weight = 'bold'
-    label_weight = 'bold'
-    ticklabel_weight = 'bold'
-
-    data_cols = ['subscriber_percent', 'video_percent', 'view_percent']
 
     group = group.title()
     branch = branch.title()
 
-    # Prepare Data
+    prepared_data = _csu_percentage_prepare(member_channel_data, group, branch)
+    _csu_percentage_plot(prepared_data, group, branch)
+
+
+def _csu_percentage_prepare(member_channel_data, group, branch):
+
     unit_summary_data = member_channel_data['unit_summary']['data']
 
     branch_data = unit_summary_data.loc[(unit_summary_data['group'] == group) &
@@ -194,19 +194,28 @@ def _channel_stats_by_unit_percentage(member_channel_data, group, branch):
     branch_data['video_percent'] = branch_data['video_count'] / branch_data['video_count'].sum() * 100
     branch_data['view_percent'] = branch_data['view_count'] / branch_data['view_count'].sum() * 100
 
-    # Create Plot
+    return branch_data
+
+
+def _csu_percentage_plot(data, group, branch):
+
+    title_weight = 'bold'
+    label_weight = 'bold'
+    ticklabel_weight = 'bold'
+
+    data_cols = ('subscriber_percent', 'video_percent', 'view_percent')
+
     fig, ax = plt.subplots()
     fig.set_size_inches(8.5, 11)
 
     previous_values = np.array([0, 0, 0])
-    for index, row in branch_data.iterrows():
+    for index, row in data.iterrows():
         unit = row['unit']
         values = row[data_cols]
         ax.bar(x=['Subscriber Count', 'Video Count', 'View Count'], height=values, bottom=previous_values,
                label=unit.replace('_', ' '))
         previous_values = previous_values + np.array(values.copy())
 
-    # Format Plot
     fig.tight_layout(rect=[0, 0, 1, 0.97])
     fig.suptitle(f'{group} {branch}:\nPercentages of Subscribers, Videos, and Views by Unit', fontweight=title_weight)
     fig.tight_layout()
@@ -220,7 +229,7 @@ def _channel_stats_by_unit_percentage(member_channel_data, group, branch):
     ax.set_xticklabels(ax.get_xticklabels(), weight=ticklabel_weight)
 
     for index, container in enumerate(ax.containers):
-        labels = [f'{value:.2f}%' for value in branch_data.loc[index, data_cols]]
+        labels = [f'{value:.2f}%' for value in data.loc[index, data_cols]]
         ax.bar_label(container, labels=labels)
 
     ax.set_ylabel('Percentage (%)', fontweight=label_weight)
@@ -229,30 +238,39 @@ def _channel_stats_by_unit_percentage(member_channel_data, group, branch):
 
 
 def _channel_stats_by_unit_count(member_channel_data, group, branch):
-    title_weight = 'bold'
-    label_weight = 'bold'
-    ticklabel_weight = 'bold'
 
     group = group.title()
     branch = branch.title()
 
-    # Prepare Data
+    prepared_data = _csu_count_prepare(member_channel_data, group, branch)
+    _csu_count_plot(prepared_data, group, branch)
+
+
+def _csu_count_prepare(member_channel_data, group, branch):
+
     unit_summary_data = member_channel_data['unit_summary']['data']
 
     branch_data = unit_summary_data.loc[(unit_summary_data['group'] == group) &
                                         (unit_summary_data['branch'] == branch)].copy().reset_index()
 
-    # Create Plot
+    return branch_data
+
+
+def _csu_count_plot(data, group, branch):
+
+    title_weight = 'bold'
+    label_weight = 'bold'
+    ticklabel_weight = 'bold'
+
     bars = []
-    data_cols = ['subscriber_count', 'video_count', 'view_count']
+    data_cols = ('subscriber_count', 'video_count', 'view_count')
 
     fig, axes = plt.subplots(1, 3)
     fig.set_size_inches(8.5, 11)
 
     for ax, data_col in zip(axes, data_cols):
-        bars.append(ax.bar(branch_data['unit'], branch_data[data_col]))
+        bars.append(ax.bar(data['unit'], data[data_col]))
 
-    # Format Plot
     fig.tight_layout(rect=[0, 0, 1, 0.97])
     fig.suptitle(f'{group} {branch}:\nSubscriber, Video, and View Counts by Unit', fontweight=title_weight)
     fig.tight_layout()
@@ -265,7 +283,7 @@ def _channel_stats_by_unit_count(member_channel_data, group, branch):
         ax.set_xticks(ax.get_xticks())
 
         ax.set_xticklabels(ax.get_xticklabels(), weight=ticklabel_weight)
-        formatting.set_upper_limits(ax, max_y=branch_data[data_col].max())
+        formatting.set_upper_limits(ax, max_y=data[data_col].max())
 
     for index, ax in enumerate(axes):
         ax.bar_label(bars[index], rotation=90, fontweight=label_weight)
