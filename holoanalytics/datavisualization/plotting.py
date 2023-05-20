@@ -170,6 +170,9 @@ def channel_stats_by_unit(member_channel_data, group, branch, show):
 
     count_types = ('Subscriber', 'Video', 'View')
 
+    group = group.title()
+    branch = branch.title()
+
     if show.lower() == 'percentage':
         _channel_stats_by_unit_percentage(member_channel_data, group, branch, count_types)
     elif show.lower() == 'count':
@@ -177,9 +180,6 @@ def channel_stats_by_unit(member_channel_data, group, branch, show):
 
 
 def _channel_stats_by_unit_percentage(member_channel_data, group, branch, count_types):
-
-    group = group.title()
-    branch = branch.title()
 
     prepared_data = _csu_percentage_prepare(member_channel_data, group, branch, count_types)
     _csu_percentage_plot(prepared_data, group, branch, count_types)
@@ -243,9 +243,6 @@ def _csu_percentage_plot(data, group, branch, count_types):
 
 
 def _channel_stats_by_unit_count(member_channel_data, group, branch, count_types):
-
-    group = group.title()
-    branch = branch.title()
 
     prepared_data = _csu_count_prepare(member_channel_data, group, branch)
     _csu_count_plot(prepared_data, group, branch, count_types)
