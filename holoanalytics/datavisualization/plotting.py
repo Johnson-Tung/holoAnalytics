@@ -83,7 +83,7 @@ def _csc_plot(data, ordered_colours):
     plt.show()
 
 
-def total_video_duration(member_data, channel_video_summary, unit_time='hours', sort=None, colours=None):
+def total_video_duration(member_data, member_channel_data, unit_time='hours', sort=None, colours=None):
     """Plots the total video duration in days, hours, minutes, or seconds for individual Hololive Production members.
 
     Args:
@@ -98,17 +98,18 @@ def total_video_duration(member_data, channel_video_summary, unit_time='hours', 
         None
     """
 
-    prepared_data, ordered_colours = _tvd_prepare(member_data, channel_video_summary, unit_time, sort, colours)
+    prepared_data, ordered_colours = _tvd_prepare(member_data, member_channel_data, unit_time, sort, colours)
     _tvd_plot(prepared_data, ordered_colours, unit_time)
 
 
-def _tvd_prepare(member_data, channel_video_summary, unit_time, sort, colours):
+def _tvd_prepare(member_data, member_channel_data, unit_time, sort, colours):
 
     member_name_col = ('member_data', 'name')
     video_duration_sum_col = ('video_attributes', 'video_duration_(sum)')
 
     member_data_multilevel = reformatting.convert_to_multilevel(member_data, 'member_data')
-    merged_data = member_data_multilevel.merge(channel_video_summary['data'], on=[member_name_col])
+    merged_data = member_data_multilevel.merge(member_channel_data['channel_video_summary']['data'],
+                                               on=[member_name_col])
     plot_data = merged_data[[member_name_col, video_duration_sum_col]].copy()
     plot_data[video_duration_sum_col] = plot_data[video_duration_sum_col].apply(reformatting.convert_timedelta,
                                                                                 unit=unit_time)
