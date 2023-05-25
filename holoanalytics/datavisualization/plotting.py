@@ -30,9 +30,13 @@ def channel_stats_correlation(member_data, member_channel_data, colours=None):
 
 
 def _csc_prepare(member_data, member_channel_data, colours):
+    scale = 1_000_000
+
+    scale_cols = ['subscriber_count', 'view_count']
 
     plot_data = member_data.merge(member_channel_data['channel_stats']['data'],
                                   left_on='youtube_channel_id', right_on='channel_id')
+    plot_data[scale_cols] = plot_data[scale_cols] / scale
     prepared_data, ordered_colours = merge_colour_data(plot_data, colours)
 
     return prepared_data, ordered_colours
@@ -42,7 +46,6 @@ def _csc_plot(data, ordered_colours):
     title_size = 11
     title_weight = 'bold'
     label_weight = 'bold'
-    scale = 1_000_000
 
     fig, axes = plt.subplots(1, 3)
     fig.set_size_inches(11, 8.5)
@@ -59,13 +62,13 @@ def _csc_plot(data, ordered_colours):
         x_unit, y_unit = [' (millions)' if channel_stat in channel_stat_types[0:-1] else ''
                           for channel_stat in correlation]
 
-        ax.scatter(x=data[x_col] / scale, y=data[y_col] / scale, color=ordered_colours)
+        ax.scatter(x=data[x_col], y=data[y_col], color=ordered_colours)
 
         ax.set_xlabel(f'{x}{x_unit}', fontweight=label_weight)
         ax.set_ylabel(f'{y}{y_unit}', fontweight=label_weight)
         ax.set_title(f'{y} vs. {x}', fontsize=title_size, fontweight=title_weight)
 
-        formatting.set_upper_limits(ax, max_x=data[x_col].max() / scale, max_y=data[y_col].max() / scale)
+        formatting.set_upper_limits(ax, max_x=data[x_col].max(), max_y=data[y_col].max())
         ax.get_xaxis().get_major_formatter().set_scientific(False)
         ax.get_yaxis().get_major_formatter().set_scientific(False)
         ax.tick_params(axis='x', rotation=90)
