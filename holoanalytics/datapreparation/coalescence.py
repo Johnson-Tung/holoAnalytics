@@ -11,7 +11,10 @@ def coalesce_video_data(starting_member_data, member_video_data):
 
     for member_name in member_names:
         member_name_key = member_name.replace(' ', '_')
-        video_data = member_video_data[member_name_key]
+        video_data = member_video_data.get(member_name_key, None)
+
+        if video_data is None:
+            continue
 
         video_attributes = video_data['video_attributes']['data']
         video_stats = video_data['video_stats']['data']
