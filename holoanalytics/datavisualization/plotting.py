@@ -91,11 +91,14 @@ def total_video_duration(member_data, member_channel_data, unit_time='hours', so
 
     Args:
         member_data: Pandas DataFrame containing starting data of Hololive Production members.
-        channel_video_summary: Pandas DataFrame containing video summary data.
+        member_channel_data: Dictionary of Pandas DataFrames containing YouTube channel data, e.g. channel stats,
+                             for Hololive Production members.
         unit_time: String specifying the unit of time that the total video duration is to be presented in,
                    i.e. 'days', 'hours', 'minutes', or 'seconds'. Default = 'hours'.
         sort: String specifying if the data is to be sorted, i.e. 'ascending' or 'descending'.
               Default = None (No sorting).
+        colours: Pandas DataFrame containing member names and the colour value for each member.
+                 Default = None (Use default colour, i.e. blue).
 
     Returns:
         None
