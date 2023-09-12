@@ -301,7 +301,7 @@ def _csu_count_plot(data, group, branch, count_types):
     plt.show()
 
 
-def merge_colour_data(plot_data, colour_data):
+def merge_colour_data(plot_data, colour_data, default_colour='black'):
 
     if not isinstance(plot_data, pd.DataFrame):
         raise TypeError("The argument for the 'youtube_data' parameter needs to be a Pandas DataFrame, not a(n) "
@@ -314,16 +314,19 @@ def merge_colour_data(plot_data, colour_data):
         column_levels = plot_data.columns.nlevels
 
         if column_levels == 1:
-            merged_data = plot_data.merge(colour_data, on='name')
+            merged_data = plot_data.merge(colour_data, on='name', how='left')
+            merged_data['colour'].fillna(default_colour, inplace=True)
             ordered_colours = merged_data['colour']
         elif column_levels == 2:
             new_level_name = 'member_plot_colours'
             colour_data = reformatting.convert_to_multilevel(colour_data, new_level_name)
             merged_data = plot_data.merge(colour_data, left_on=[('member_data', 'name')],
-                                          right_on=[(new_level_name, 'name')])
+                                          right_on=[(new_level_name, 'name')], how='left')
+            merged_data[(new_level_name, 'colour')].fillna(default_colour, inplace=True)
             ordered_colours = merged_data[(new_level_name, 'colour')]
         else:
             raise ValueError  # TODO: Raise a more appropriate error and include an error message.
+
     else:
         raise TypeError("The argument for the 'colour_data' parameter needs to be a Pandas DataFrame, not a(n) "
                         f"{type(colour_data)}.")
