@@ -18,7 +18,7 @@ Functions:
 """
 
 import pandas as pd
-from holoanalytics import definitions as df
+from holoanalytics.settings import core as df
 from holoanalytics.datacollection.youtube import youtube_api
 from holoanalytics.utils import exporting
 

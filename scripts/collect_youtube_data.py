@@ -1,4 +1,4 @@
-from holoanalytics import definitions as df
+from holoanalytics.settings import core as df
 from holoanalytics.utils import setup, exporting
 from holoanalytics.datacollection.youtube import youtube_api, channels, videos
 

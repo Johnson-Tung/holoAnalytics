@@ -16,7 +16,7 @@ import csv
 from pathlib import Path
 from datetime import datetime
 import pandas as pd
-from holoanalytics import definitions as df
+from holoanalytics.settings import core as df
 
 
 def create_directory(parent_dir_path, dir_name, add_date=True, output_message=True):

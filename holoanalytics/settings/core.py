@@ -6,7 +6,7 @@ This module defines absolute paths to key directories using Path objects.
 
 from pathlib import Path
 
-SOURCE_ROOT = Path(__file__).parent
+SOURCE_ROOT = Path(__file__).parent.parent
 PROJECT_ROOT = SOURCE_ROOT.parent
 STARTING_DATA_FILE = SOURCE_ROOT / 'data' / 'starting' / 'holopro_members.csv'
 KEYWORD_BANKS_PATH = SOURCE_ROOT / 'data' / 'keyword_banks'

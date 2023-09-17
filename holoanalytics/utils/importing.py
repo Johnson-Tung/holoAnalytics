@@ -1,7 +1,7 @@
 import csv
 from datetime import datetime
 import pandas as pd
-from holoanalytics import definitions as df
+from holoanalytics.settings import core as df
 
 VIDEO_DATA_TYPES = ('video_attributes', 'video_stats',  # Collected
                     'content_types', 'video_title_keywords', 'video_types')  # Prepared
