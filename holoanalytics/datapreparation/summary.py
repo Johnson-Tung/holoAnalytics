@@ -3,6 +3,7 @@ from collections import Counter
 from datetime import datetime
 import pandas as pd
 from pandas.core.dtypes.common import is_timedelta64_dtype
+from holoanalytics.settings import session
 from holoanalytics.utils import exporting
 from holoanalytics.datapreparation import reformatting as reform
 
@@ -12,12 +13,6 @@ CONTENT_TYPES = ('3DLive', 'Chatting', 'Collab', 'Debut', 'Drawing', 'Gaming', '
                  'Other', 'Outfit Reveal', 'Q&A', 'Review', 'Superchat Reading', 'VR', 'Watchalong')
 START_YEAR = 2017  # Year when the first Hololive Production member debuted.
 CURRENT_YEAR = datetime.now().year
-GROUPS_BRANCHES_UNITS = {'Hololive': {'Japan': ('0th Generation', '1st Generation', '2nd Generation', '3rd Generation',
-                                                '4th Generation', '5th Generation', '6th Generation', 'GAMERS'),
-                                      'Indonesia': ('1st Generation', '2nd Generation', '3rd Generation'),
-                                      'English': ('-Myth-', 'Project: HOPE', '-Council-')},
-                         'Holostars': {'Japan': ('1st Generation', '2nd Generation', '3rd Generation', 'UPROAR!!'),
-                                       'English': ('-TEMPUS-', )}}
 
 
 def summarize_video_data(member_video_data, member_channel_data=None, export_data=True):
@@ -361,13 +356,13 @@ def summarize_by_unit(member_data, member_channel_data, export_data=True):
                                     left_on=[('member_data', 'name')],
                                     right_on=[('member_data', 'name')])
 
-    for group in GROUPS_BRANCHES_UNITS:
+    for group in session.groups_branches_units:
         group_data = merged_data.loc[merged_data[('member_data', 'group')] == group]
 
-        for branch in GROUPS_BRANCHES_UNITS[group]:
+        for branch in session.groups_branches_units[group]:
             branch_data = group_data.loc[group_data[('member_data', 'branch')] == branch]
 
-            for unit in GROUPS_BRANCHES_UNITS[group][branch]:
+            for unit in session.groups_branches_units[group][branch]:
                 unit_data = branch_data.loc[(branch_data[('member_data', 'unit')] == unit) |
                                             (branch_data[('member_data', 'unit2')] == unit)]
 
