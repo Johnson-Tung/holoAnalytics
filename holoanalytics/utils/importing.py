@@ -1,6 +1,7 @@
 import csv
 from datetime import datetime
 import pandas as pd
+from holoanalytics.settings import session
 from holoanalytics.settings import core as df
 
 VIDEO_DATA_TYPES = ('video_attributes', 'video_stats',  # Collected
@@ -57,7 +58,7 @@ def open_session(session):
         None
     """
 
-    df.SESSION_PATH = df.YT_DAPI_SESSIONS_PATH / session
+    session.SESSION_PATH = df.YT_DAPI_SESSIONS_PATH / session
 
 
 def import_member_data():
@@ -95,7 +96,7 @@ def import_channel_data(channel_data_types='all'):
 def _get_member_channel_data(channel_data_types):
     member_channel_data = {}
 
-    dir_path = df.SESSION_PATH / 'Channel'
+    dir_path = session.SESSION_PATH / 'Channel'
 
     if not dir_path.exists():
         raise FileNotFoundError("This session does not have a 'Channel' data folder.")
@@ -196,7 +197,7 @@ def _get_member_video_data(member_names, video_data_types):
 
     for member_name in member_names:
         member_name = member_name.replace(' ', '_')
-        member_dir_path = df.SESSION_PATH / 'Video' / member_name
+        member_dir_path = session.SESSION_PATH / 'Video' / member_name
         if member_dir_path.exists():
             member_video_data[member_name] = _get_single_member_video_data(member_dir_path, video_data_types)
 

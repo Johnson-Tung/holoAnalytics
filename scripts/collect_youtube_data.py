@@ -1,3 +1,4 @@
+from holoanalytics.settings import session
 from holoanalytics.settings import core as df
 from holoanalytics.utils import setup, exporting
 from holoanalytics.datacollection.youtube import youtube_api, channels, videos
@@ -8,7 +9,7 @@ def main():
     starting_data = setup.import_data(df.STARTING_DATA_FILE)
 
     # Create New Session
-    df.SESSION_PATH = exporting.create_session()
+    session.SESSION_PATH = exporting.create_session()
 
     # Setup for Data Collection
     client = youtube_api.initialize_api()

@@ -16,6 +16,7 @@ import csv
 from pathlib import Path
 from datetime import datetime
 import pandas as pd
+from holoanalytics.settings import session
 from holoanalytics.settings import core as df
 
 
@@ -89,7 +90,7 @@ def create_session():
 
     session_dir_path = create_directory(sessions_path, f'{session_id}_Session', add_date=True)
 
-    df.SESSION_PATH = session_dir_path
+    session.SESSION_PATH = session_dir_path
 
     return session_dir_path
 
@@ -166,10 +167,10 @@ def export_channel_data(data, filename, timestamp=None, auto_timestamp=True, fil
         None
     """
 
-    if df.SESSION_PATH is None:
-        df.SESSION_PATH = create_session()
+    if session.SESSION_PATH is None:
+        session.SESSION_PATH = create_session()
 
-    dir_path = df.SESSION_PATH / 'Channel'
+    dir_path = session.SESSION_PATH / 'Channel'
 
     if not dir_path.exists():
         dir_path = create_directory(dir_path.parent, dir_path.name, add_date=False)
@@ -202,11 +203,11 @@ def export_video_data(member_name, data, filename, timestamp=None, auto_timestam
         None
     """
 
-    if df.SESSION_PATH is None:
-        df.SESSION_PATH = create_session()
+    if session.SESSION_PATH is None:
+        session.SESSION_PATH = create_session()
 
     member_name = member_name.replace(' ', '_')
-    dir_path = df.SESSION_PATH / 'Video' / member_name
+    dir_path = session.SESSION_PATH / 'Video' / member_name
 
     if not dir_path.exists():
         dir_path = create_directory(dir_path.parent, dir_path.name, add_date=False)
