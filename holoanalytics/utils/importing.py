@@ -48,7 +48,7 @@ def request_session(session_open=True):
     return session_name
 
 
-def open_session(session):
+def open_session(session_name):
     """Opens the specified session and allows access to its data, i.e. collected data and any prepared data.
 
     Args:
@@ -58,7 +58,7 @@ def open_session(session):
         None
     """
 
-    session.SESSION_PATH = df.YT_DAPI_SESSIONS_PATH / session
+    session.SESSION_PATH = df.YT_DAPI_SESSIONS_PATH / session_name
 
 
 def import_member_data():
