@@ -52,7 +52,7 @@ def open_session(session_name):
     """Opens the specified session and allows access to its data, i.e. collected data and any prepared data.
 
     Args:
-        session: String specifying the data collection session to be opened.
+        session_name: String specifying the data collection session to be opened.
 
     Returns:
         None
