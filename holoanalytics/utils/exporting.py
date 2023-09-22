@@ -17,7 +17,7 @@ from pathlib import Path
 from datetime import datetime
 import pandas as pd
 from holoanalytics.settings import session
-from holoanalytics.settings import core as df
+from holoanalytics.settings import core
 
 
 def create_directory(parent_dir_path, dir_name, add_date=True, output_message=True):
@@ -86,7 +86,7 @@ def create_session():
     """
 
     session_id = 'YT-DAPI'
-    sessions_path = df.YT_DAPI_SESSIONS_PATH
+    sessions_path = core.YT_DAPI_SESSIONS_PATH
 
     session_dir_path = create_directory(sessions_path, f'{session_id}_Session', add_date=True)
 
@@ -228,7 +228,7 @@ def export_keyword_banks(keyword_banks):
 
     for language, keyword_bank in keyword_banks.items():
 
-        file_path = df.KEYWORD_BANKS_PATH / f'{language.lower()}_video_title_keywords.csv'
+        file_path = core.KEYWORD_BANKS_PATH / f'{language.lower()}_video_title_keywords.csv'
 
         with open(file_path, 'w', newline='', encoding='utf-8') as file:
             writer = csv.writer(file)

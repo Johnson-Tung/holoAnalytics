@@ -1,12 +1,12 @@
 from holoanalytics.settings import session
-from holoanalytics.settings import core as df
+from holoanalytics.settings import core
 from holoanalytics.utils import setup, exporting
 from holoanalytics.datacollection.youtube import youtube_api, channels, videos
 
 
 def main():
     # Import Data
-    starting_data = setup.import_data(df.STARTING_DATA_FILE)
+    starting_data = setup.import_data(core.STARTING_DATA_FILE)
 
     # Create New Session
     session.SESSION_PATH = exporting.create_session()

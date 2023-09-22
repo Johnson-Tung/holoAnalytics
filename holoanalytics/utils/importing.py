@@ -2,7 +2,7 @@ import csv
 from datetime import datetime
 import pandas as pd
 from holoanalytics.settings import session
-from holoanalytics.settings import core as df
+from holoanalytics.settings import core
 
 VIDEO_DATA_TYPES = ('video_attributes', 'video_stats',  # Collected
                     'content_types', 'video_title_keywords', 'video_types')  # Prepared
@@ -20,7 +20,7 @@ def request_session(session_open=True):
         session_name: String specifying the name of the requested session.
     """
 
-    session_dir_paths = list(df.YT_DAPI_SESSIONS_PATH.iterdir())
+    session_dir_paths = list(core.YT_DAPI_SESSIONS_PATH.iterdir())
     max_index = len(session_dir_paths) - 1
 
     while True:
@@ -58,7 +58,7 @@ def open_session(session_name):
         None
     """
 
-    session.SESSION_PATH = df.YT_DAPI_SESSIONS_PATH / session_name
+    session.SESSION_PATH = core.YT_DAPI_SESSIONS_PATH / session_name
 
 
 def import_member_data():
@@ -70,7 +70,7 @@ def import_member_data():
         member_data: Pandas DataFrame containing starting data of Hololive Production members.
     """
 
-    member_data = pd.read_csv(df.STARTING_DATA_FILE)
+    member_data = pd.read_csv(core.STARTING_DATA_FILE)
 
     return member_data
 
@@ -161,7 +161,7 @@ def _check_member_names(member_names):
 
     if isinstance(member_names, str):
         if member_names.lower() == 'all':
-            member_names = pd.read_csv(df.STARTING_DATA_FILE)['name']
+            member_names = pd.read_csv(core.STARTING_DATA_FILE)['name']
         else:
             member_names = [member_names]
     elif isinstance(member_names, (list, tuple, pd.Series)):
@@ -254,7 +254,7 @@ def import_keyword_banks(*languages):
 
 def _import_keyword_bank(language):
     keyword_bank = {}
-    file_path = df.KEYWORD_BANKS_PATH / f'{language}_video_title_keywords.csv'
+    file_path = core.KEYWORD_BANKS_PATH / f'{language}_video_title_keywords.csv'
 
     with open(file_path, 'r', newline='', encoding='utf-8') as file:
         data = csv.reader(file)
@@ -295,6 +295,6 @@ def get_groups_branches_units(starting_data):
 
 def import_member_plot_colours():
 
-    member_colours = pd.read_csv(df.MEMBER_PLOT_COLOURS_PATH)
+    member_colours = pd.read_csv(core.MEMBER_PLOT_COLOURS_PATH)
 
     return member_colours
