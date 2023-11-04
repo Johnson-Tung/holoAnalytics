@@ -282,13 +282,9 @@ def get_groups_branches_units(starting_data):
         group_data = starting_data.loc[starting_data['group'] == group]
 
         for branch in group_data['branch'].unique():
-            groups_branches_units[group][branch] = []
             branch_data = group_data.loc[group_data['branch'] == branch]
-
-            for unit in branch_data['unit'].unique():
-                groups_branches_units[group][branch].append(unit)
-
-            groups_branches_units[group][branch] = tuple(groups_branches_units[group][branch])
+            units = pd.concat([branch_data['unit'], branch_data['unit2']], axis=0).dropna().unique()
+            groups_branches_units[group][branch] = tuple(units)
 
     return groups_branches_units
 
