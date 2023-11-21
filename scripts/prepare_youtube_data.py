@@ -1,3 +1,4 @@
+import holoanalytics.utils.setup
 from holoanalytics.utils import importing
 from holoanalytics.datapreparation.extraction.video_keywords import extract_title_keywords
 from holoanalytics.datapreparation import reformatting as reform
@@ -11,8 +12,8 @@ def main():
 
     starting_data = importing.import_member_data()
 
-    session_name = importing.request_session()
-    importing.open_session(session_name)
+    session_name = holoanalytics.utils.setup.request_session()
+    holoanalytics.utils.setup.open_session(session_name)
 
     channel_data = importing.import_channel_data()
 

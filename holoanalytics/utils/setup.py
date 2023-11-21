@@ -9,6 +9,8 @@ Functions:
 
 import pandas as pd
 
+from holoanalytics.settings import core, session
+
 
 def import_data(csv_file):
     """Imports data from a csv file into a Pandas DataFrame.
@@ -38,5 +40,52 @@ def config_pd_options():
     pd.set_option('display.max_colwidth', None)
 
 
+def request_session(session_open=True):
+    """Displays available sessions and allows the user to request a specific session.
+
+    Args:
+        session_open: Boolean specifying if the requested session is to be opened. Default = True.
+
+    Returns:
+        session_name: String specifying the name of the requested session.
+    """
+
+    session_dir_paths = list(core.YT_DAPI_SESSIONS_PATH.iterdir())
+    max_index = len(session_dir_paths) - 1
+
+    while True:
+
+        print('Available YouTube Data API Sessions:')
+        for index, file_path in enumerate(session_dir_paths):
+            print(f'{index} - {file_path.name}')
+
+        try:
+            session_number = int(input('Please select a session and enter the number beside its name, '
+                                       'e.g. Enter "0" if you wish to select the first session: '))
+        except ValueError:
+            pass
+        else:
+            if 0 <= session_number <= max_index:
+                break
+
+        print('\nInvalid session selected. Please try again and enter a valid number.')
+
+    session_name = session_dir_paths[session_number].name
+
+    if session_open is True:
+        open_session(session_name)
+
+    return session_name
 
 
+def open_session(session_name):
+    """Opens the specified session and allows access to its data, i.e. collected data and any prepared data.
+
+    Args:
+        session_name: String specifying the data collection session to be opened.
+
+    Returns:
+        None
+    """
+
+    session.SESSION_PATH = core.YT_DAPI_SESSIONS_PATH / session_name
