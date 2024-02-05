@@ -20,6 +20,8 @@ def channel_stats_correlation(member_data, member_channel_data, colours=None):
         member_data: Pandas DataFrame containing starting data of Hololive Production members.
         member_channel_data: Dictionary of Pandas DataFrames containing YouTube channel data, e.g. channel stats,
                              for Hololive Production members.
+        colours: Pandas DataFrame containing member names and the colour value for each member.
+                 Default = None (Use default colour, i.e. blue).
 
     Returns:
         None
